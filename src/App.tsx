@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { BrassAcademy } from './components/BrassAcademy';
 import { ScaleStudio } from './components/ScaleStudio';
+import { SharpsFlatsMasterclass } from './components/SharpsFlatsMasterclass';
+import { ScoreLibrary } from './components/ScoreLibrary';
 import { TromboneSlideStudio } from './components/TromboneSlideStudio';
 import { PercussionLab } from './components/PercussionLab';
 import { QuizStudio } from './components/QuizStudio';
 import { AboutFounder } from './components/AboutFounder';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'academy' | 'scales' | 'trombone' | 'percussion' | 'quiz' | 'about'>('academy');
+  const [activeTab, setActiveTab] = useState<'academy' | 'scales' | 'accidentals' | 'scores' | 'trombone' | 'percussion' | 'quiz' | 'about'>('academy');
   const [isMuted, setIsMuted] = useState<boolean>(false);
 
   return (
@@ -25,6 +27,8 @@ export default function App() {
       <main className="flex-1">
         {activeTab === 'academy' && <BrassAcademy />}
         {activeTab === 'scales' && <ScaleStudio />}
+        {activeTab === 'accidentals' && <SharpsFlatsMasterclass />}
+        {activeTab === 'scores' && <ScoreLibrary />}
         {activeTab === 'trombone' && <TromboneSlideStudio />}
         {activeTab === 'percussion' && <PercussionLab />}
         {activeTab === 'quiz' && <QuizStudio />}

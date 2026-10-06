@@ -13,15 +13,22 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { SCALE_LESSONS, VALVE_FINGERINGS } from '../data/brassData';
+import { ALL_KNOWN_BRASS_SCALES } from '../data/scalesData';
 import { ScaleDefinition } from '../types';
 import { brassAudio } from '../audio/brassAudio';
 
+const ALL_STUDIO_SCALES: ScaleDefinition[] = [
+  ...ALL_KNOWN_BRASS_SCALES,
+  ...SCALE_LESSONS
+];
+
 export const ScaleStudio: React.FC = () => {
-  const [selectedLesson, setSelectedLesson] = useState<ScaleDefinition>(SCALE_LESSONS[0]);
+  const [selectedLesson, setSelectedLesson] = useState<ScaleDefinition>(ALL_STUDIO_SCALES[0]);
   const [activeNoteIndex, setActiveNoteIndex] = useState<number | null>(0);
   const [isPlayingScale, setIsPlayingScale] = useState<boolean>(false);
   const [stopScaleFn, setStopScaleFn] = useState<(() => void) | null>(null);
-  const [instrumentCategory, setInstrumentCategory] = useState<'all' | 'cornets' | 'horns' | 'lowbrass' | 'tubas' | 'studies'>('all');
+  const [scaleCategory, setScaleCategory] = useState<'all' | 'major12' | 'minor' | 'chromatic' | 'blues' | 'instrumentC'>('all');
+  const [userTimbreOverride, setUserTimbreOverride] = useState<'auto' | 'cornet' | 'horn' | 'euphonium' | 'trombone' | 'bass' | 'glockenspiel'>('auto');
 
   // Interactive Free-Play Valve Studio State (at bottom)
   const [freeValve1, setFreeValve1] = useState<boolean>(false);
@@ -33,31 +40,45 @@ export const ScaleStudio: React.FC = () => {
 
   // Active note in currently selected lesson
   const currentActiveNote = activeNoteIndex !== null ? selectedLesson.notes[activeNoteIndex] : selectedLesson.notes[0];
-  const isTromboneLesson = selectedLesson.id.includes('trombone');
-  const isGlockenspielLesson = selectedLesson.id.includes('glockenspiel');
-  const isEuphOrBass = selectedLesson.id.includes('euphonium') || selectedLesson.id.includes('bass');
+  
+  const getAutoTimbre = (lessonId: string, key: string): 'cornet' | 'horn' | 'euphonium' | 'bass' | 'trombone' | 'glockenspiel' => {
+    if (lessonId.includes('glockenspiel')) return 'glockenspiel';
+    if (lessonId.includes('trombone')) return 'trombone';
+    if (lessonId.includes('bass')) return 'bass';
+    if (lessonId.includes('baritone') || lessonId.includes('euphonium')) return 'euphonium';
+    if (key === 'Eb' && lessonId.includes('horn')) return 'horn';
+    return 'cornet';
+  };
 
-  // Derive active valves for the current note in scale
+  const activeTimbre = userTimbreOverride !== 'auto' 
+    ? userTimbreOverride 
+    : getAutoTimbre(selectedLesson.id, selectedLesson.instrumentKey);
+
+  const isTromboneActive = activeTimbre === 'trombone' || selectedLesson.id.includes('trombone');
+  const isGlockenspielActive = activeTimbre === 'glockenspiel' || selectedLesson.id.includes('glockenspiel');
+  const isEuphOrBass = activeTimbre === 'euphonium' || activeTimbre === 'bass' || selectedLesson.id.includes('euphonium') || selectedLesson.id.includes('bass');
+
+  // Derive active valves and slide for the current note in scale
   const activeNoteValves = currentActiveNote?.valves || [];
   const activeSlidePosition = currentActiveNote?.slidePosition || 1;
 
-  // Filter lessons by category
-  const filteredLessons = SCALE_LESSONS.filter(l => {
-    if (instrumentCategory === 'all') return true;
-    if (instrumentCategory === 'cornets') {
-      return l.id.includes('cornet') || l.id.includes('flugelhorn');
+  // Filter scales by category
+  const filteredLessons = ALL_STUDIO_SCALES.filter(l => {
+    if (scaleCategory === 'all') return true;
+    if (scaleCategory === 'major12') {
+      return l.category === 'major';
     }
-    if (instrumentCategory === 'horns') {
-      return l.id.includes('horn') && !l.id.includes('flugel');
+    if (scaleCategory === 'minor') {
+      return l.category === 'minor';
     }
-    if (instrumentCategory === 'lowbrass') {
-      return l.id.includes('euphonium') || l.id.includes('trombone');
+    if (scaleCategory === 'chromatic') {
+      return l.category === 'chromatic' || l.id.includes('chromatic') || l.id.includes('whole-tone');
     }
-    if (instrumentCategory === 'tubas') {
-      return l.id.includes('bass') && !l.id.includes('trombone');
+    if (scaleCategory === 'blues') {
+      return l.category === 'blues-pentatonic';
     }
-    if (instrumentCategory === 'studies') {
-      return l.id.includes('glockenspiel') || l.id.includes('transposed') || l.id.includes('arban');
+    if (scaleCategory === 'instrumentC') {
+      return l.id.startsWith('c-scale-');
     }
     return true;
   });
@@ -127,8 +148,6 @@ export const ScaleStudio: React.FC = () => {
     const freqs = selectedLesson.notes.map(n => n.frequencyHz);
     setIsPlayingScale(true);
 
-    const timbre = getInstrumentTimbre(selectedLesson.id, selectedLesson.instrumentKey);
-
     const cancel = brassAudio.playScaleSequence(
       freqs,
       560,
@@ -138,7 +157,7 @@ export const ScaleStudio: React.FC = () => {
       () => {
         setIsPlayingScale(false);
       },
-      timbre
+      activeTimbre
     );
 
     setStopScaleFn(() => cancel);
@@ -151,8 +170,7 @@ export const ScaleStudio: React.FC = () => {
     }
     setActiveNoteIndex(index);
     const note = selectedLesson.notes[index];
-    const timbre = getInstrumentTimbre(selectedLesson.id, selectedLesson.instrumentKey);
-    brassAudio.playBrassTone(note.frequencyHz, 0.7, timbre);
+    brassAudio.playBrassTone(note.frequencyHz, 0.7, activeTimbre);
   };
 
   const handleFreeBuzzPress = () => {
@@ -172,10 +190,10 @@ export const ScaleStudio: React.FC = () => {
           <span>Complete British Brass Band Curriculum</span>
         </div>
         <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-slate-100">
-          C Scale & Fingerings for All Brass Band Instruments
+          All Scales Known in Brass Music & Interactive Fingerings
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-slate-400 max-w-3xl">
-          Learn the foundational C Major scale for every instrument in a British brass band—from the Soprano Cornet down to the BBb Tuba, including slide movements for both Tenor and Bass Trombones, and tuned percussion. Watch the physical valves depress and the trombone slide physically move with real audio!
+          Explore all 12 Major scales across the Circle of Fifths, Harmonic, Melodic, and Natural Minors, Arban's 2-octave Chromatic Scale, Whole Tone, Blues, and Pentatonics, alongside foundational instrument reference C scales. Audition on Cornet, Tenor Horn, Euphonium, Trombone, BBb Bass, or Glockenspiel with physical valve depressions and slide animation!
         </p>
       </div>
 
@@ -188,6 +206,11 @@ export const ScaleStudio: React.FC = () => {
               <span className="rounded-md bg-amber-400/20 px-2 py-0.5 font-mono text-[11px] font-bold text-amber-300">
                 {selectedLesson.instrumentKey} Pitch
               </span>
+              {selectedLesson.accidentalsCount && (
+                <span className="rounded-md bg-slate-800 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-300">
+                  {selectedLesson.accidentalsCount}
+                </span>
+              )}
               <span className="text-xs uppercase font-semibold text-slate-400">
                 Written: {selectedLesson.writtenKey}
               </span>
@@ -202,7 +225,7 @@ export const ScaleStudio: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={handlePlayScale}
               className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold transition-all shadow-lg active:scale-95 ${
@@ -226,23 +249,24 @@ export const ScaleStudio: React.FC = () => {
           </div>
         </div>
 
-        {/* INSTRUMENT CATEGORY SELECTOR PILLS */}
-        <div className="mb-6 space-y-3">
+        {/* SCALE CATEGORY & TIMBRE CONTROLS */}
+        <div className="mb-6 space-y-4">
+          {/* Category Filter Pills */}
           <div className="flex flex-wrap items-center gap-1.5 text-xs">
-            <span className="text-slate-400 uppercase font-semibold mr-2 text-[11px]">Filter Category:</span>
+            <span className="text-slate-400 uppercase font-semibold mr-2 text-[11px]">Category:</span>
             {[
-              { id: 'all', label: 'All Instruments (13)' },
-              { id: 'cornets', label: 'Cornets & Flugel' },
-              { id: 'horns', label: 'Tenor & Baritone' },
-              { id: 'lowbrass', label: 'Euphonium & Trombones' },
-              { id: 'tubas', label: 'Tubas & Basses' },
-              { id: 'studies', label: 'Percussion & Studies' }
+              { id: 'all', label: 'All Scales (35+)' },
+              { id: 'major12', label: '12 Major Keys (Circle of 5ths)' },
+              { id: 'minor', label: 'Minor Scales (Harmonic/Melodic/Natural)' },
+              { id: 'chromatic', label: 'Chromatic & Whole Tone' },
+              { id: 'blues', label: 'Blues & Pentatonic' },
+              { id: 'instrumentC', label: 'Per-Instrument C Scales' }
             ].map(cat => (
               <button
                 key={cat.id}
-                onClick={() => setInstrumentCategory(cat.id as any)}
+                onClick={() => setScaleCategory(cat.id as any)}
                 className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                  instrumentCategory === cat.id
+                  scaleCategory === cat.id
                     ? 'bg-amber-400 text-slate-950 font-bold shadow-sm'
                     : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
                 }`}
@@ -252,8 +276,37 @@ export const ScaleStudio: React.FC = () => {
             ))}
           </div>
 
-          {/* Quick Instrument Buttons */}
-          <div className="flex flex-wrap gap-1.5 pt-1">
+          {/* Instrument Timbre Override Pills */}
+          <div className="flex flex-wrap items-center gap-1.5 text-xs bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+            <span className="text-slate-400 uppercase font-semibold mr-2 text-[11px] flex items-center gap-1">
+              <Volume2 className="h-3 w-3 text-amber-400" />
+              <span>Audition Timbre:</span>
+            </span>
+            {[
+              { id: 'auto', label: 'Auto (By Scale)' },
+              { id: 'cornet', label: 'Bb Cornet' },
+              { id: 'horn', label: 'Eb Tenor Horn' },
+              { id: 'euphonium', label: 'Bb Euphonium' },
+              { id: 'trombone', label: 'Tenor Trombone (Animated Slide)' },
+              { id: 'bass', label: 'BBb Tuba Bass' },
+              { id: 'glockenspiel', label: 'Glockenspiel' }
+            ].map(t => (
+              <button
+                key={t.id}
+                onClick={() => setUserTimbreOverride(t.id as any)}
+                className={`rounded-md px-2.5 py-1 text-xs transition-colors ${
+                  userTimbreOverride === t.id
+                    ? 'bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Scale Lessons Grid */}
+          <div className="flex flex-wrap gap-1.5 pt-1 max-h-[160px] overflow-y-auto">
             {filteredLessons.map(lesson => (
               <button
                 key={lesson.id}
@@ -264,16 +317,15 @@ export const ScaleStudio: React.FC = () => {
                   }
                   setSelectedLesson(lesson);
                   setActiveNoteIndex(0);
-                  const timbre = getInstrumentTimbre(lesson.id, lesson.instrumentKey);
-                  brassAudio.playBrassTone(lesson.notes[0].frequencyHz, 0.6, timbre);
+                  brassAudio.playBrassTone(lesson.notes[0].frequencyHz, 0.6, activeTimbre);
                 }}
-                className={`rounded-xl px-3.5 py-2 text-xs font-medium transition-all ${
+                className={`rounded-xl px-3 py-1.5 text-xs font-medium transition-all ${
                   selectedLesson.id === lesson.id
                     ? 'bg-amber-500/20 border-2 border-amber-400 text-amber-200 font-bold shadow-md'
                     : 'border border-slate-800 bg-slate-950/80 text-slate-300 hover:border-slate-700 hover:text-white'
                 }`}
               >
-                {lesson.instrumentName.split('(')[0]}
+                {lesson.title.replace(' Scale', '')}
               </button>
             ))}
           </div>
@@ -285,9 +337,9 @@ export const ScaleStudio: React.FC = () => {
             <span className="text-xs uppercase font-semibold text-amber-400 flex items-center gap-1.5">
               <Zap className="h-3.5 w-3.5" />
               <span>
-                {isTromboneLesson 
+                {isTromboneActive 
                   ? `Live Animated Trombone Slide Mechanism (Step: ${currentActiveNote?.name})`
-                  : isGlockenspielLesson
+                  : isGlockenspielActive
                   ? `Live Tuned Mallet Percussion Bar (Step: ${currentActiveNote?.name})`
                   : `Live Animated Valve Casings (Step: ${currentActiveNote?.name})`}
               </span>
@@ -303,7 +355,7 @@ export const ScaleStudio: React.FC = () => {
           </div>
 
           {/* If TROMBONE is selected -> Render Animated SVG Slide */}
-          {isTromboneLesson ? (
+          {isTromboneActive ? (
             <div className="overflow-x-auto py-2">
               <div className="min-w-[620px] h-36 relative flex items-center">
                 {/* Stationary Trombone Body */}
@@ -376,7 +428,7 @@ export const ScaleStudio: React.FC = () => {
                 </div>
               </div>
             </div>
-          ) : isGlockenspielLesson ? (
+          ) : isGlockenspielActive ? (
             /* GLOCKENSPIEL / PERCUSSION VISUALIZER */
             <div className="py-2">
               <div className="flex items-center justify-center gap-2 sm:gap-3 py-4">

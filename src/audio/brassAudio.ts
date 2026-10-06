@@ -249,6 +249,53 @@ class BrassAudioEngine {
   }
 
   /**
+   * Plays a musical melody sequence with variable note durations and tempo scaling
+   */
+  public playScoreMelody(
+    notes: { freqHz: number; durationMs: number; isRest?: boolean }[],
+    tempoMultiplier: number = 1.0,
+    onNoteChange?: (index: number) => void,
+    onComplete?: () => void,
+    instrumentType: 'cornet' | 'horn' | 'euphonium' | 'bass' | 'trombone' | 'glockenspiel' = 'cornet'
+  ): () => void {
+    if (notes.length === 0) return () => {};
+
+    let currentIndex = 0;
+    let isCancelled = false;
+    let timeoutId: number | null = null;
+    let currentStop: (() => void) | null = null;
+
+    const playNext = () => {
+      if (isCancelled) return;
+      if (currentIndex >= notes.length) {
+        onComplete?.();
+        return;
+      }
+
+      const note = notes[currentIndex];
+      const duration = Math.max(100, note.durationMs / tempoMultiplier);
+
+      onNoteChange?.(currentIndex);
+
+      if (!note.isRest && note.freqHz > 0) {
+        currentStop = this.playBrassTone(note.freqHz, (duration / 1000) * 0.92, instrumentType);
+      }
+
+      currentIndex++;
+      timeoutId = window.setTimeout(playNext, duration);
+    };
+
+    playNext();
+
+    return () => {
+      isCancelled = true;
+      if (timeoutId) clearTimeout(timeoutId);
+      if (currentStop) currentStop();
+      onComplete?.();
+    };
+  }
+
+  /**
    * Plays synthesized British Brass Band percussion sounds
    */
   public playPercussion(type: 'snare' | 'bassdrum' | 'cymbal' | 'timpani' | 'glockenspiel') {
