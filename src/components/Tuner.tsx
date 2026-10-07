@@ -1,38 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  Mic,
-  MicOff,
-  Volume2,
-  Music2,
-  Settings2,
-} from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Mic, MicOff, RotateCcw, Volume2 } from 'lucide-react';
 
 type Instrument =
- type Instrument =
   | 'Bb Cornet'
   | 'Bb Trumpet'
   | 'Bb Flugelhorn'
   | 'Eb Horn'
   | 'Euphonium'
   | 'Trombone'
-  | 'Bass';
+  | 'Eb Bass'
+  | 'Bb Bass';
 
-type TuningStatus = 'flat' | 'sharp' | 'in-tune' | 'none';
-
-const NOTE_NAMES = [
-  'C',
-  'C♯',
-  'D',
-  'D♯',
-  'E',
-  'F',
-  'F♯',
-  'G',
-  'G♯',
-  'A',
-  'A♯',
-  'B',
-];
+type TuningStatus = 'flat' | 'in-tune' | 'sharp' | 'no-signal';
 
 const INSTRUMENT_OFFSETS: Record<Instrument, number> = {
   'Bb Cornet': -2,
@@ -41,104 +20,187 @@ const INSTRUMENT_OFFSETS: Record<Instrument, number> = {
   'Eb Horn': -9,
   Euphonium: 0,
   Trombone: 0,
-  Bass: 0,
+  'Eb Bass': -9,
+  'Bb Bass': 0,
 };
 
+const STANDARD_FREQUENCIES: Record<string, number> = {
+  C: 261.63,
+  'C#': 277.18,
+  D: 293.66,
+  'D#': 311.13,
+  E: 329.63,
+  F: 349.23,
+  'F#': 369.99,
+  G: 392.0,
+  'G#': 415.3,
+  A: 440.0,
+  'A#': 466.16,
+  B: 493.88,
+};
+
+const NOTE_NAMES = [
+  'C',
+  'C#',
+  'D',
+  'D#',
+  'E',
+  'F',
+  'F#',
+  'G',
+  'G#',
+  'A',
+  'A#',
+  'B',
+];
+
 function frequencyToNote(frequency: number) {
-  const midi = 69 + 12 * Math.log2(frequency / 440);
-  const roundedMidi = Math.round(midi);
+  if (!frequency || frequency <= 0) return null;
 
-  const noteIndex = ((roundedMidi % 12) + 12) % 12;
-  const octave = Math.floor(roundedMidi / 12) - 1;
+  const midi = Math.round(69 + 12 * Math.log2(frequency / 440));
+  const noteIndex = ((midi % 12) + 12) % 12;
+  const octave = Math.floor(midi / 12) - 1;
+  const note = NOTE_NAMES[noteIndex];
 
-  const targetFrequency = 440 * Math.pow(2, (roundedMidi - 69) / 12);
-
-  const cents = 1200 * Math.log2(frequency / targetFrequency);
+  const exactFrequency = 440 * Math.pow(2, (midi - 69) / 12);
+  const cents = 1200 * Math.log2(frequency / exactFrequency);
 
   return {
-    name: NOTE_NAMES[noteIndex],
+    note,
     octave,
-    frequency: targetFrequency,
+    frequency: exactFrequency,
     cents,
-    midi: roundedMidi,
   };
+}
+
+function getStatus(cents: number): TuningStatus {
+  if (Math.abs(cents) <= 5) return 'in-tune';
+  if (cents < 0) return 'flat';
+  return 'sharp';
 }
 
 function autoCorrelate(
   buffer: Float32Array,
-  sampleRate: number
-): number {
+  sampleRate: number,
+): number | null {
   let size = buffer.length;
+
+  // Remove DC offset and find signal strength.
+  let sum = 0;
+
+  for (let i = 0; i < size; i++) {
+    sum += buffer[i];
+  }
+
+  const mean = sum / size;
 
   let rms = 0;
 
   for (let i = 0; i < size; i++) {
-    rms += buffer[i] * buffer[i];
+    const value = buffer[i] - mean;
+    rms += value * value;
   }
 
   rms = Math.sqrt(rms / size);
 
-  if (rms < 0.01) {
-    return -1;
+  // Ignore very quiet microphone signals.
+  if (rms < 0.008) {
+    return null;
   }
 
-  let r1 = 0;
-  let r2 = size - 1;
-  const threshold = 0.2;
+  const normalized = new Float32Array(size);
 
-  for (let i = 0; i < size / 2; i++) {
-    if (Math.abs(buffer[i]) < threshold) {
-      r1 = i;
-      break;
+  for (let i = 0; i < size; i++) {
+    normalized[i] = buffer[i] - mean;
+  }
+
+  // Frequency range:
+  // 25 Hz allows low bass notes.
+  // 1500 Hz covers normal brass playing ranges.
+  const minFrequency = 25;
+  const maxFrequency = 1500;
+
+  const minLag = Math.floor(sampleRate / maxFrequency);
+  const maxLag = Math.min(
+    Math.floor(sampleRate / minFrequency),
+    size - 1,
+  );
+
+  let bestLag = -1;
+  let bestCorrelation = 0;
+
+  for (let lag = minLag; lag <= maxLag; lag++) {
+    let correlation = 0;
+    let energy1 = 0;
+    let energy2 = 0;
+
+    const limit = size - lag;
+
+    for (let i = 0; i < limit; i++) {
+      const a = normalized[i];
+      const b = normalized[i + lag];
+
+      correlation += a * b;
+      energy1 += a * a;
+      energy2 += b * b;
+    }
+
+    if (energy1 === 0 || energy2 === 0) continue;
+
+    correlation /= Math.sqrt(energy1 * energy2);
+
+    if (correlation > bestCorrelation) {
+      bestCorrelation = correlation;
+      bestLag = lag;
     }
   }
 
-  for (let i = 1; i < size / 2; i++) {
-    if (Math.abs(buffer[size - i]) < threshold) {
-      r2 = size - i;
-      break;
+  if (bestLag === -1 || bestCorrelation < 0.55) {
+    return null;
+  }
+
+  // Parabolic interpolation makes the frequency estimate more accurate.
+  if (bestLag > minLag && bestLag < maxLag) {
+    const correlationAt = (lag: number) => {
+      let correlation = 0;
+      let energy1 = 0;
+      let energy2 = 0;
+
+      const limit = size - lag;
+
+      for (let i = 0; i < limit; i++) {
+        const a = normalized[i];
+        const b = normalized[i + lag];
+
+        correlation += a * b;
+        energy1 += a * a;
+        energy2 += b * b;
+      }
+
+      if (energy1 === 0 || energy2 === 0) return 0;
+
+      return correlation / Math.sqrt(energy1 * energy2);
+    };
+
+    const y1 = correlationAt(bestLag - 1);
+    const y2 = correlationAt(bestLag);
+    const y3 = correlationAt(bestLag + 1);
+
+    const denominator = y1 - 2 * y2 + y3;
+
+    if (Math.abs(denominator) > 0.000001) {
+      const adjustment = 0.5 * ((y1 - y3) / denominator);
+      bestLag += adjustment;
     }
   }
 
-  const trimmed = buffer.slice(r1, r2);
-  size = trimmed.length;
+  const frequency = sampleRate / bestLag;
 
-  const correlations = new Float32Array(size);
-
-  for (let lag = 0; lag < size; lag++) {
-    let sum = 0;
-
-    for (let i = 0; i < size - lag; i++) {
-      sum += trimmed[i] * trimmed[i + lag];
-    }
-
-    correlations[lag] = sum;
+  if (frequency < minFrequency || frequency > maxFrequency) {
+    return null;
   }
 
-  let d = 0;
-
-  while (
-    d + 1 < correlations.length &&
-    correlations[d] > correlations[d + 1]
-  ) {
-    d++;
-  }
-
-  let maxValue = -Infinity;
-  let maxIndex = -1;
-
-  for (let i = d; i < correlations.length; i++) {
-    if (correlations[i] > maxValue) {
-      maxValue = correlations[i];
-      maxIndex = i;
-    }
-  }
-
-  if (maxIndex <= 0) {
-    return -1;
-  }
-
-  return sampleRate / maxIndex;
+  return frequency;
 }
 
 export default function Tuner() {
@@ -146,117 +208,84 @@ export default function Tuner() {
     useState<Instrument>('Bb Cornet');
 
   const [isListening, setIsListening] = useState(false);
-
-  const [note, setNote] = useState('--');
-
-  const [octave, setOctave] = useState('');
-
-  const [frequency, setFrequency] = useState(0);
-
+  const [frequency, setFrequency] = useState<number | null>(null);
+  const [detectedNote, setDetectedNote] = useState<string>('--');
+  const [octave, setOctave] = useState<number | null>(null);
   const [cents, setCents] = useState(0);
-
   const [status, setStatus] =
-    useState<TuningStatus>('none');
+    useState<TuningStatus>('no-signal');
 
   const [error, setError] = useState('');
 
-  const audioContextRef =
-    useRef<AudioContext | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const microphoneRef = useRef<MediaStreamAudioSourceNode | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
-  const analyserRef =
-    useRef<AnalyserNode | null>(null);
+  const bufferRef = useRef<Float32Array | null>(null);
 
-  const streamRef =
-    useRef<MediaStream | null>(null);
+  const selectedOffset = INSTRUMENT_OFFSETS[instrument];
 
-  const animationRef =
-    useRef<number | null>(null);
+  const writtenToConcertOffset = selectedOffset;
 
-  const bufferRef =
-    useRef<Float32Array | null>(null);
+  const noteDisplay = useMemo(() => {
+    if (detectedNote === '--') {
+      return '--';
+    }
 
-  useEffect(() => {
-    return () => {
-      stopTuner();
-    };
-  }, []);
+    return `${detectedNote}${octave ?? ''}`;
+  }, [detectedNote, octave]);
 
   const stopTuner = () => {
-    if (animationRef.current !== null) {
-      cancelAnimationFrame(animationRef.current);
-      animationRef.current = null;
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+
+    if (microphoneRef.current) {
+      microphoneRef.current.disconnect();
+      microphoneRef.current = null;
+    }
+
+    if (analyserRef.current) {
+      analyserRef.current.disconnect();
+      analyserRef.current = null;
     }
 
     if (streamRef.current) {
-      streamRef.current
-        .getTracks()
-        .forEach((track) => track.stop());
+      streamRef.current.getTracks().forEach((track) => {
+        track.stop();
+      });
 
       streamRef.current = null;
     }
 
     if (audioContextRef.current) {
       audioContextRef.current.close();
-
       audioContextRef.current = null;
     }
 
-    analyserRef.current = null;
-
     setIsListening(false);
-  };
-
-  const detectPitch = () => {
-    const analyser = analyserRef.current;
-    const audioContext = audioContextRef.current;
-    const buffer = bufferRef.current;
-
-    if (!analyser || !audioContext || !buffer) {
-      return;
-    }
-
-    analyser.getFloatTimeDomainData(buffer);
-
-    const detectedFrequency = autoCorrelate(
-      buffer,
-      audioContext.sampleRate
-    );
-
-    if (
-      detectedFrequency > 50 &&
-      detectedFrequency < 1500
-    ) {
-      const result =
-        frequencyToNote(detectedFrequency);
-
-      setNote(result.name);
-      setOctave(String(result.octave));
-      setFrequency(detectedFrequency);
-      setCents(result.cents);
-
-      if (result.cents < -10) {
-        setStatus('flat');
-      } else if (result.cents > 10) {
-        setStatus('sharp');
-      } else {
-        setStatus('in-tune');
-      }
-    }
-
-    animationRef.current =
-      requestAnimationFrame(detectPitch);
+    setFrequency(null);
+    setDetectedNote('--');
+    setOctave(null);
+    setCents(0);
+    setStatus('no-signal');
   };
 
   const startTuner = async () => {
-    try {
-      setError('');
+    setError('');
 
+    try {
       if (!navigator.mediaDevices?.getUserMedia) {
         setError(
-          'Your browser does not support microphone access.'
+          'Your browser does not support microphone access.',
         );
         return;
       }
+
+      stopTuner();
 
       const stream =
         await navigator.mediaDevices.getUserMedia({
@@ -267,6 +296,8 @@ export default function Tuner() {
           },
         });
 
+      streamRef.current = stream;
+
       const AudioContextClass =
         window.AudioContext ||
         (
@@ -276,334 +307,413 @@ export default function Tuner() {
         ).webkitAudioContext;
 
       if (!AudioContextClass) {
-        setError(
-          'Your browser does not support the Web Audio API.'
-        );
-
-        stream
-          .getTracks()
-          .forEach((track) => track.stop());
-
+        setError('Web Audio is not supported by this browser.');
+        stream.getTracks().forEach((track) => track.stop());
         return;
       }
 
-      const audioContext =
-        new AudioContextClass();
-
-      const analyser =
-        audioContext.createAnalyser();
-
-      analyser.fftSize = 4096;
-
-      analyser.smoothingTimeConstant = 0.1;
-
-      const source =
-        audioContext.createMediaStreamSource(stream);
-
-      source.connect(analyser);
+      const audioContext = new AudioContextClass();
 
       audioContextRef.current = audioContext;
-      analyserRef.current = analyser;
-      streamRef.current = stream;
 
-      bufferRef.current =
-        new Float32Array(analyser.fftSize);
+      if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
+
+      const analyser = audioContext.createAnalyser();
+
+      analyser.fftSize = 16384;
+      analyser.smoothingTimeConstant = 0.15;
+
+      analyserRef.current = analyser;
+
+      const microphone =
+        audioContext.createMediaStreamSource(stream);
+
+      microphoneRef.current = microphone;
+
+      microphone.connect(analyser);
+
+      bufferRef.current = new Float32Array(
+        analyser.fftSize,
+      );
 
       setIsListening(true);
+
+      const detectPitch = () => {
+        if (!analyserRef.current || !bufferRef.current) {
+          return;
+        }
+
+        analyserRef.current.getFloatTimeDomainData(
+          bufferRef.current,
+        );
+
+        const detectedFrequency = autoCorrelate(
+          bufferRef.current,
+          audioContext.sampleRate,
+        );
+
+        if (detectedFrequency !== null) {
+          const detected = frequencyToNote(
+            detectedFrequency,
+          );
+
+          if (detected) {
+            const concertCents = detected.cents;
+
+            setFrequency(detectedFrequency);
+            setDetectedNote(detected.note);
+            setOctave(detected.octave);
+            setCents(concertCents);
+            setStatus(getStatus(concertCents));
+          }
+        }
+
+        animationFrameRef.current =
+          requestAnimationFrame(detectPitch);
+      };
 
       detectPitch();
     } catch (err) {
       console.error(err);
 
       setError(
-        'Microphone access was blocked. Please allow microphone permission and try again.'
+        'Microphone access was blocked. Please allow microphone access and try again.',
       );
 
-      setIsListening(false);
+      stopTuner();
     }
   };
 
-  const getStatusText = () => {
-    if (status === 'flat') return 'FLAT';
-    if (status === 'sharp') return 'SHARP';
-    if (status === 'in-tune') return 'IN TUNE';
+  useEffect(() => {
+    return () => {
+      stopTuner();
+    };
+  }, []);
 
-    return 'PLAY A NOTE';
+  const reset = () => {
+    setFrequency(null);
+    setDetectedNote('--');
+    setOctave(null);
+    setCents(0);
+    setStatus('no-signal');
   };
 
-  const getNeedlePosition = () => {
-    const limitedCents =
-      Math.max(-50, Math.min(50, cents));
+  const needlePosition = Math.max(
+    -50,
+    Math.min(50, cents),
+  );
 
-    return limitedCents * 2;
-  };
+  const needlePercent =
+    ((needlePosition + 50) / 100) * 100;
 
-  const getWrittenNote = () => {
-    if (note === '--') {
-      return '--';
-    }
+  const statusText =
+    status === 'in-tune'
+      ? 'IN TUNE'
+      : status === 'flat'
+        ? 'FLAT'
+        : status === 'sharp'
+          ? 'SHARP'
+          : 'PLAY A NOTE';
 
-    const offset =
-      INSTRUMENT_OFFSETS[instrument];
-
-    if (offset === 0) {
-      return `${note}${octave}`;
-    }
-
-    const midi =
-      69 +
-      12 *
-        Math.log2(
-          frequency / 440
-        );
-
-    const writtenMidi =
-      Math.round(midi) - offset;
-
-    const noteIndex =
-      ((writtenMidi % 12) + 12) % 12;
-
-    const writtenOctave =
-      Math.floor(writtenMidi / 12) - 1;
-
-    return `${NOTE_NAMES[noteIndex]}${writtenOctave}`;
-  };
+  const statusColor =
+    status === 'in-tune'
+      ? 'text-green-400'
+      : status === 'flat'
+        ? 'text-blue-400'
+        : status === 'sharp'
+          ? 'text-red-400'
+          : 'text-slate-400';
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white px-4 py-8">
-      <div className="mx-auto max-w-5xl">
-
+    <div className="min-h-screen bg-slate-950 px-4 py-8 text-white">
+      <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8 text-center">
-
           <div className="mb-3 flex justify-center">
-            <div className="rounded-2xl bg-amber-400/10 p-4">
-              <Music2
-                size={42}
-                className="text-amber-400"
-              />
+            <div className="rounded-full bg-amber-500/10 p-4">
+              <Volume2 className="h-10 w-10 text-amber-400" />
             </div>
           </div>
 
           <h1 className="text-4xl font-bold">
-            Btech Chromatic Tuner
+            Brass Tuner
           </h1>
 
           <p className="mt-2 text-slate-400">
-            Tune your instrument using your microphone
+            Tune your brass instrument using your microphone
           </p>
         </div>
 
-        {/* Instrument selector */}
-        <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-5">
-
-          <div className="mb-3 flex items-center gap-2">
-            <Settings2
-              size={20}
-              className="text-amber-400"
-            />
-
-            <span className="font-semibold">
+        {/* Main tuner */}
+        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-2xl md:p-8">
+          {/* Instrument */}
+          <div className="mb-6">
+            <label
+              htmlFor="instrument"
+              className="mb-2 block text-sm font-semibold text-slate-300"
+            >
               Instrument
-            </span>
+            </label>
+
+            <select
+              id="instrument"
+              value={instrument}
+              onChange={(event) =>
+                setInstrument(
+                  event.target.value as Instrument,
+                )
+              }
+              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none transition focus:border-amber-400"
+            >
+              <option value="Bb Cornet">
+                B♭ Cornet
+              </option>
+
+              <option value="Bb Trumpet">
+                B♭ Trumpet
+              </option>
+
+              <option value="Bb Flugelhorn">
+                B♭ Flugelhorn
+              </option>
+
+              <option value="Eb Horn">
+                E♭ Horn
+              </option>
+
+              <option value="Euphonium">
+                Euphonium
+              </option>
+
+              <option value="Trombone">
+                Trombone
+              </option>
+
+              <option value="Eb Bass">
+                E♭ Bass
+              </option>
+
+              <option value="Bb Bass">
+                B♭ Bass
+              </option>
+            </select>
           </div>
 
-          <select
-            value={instrument}
-            onChange={(e) =>
-              setInstrument(
-                e.target.value as Instrument
-              )
-            }
-            className="w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none focus:border-amber-400"
-          >
-          <option>Bb Cornet</option>
-<option>Bb Trumpet</option>
-<option>Bb Flugelhorn</option>
-<option>Eb Horn</option>
-<option>Euphonium</option>
-<option>Trombone</option>
-<option>Bass</option>
-          </select>
-        </div>
+          {/* Written / sounding information */}
+          <div className="mb-6 grid gap-3 md:grid-cols-2">
+            <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4">
+              <p className="text-xs uppercase tracking-wide text-slate-500">
+                Instrument
+              </p>
 
-        {/* Main tuner */}
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl">
+              <p className="mt-1 text-lg font-semibold">
+                {instrument}
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-4">
+              <p className="text-xs uppercase tracking-wide text-slate-500">
+                Transposition
+              </p>
+
+              <p className="mt-1 text-lg font-semibold">
+                {selectedOffset === -2
+                  ? 'B♭'
+                  : selectedOffset === -9
+                    ? 'E♭'
+                    : 'Concert pitch'}
+              </p>
+            </div>
+          </div>
 
           {/* Note */}
-          <div className="text-center">
-
-            <p className="text-sm uppercase tracking-widest text-slate-400">
+          <div className="mb-8 text-center">
+            <p className="text-sm uppercase tracking-[0.3em] text-slate-500">
               Detected Note
             </p>
 
-            <div className="mt-2 text-8xl font-black">
-              {note}
-              {octave}
+            <div className="mt-2 text-8xl font-black tracking-tight text-amber-400 md:text-9xl">
+              {noteDisplay}
             </div>
 
-            <div className="mt-2 text-slate-400">
-              Written for {instrument}:{' '}
-              <span className="font-bold text-white">
-                {getWrittenNote()}
-              </span>
+            <div className="mt-3 text-xl text-slate-400">
+              {frequency !== null
+                ? `${frequency.toFixed(2)} Hz`
+                : '-- Hz'}
             </div>
           </div>
 
-          {/* Tuning meter */}
-          <div className="mx-auto mt-10 max-w-3xl">
+          {/* Needle */}
+          <div className="mb-8">
+            <div className="relative h-36 overflow-hidden rounded-2xl border border-slate-800 bg-slate-950">
+              {/* Centre line */}
+              <div className="absolute bottom-0 left-1/2 top-0 w-px bg-green-400/70" />
 
-            <div className="relative h-24">
-
-              <div className="absolute left-0 right-0 top-10 h-2 rounded-full bg-slate-700" />
-
-              <div className="absolute left-1/2 top-4 h-16 w-1 -translate-x-1/2 rounded-full bg-amber-400" />
-
-              <div className="absolute left-0 top-7 text-sm text-slate-400">
-                ♭ FLAT
+              {/* Scale */}
+              <div className="absolute bottom-4 left-5 right-5 flex justify-between text-xs text-slate-500">
+                <span>-50</span>
+                <span>-25</span>
+                <span>0</span>
+                <span>+25</span>
+                <span>+50</span>
               </div>
 
-              <div className="absolute right-0 top-7 text-sm text-slate-400">
-                SHARP ♯
-              </div>
+              {/* Needle */}
+              {frequency !== null && (
+                <div
+                  className="absolute bottom-8 left-1/2 h-24 w-1 origin-bottom rounded-full bg-amber-400 transition-transform duration-100"
+                  style={{
+                    transform: `translateX(-50%) rotate(${(needlePosition / 50) * 45}deg)`,
+                  }}
+                />
+              )}
 
+              {/* Centre dot */}
+              <div className="absolute bottom-5 left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-green-400" />
+            </div>
+
+            <div className="mt-4 text-center">
               <div
-                className="absolute top-2 h-20 w-1 rounded-full bg-white transition-all duration-100"
-                style={{
-                  left: `calc(50% + ${getNeedlePosition()}%)`,
-                  transform: 'translateX(-50%)',
-                }}
-              />
-
-              <div className="absolute left-1/2 top-20 -translate-x-1/2 text-xs text-slate-500">
-                0 cents
+                className={`text-2xl font-bold ${statusColor}`}
+              >
+                {statusText}
               </div>
 
-            </div>
-
-          </div>
-
-          {/* Status */}
-          <div className="mt-6 text-center">
-
-            <div
-              className={`text-3xl font-black ${
-                status === 'in-tune'
-                  ? 'text-emerald-400'
-                  : status === 'flat'
-                  ? 'text-sky-400'
-                  : status === 'sharp'
-                  ? 'text-red-400'
-                  : 'text-slate-400'
-              }`}
-            >
-              {getStatusText()}
-            </div>
-
-            <div className="mt-2 text-lg text-slate-400">
-              {frequency > 0
-                ? `${frequency.toFixed(1)} Hz`
-                : 'Waiting for sound...'}
-            </div>
-
-            <div className="mt-1 text-sm text-slate-500">
-              {frequency > 0
-                ? `${cents >= 0 ? '+' : ''}${cents.toFixed(
-                    1
-                  )} cents`
-                : ''}
+              <div className="mt-1 text-sm text-slate-500">
+                {frequency !== null
+                  ? `${cents > 0 ? '+' : ''}${cents.toFixed(1)} cents`
+                  : 'Waiting for microphone signal'}
+              </div>
             </div>
           </div>
 
-          {/* Microphone */}
-          <div className="mt-8 flex justify-center">
-
+          {/* Controls */}
+          <div className="flex flex-col gap-3 sm:flex-row">
             {!isListening ? (
               <button
                 type="button"
                 onClick={startTuner}
-                className="flex items-center gap-3 rounded-2xl bg-amber-400 px-7 py-4 font-bold text-slate-950 transition hover:bg-amber-300"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-amber-500 px-5 py-4 font-bold text-slate-950 transition hover:bg-amber-400"
               >
-                <Mic size={22} />
+                <Mic className="h-5 w-5" />
                 Start Tuner
               </button>
             ) : (
               <button
                 type="button"
                 onClick={stopTuner}
-                className="flex items-center gap-3 rounded-2xl bg-red-500 px-7 py-4 font-bold text-white transition hover:bg-red-400"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-500 px-5 py-4 font-bold text-white transition hover:bg-red-400"
               >
-                <MicOff size={22} />
+                <MicOff className="h-5 w-5" />
                 Stop Tuner
               </button>
             )}
 
+            <button
+              type="button"
+              onClick={reset}
+              className="flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-5 py-4 font-semibold text-white transition hover:bg-slate-700"
+            >
+              <RotateCcw className="h-5 w-5" />
+              Reset
+            </button>
           </div>
 
+          {/* Error */}
           {error && (
-            <div className="mt-5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-center text-sm text-red-300">
+            <div className="mt-5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
               {error}
             </div>
           )}
+
+          {/* Instructions */}
+          <div className="mt-8 rounded-xl border border-slate-800 bg-slate-950/60 p-5">
+            <h2 className="mb-3 text-lg font-bold">
+              How to use the tuner
+            </h2>
+
+            <ol className="space-y-2 text-sm leading-6 text-slate-400">
+              <li>
+                <span className="font-semibold text-white">
+                  1.
+                </span>{' '}
+                Select your instrument above.
+              </li>
+
+              <li>
+                <span className="font-semibold text-white">
+                  2.
+                </span>{' '}
+                Click <b>Start Tuner</b> and allow microphone
+                access.
+              </li>
+
+              <li>
+                <span className="font-semibold text-white">
+                  3.
+                </span>{' '}
+                Play one clear, steady note.
+              </li>
+
+              <li>
+                <span className="font-semibold text-white">
+                  4.
+                </span>{' '}
+                Move your tuning slide or adjust your playing
+                until the needle reaches the centre.
+              </li>
+
+              <li>
+                <span className="font-semibold text-white">
+                  5.
+                </span>{' '}
+                Green means the note is close to in tune.
+              </li>
+            </ol>
+          </div>
         </div>
 
-        {/* Information */}
+        {/* Instrument information */}
         <div className="mt-6 grid gap-4 md:grid-cols-3">
-
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <Volume2
-              className="mb-3 text-amber-400"
-              size={25}
-            />
-
-            <h3 className="font-bold">
-              Real-Time Detection
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
+            <h3 className="font-bold text-amber-400">
+              B♭ Instruments
             </h3>
 
-            <p className="mt-2 text-sm text-slate-400">
-              Btech listens through your microphone
-              and detects the pitch you play.
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              Cornet, trumpet and flugelhorn are B♭ instruments
+              and are shown separately in the tuner.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <Music2
-              className="mb-3 text-amber-400"
-              size={25}
-            />
-
-            <h3 className="font-bold">
-              Instrument Aware
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
+            <h3 className="font-bold text-amber-400">
+              E♭ Instruments
             </h3>
 
-            <p className="mt-2 text-sm text-slate-400">
-              Select your instrument to help
-              understand written and sounding pitch.
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              E♭ horn and E♭ bass are included for brass-band
+              players.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-
-            <div className="mb-3 text-2xl">
-              🎯
-            </div>
-
-            <h3 className="font-bold">
-              Tune Precisely
+          <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
+            <h3 className="font-bold text-amber-400">
+              Bass Detection
             </h3>
 
-            <p className="mt-2 text-sm text-slate-400">
-              See frequency and cents so you can
-              adjust your pitch accurately.
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              The tuner can analyse frequencies down to about
+              25 Hz to help with low brass instruments.
             </p>
           </div>
-
         </div>
 
-        <p className="mt-8 text-center text-xs text-slate-600">
-          Btech Music Technology • Chromatic Tuner
+        <p className="mt-6 text-center text-xs text-slate-600">
+          Btech2 Brass Music Tutor
         </p>
-
       </div>
     </div>
   );
