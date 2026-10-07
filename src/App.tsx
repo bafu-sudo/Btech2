@@ -1,3 +1,4 @@
+import MusicTutor from "./components/MusicTutor";
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { BrassAcademy } from './components/BrassAcademy';
