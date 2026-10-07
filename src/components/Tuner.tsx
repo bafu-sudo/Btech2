@@ -8,11 +8,14 @@ import {
 } from 'lucide-react';
 
 type Instrument =
+ type Instrument =
   | 'Bb Cornet'
   | 'Bb Trumpet'
+  | 'Bb Flugelhorn'
   | 'Eb Horn'
   | 'Euphonium'
-  | 'Trombone';
+  | 'Trombone'
+  | 'Bass';
 
 type TuningStatus = 'flat' | 'sharp' | 'in-tune' | 'none';
 
@@ -34,9 +37,11 @@ const NOTE_NAMES = [
 const INSTRUMENT_OFFSETS: Record<Instrument, number> = {
   'Bb Cornet': -2,
   'Bb Trumpet': -2,
+  'Bb Flugelhorn': -2,
   'Eb Horn': -9,
   Euphonium: 0,
   Trombone: 0,
+  Bass: 0,
 };
 
 function frequencyToNote(frequency: number) {
