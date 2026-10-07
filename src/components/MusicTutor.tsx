@@ -5,25 +5,31 @@ import {
   StaveNote,
   Voice,
   Formatter,
+  Accidental,
 } from "vexflow";
 
 /* =========================================================
    TYPES
 ========================================================= */
 
+type Clef = "treble" | "bass";
+
 type Instrument = {
   name: string;
-  clef: "treble" | "bass";
+  clef: Clef;
   transposition: string;
   description: string;
+  fingeringType: "valves" | "slide" | "eb-horn";
 };
 
 type NoteData = {
   name: string;
   vexKey: string;
-  frequency: number;
+  concertFrequency: number;
   cornetFingering: string;
   euphoniumFingering: string;
+  ebHornFingering: string;
+  trombonePosition: string;
 };
 
 /* =========================================================
@@ -34,100 +40,130 @@ const instruments: Instrument[] = [
   {
     name: "B♭ Cornet",
     clef: "treble",
-    transposition: "B♭",
+    transposition: "B♭ transposing",
     description:
-      "A British brass-band instrument normally written in treble clef as a B♭ transposing instrument.",
+      "A British brass-band B♭ instrument normally written in treble clef. Written C sounds as concert B♭.",
+    fingeringType: "valves",
   },
   {
     name: "B♭ Trumpet",
     clef: "treble",
-    transposition: "B♭",
+    transposition: "B♭ transposing",
     description:
-      "A B♭ transposing brass instrument normally written in treble clef.",
+      "A B♭ brass instrument normally written in treble clef. Written C sounds as concert B♭.",
+    fingeringType: "valves",
   },
   {
     name: "E♭ Horn",
     clef: "treble",
-    transposition: "E♭",
+    transposition: "E♭ transposing",
     description:
-      "An E♭ brass-band horn normally written in treble clef.",
+      "A British brass-band E♭ horn normally written in treble clef.",
+    fingeringType: "eb-horn",
   },
   {
     name: "Euphonium",
     clef: "treble",
-    transposition: "B♭",
+    transposition: "B♭ transposing",
     description:
-      "A British brass-band euphonium normally written in treble clef as a B♭ transposing instrument.",
+      "A British brass-band euphonium is normally written in treble clef as a B♭ transposing instrument.",
+    fingeringType: "valves",
   },
   {
     name: "Trombone",
     clef: "bass",
-    transposition: "Concert",
+    transposition: "Concert pitch",
     description:
-      "A low brass instrument commonly written in bass clef.",
+      "A trombone is commonly written in bass clef at concert pitch.",
+    fingeringType: "slide",
   },
 ];
 
 /* =========================================================
    NOTE DATA
+
+   These are WRITTEN notes.
+
+   For B♭ cornet/euphonium:
+   C4 written = concert B♭3
+   D4 written = concert C4
+   etc.
+
+   Frequencies below are CONCERT frequencies.
 ========================================================= */
 
 const notes: NoteData[] = [
   {
     name: "C4",
     vexKey: "c/4",
-    frequency: 261.63,
-    cornetFingering: "0",
+    concertFrequency: 233.08,
+    cornetFingering: "1 + 3",
     euphoniumFingering: "1 + 3",
+    ebHornFingering: "1 + 3",
+    trombonePosition: "6th",
   },
   {
     name: "D4",
     vexKey: "d/4",
-    frequency: 293.66,
+    concertFrequency: 261.63,
     cornetFingering: "1 + 3",
-    euphoniumFingering: "1 + 2",
+    euphoniumFingering: "1 + 3",
+    ebHornFingering: "2 + 3",
+    trombonePosition: "4th",
   },
   {
     name: "E4",
     vexKey: "e/4",
-    frequency: 329.63,
+    concertFrequency: 293.66,
     cornetFingering: "1 + 2",
-    euphoniumFingering: "2",
+    euphoniumFingering: "1 + 2",
+    ebHornFingering: "1 + 2",
+    trombonePosition: "2nd",
   },
   {
     name: "F4",
     vexKey: "f/4",
-    frequency: 349.23,
+    concertFrequency: 311.13,
     cornetFingering: "1",
-    euphoniumFingering: "0",
+    euphoniumFingering: "1",
+    ebHornFingering: "1",
+    trombonePosition: "1st",
   },
   {
     name: "G4",
     vexKey: "g/4",
-    frequency: 392.0,
+    concertFrequency: 349.23,
     cornetFingering: "0",
-    euphoniumFingering: "1 + 2",
+    euphoniumFingering: "0",
+    ebHornFingering: "0",
+    trombonePosition: "4th",
   },
   {
     name: "A4",
     vexKey: "a/4",
-    frequency: 440,
+    concertFrequency: 392.0,
     cornetFingering: "1 + 2",
-    euphoniumFingering: "2",
+    euphoniumFingering: "1 + 2",
+    ebHornFingering: "1 + 2",
+    trombonePosition: "2nd",
   },
   {
     name: "B4",
     vexKey: "b/4",
-    frequency: 493.88,
+    concertFrequency: 440.0,
     cornetFingering: "2",
-    euphoniumFingering: "1",
+    euphoniumFingering: "2",
+    ebHornFingering: "2",
+    trombonePosition: "1st",
   },
   {
     name: "C5",
     vexKey: "c/5",
-    frequency: 523.25,
+    concertFrequency: 466.16,
     cornetFingering: "0",
     euphoniumFingering: "0",
+    ebHornFingering: "0",
+    trombonePosition: "4th",
   },
 ];
 
@@ -138,30 +174,35 @@ const notes: NoteData[] = [
 const timeSignatures = [
   {
     value: "2/4",
+    title: "Simple Duple",
     description:
       "Two quarter-note beats in each measure. Common in marches.",
     counting: "1 2 | 1 2",
   },
   {
     value: "3/4",
+    title: "Simple Triple",
     description:
       "Three quarter-note beats in each measure. Common in waltzes.",
     counting: "1 2 3 | 1 2 3",
   },
   {
     value: "4/4",
+    title: "Common Time",
     description:
       "Four quarter-note beats in each measure. One of the most common time signatures.",
     counting: "1 2 3 4 | 1 2 3 4",
   },
   {
     value: "5/4",
+    title: "Five Beats",
     description:
-      "Five quarter-note beats in each measure.",
-    counting: "1 2 3 4 5",
+      "Five quarter-note beats in each measure. It can be grouped 3+2 or 2+3.",
+    counting: "1 2 3 1 2 | 1 2 3 1 2",
   },
   {
     value: "6/8",
+    title: "Compound Duple",
     description:
       "Six eighth notes per measure, normally felt as two groups of three.",
     counting: "1-la-li 2-la-li",
@@ -183,7 +224,7 @@ const tempoNames = [
 ];
 
 /* =========================================================
-   MUSIC STAFF
+   STAFF RENDERER
 ========================================================= */
 
 function MusicStaff({
@@ -192,7 +233,7 @@ function MusicStaff({
   timeSignature,
 }: {
   selectedNote: NoteData;
-  clef: "treble" | "bass";
+  clef: Clef;
   timeSignature: string;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -202,15 +243,19 @@ function MusicStaff({
 
     if (!container) return;
 
-    // Completely clear the previous SVG.
+    /*
+      Completely remove the previous VexFlow SVG.
+      This prevents old notes from remaining when
+      the user selects another note.
+    */
     container.innerHTML = "";
 
     const width = Math.max(
-      760,
-      container.clientWidth || 760
+      800,
+      container.clientWidth || 800
     );
 
-    const height = 300;
+    const height = 330;
 
     const renderer = new Renderer(
       container,
@@ -221,78 +266,148 @@ function MusicStaff({
 
     const context = renderer.getContext();
 
-    /*
-      IMPORTANT:
+    context.setFont(
+      "Arial",
+      16,
+      "bold"
+    );
 
-      VexFlow uses key/octave notation.
+    /*
+      Create the staff.
+
+      IMPORTANT:
+      VexFlow pitch notation is:
 
       c/4 = middle C
-      d/4 = D above middle C
-      e/4 = E above middle C
-      etc.
+      d/4 = D
+      e/4 = E
+      f/4 = F
+      g/4 = G
+      a/4 = A
+      b/4 = B
+      c/5 = high C
 
-      In treble clef, C4 belongs BELOW the staff
-      on its own ledger line.
-
-      We deliberately create the note using the
-      selectedNote.vexKey instead of calculating
-      the staff position ourselves.
+      In treble clef, c/4 is therefore
+      below the staff with a ledger line.
     */
 
     const stave = new Stave(
+      120,
       80,
-      70,
-      width - 140
+      width - 180
     );
 
     stave
       .addClef(clef)
       .addTimeSignature(timeSignature);
 
-    stave.setContext(context).draw();
+    stave
+      .setContext(context)
+      .draw();
+
+    /*
+      Create ONE quarter note.
+
+      We explicitly give VexFlow the selected
+      pitch rather than trying to calculate
+      the vertical position ourselves.
+    */
 
     const note = new StaveNote({
       keys: [selectedNote.vexKey],
       duration: "q",
-      clef: clef,
+      clef,
     });
 
     /*
-      Draw the note through a Voice so VexFlow
-      calculates the correct vertical position,
-      including ledger lines.
+      Create a complete 4/4 voice.
+
+      We use SOFT mode because this component
+      is a learning display showing one note,
+      not a complete measure of four notes.
     */
 
     const voice = new Voice({
-      numBeats: 1,
-      beatValue: 4,
+      num_beats: 4,
+      beat_value: 4,
     });
 
-    voice.setStrict(false);
+    voice.setMode(Voice.Mode.SOFT);
 
     voice.addTickables([note]);
+
+    /*
+      Format the note.
+
+      This is the same basic VexFlow rendering
+      pattern used by the official examples.
+    */
 
     new Formatter()
       .joinVoices([voice])
       .format([voice], width - 300);
 
-    voice.draw(context, stave);
-
     /*
-      Add a small label underneath the staff.
-      This is only for the learning interface.
+      Draw the note on the stave.
     */
 
-    context.setFont("Arial", 18, "bold");
+    voice.draw(
+      context,
+      stave
+    );
+
+    /*
+      Add educational labels BELOW the staff.
+    */
+
+    context.setFont(
+      "Arial",
+      22,
+      "bold"
+    );
 
     context.fillText(
       selectedNote.name,
-      90,
-      245
+      135,
+      250
     );
+
+    context.setFont(
+      "Arial",
+      15,
+      "normal"
+    );
+
+    context.fillText(
+      "Written note",
+      135,
+      275
+    );
+
+    /*
+      Add a small explanation for C4
+      so beginners can immediately see
+      why it is below the treble staff.
+    */
+
+    if (
+      selectedNote.name === "C4" &&
+      clef === "treble"
+    ) {
+      context.setFont(
+        "Arial",
+        14,
+        "normal"
+      );
+
+      context.fillText(
+        "Middle C — ledger line below the treble staff",
+        300,
+        270
+      );
+    }
   }, [
-    selectedNote.vexKey,
-    selectedNote.name,
+    selectedNote,
     clef,
     timeSignature,
   ]);
@@ -305,13 +420,13 @@ function MusicStaff({
         padding: 18,
         overflowX: "auto",
         boxShadow:
-          "0 10px 30px rgba(0,0,0,0.25)",
+          "0 10px 30px rgba(0,0,0,0.20)",
       }}
     >
       <div
         ref={containerRef}
         style={{
-          minWidth: 760,
+          minWidth: 800,
           width: "100%",
         }}
       />
@@ -345,10 +460,10 @@ export default function MusicTutor() {
     useRef<number | null>(null);
 
   /* =======================================================
-     AUDIO
+     AUDIO CONTEXT
   ======================================================= */
 
-  const playNote = (frequency: number) => {
+  const getAudioContext = () => {
     const AudioContextClass =
       window.AudioContext ||
       (
@@ -357,14 +472,40 @@ export default function MusicTutor() {
         }
       ).webkitAudioContext;
 
-    if (!AudioContextClass) return;
+    if (!AudioContextClass) {
+      return null;
+    }
 
     const ctx =
-      audioContext || new AudioContextClass();
+      audioContext ||
+      new AudioContextClass();
 
     if (!audioContext) {
       setAudioContext(ctx);
     }
+
+    return ctx;
+  };
+
+  /* =======================================================
+     PLAY NOTE
+  ======================================================= */
+
+  const playNote = () => {
+    const ctx = getAudioContext();
+
+    if (!ctx) return;
+
+    if (ctx.state === "suspended") {
+      ctx.resume();
+    }
+
+    /*
+      The stored frequency is the SOUNDING
+      concert-pitch frequency.
+
+      This is important for transposing instruments.
+    */
 
     const oscillator =
       ctx.createOscillator();
@@ -373,8 +514,9 @@ export default function MusicTutor() {
       ctx.createGain();
 
     oscillator.type = "sine";
+
     oscillator.frequency.value =
-      frequency;
+      selectedNote.concertFrequency;
 
     gain.gain.setValueAtTime(
       0.0001,
@@ -383,12 +525,12 @@ export default function MusicTutor() {
 
     gain.gain.exponentialRampToValueAtTime(
       0.3,
-      ctx.currentTime + 0.02
+      ctx.currentTime + 0.03
     );
 
     gain.gain.exponentialRampToValueAtTime(
       0.0001,
-      ctx.currentTime + 0.8
+      ctx.currentTime + 0.9
     );
 
     oscillator.connect(gain);
@@ -397,7 +539,7 @@ export default function MusicTutor() {
     oscillator.start();
 
     oscillator.stop(
-      ctx.currentTime + 0.8
+      ctx.currentTime + 0.9
     );
   };
 
@@ -406,21 +548,12 @@ export default function MusicTutor() {
   ======================================================= */
 
   const metronomeTick = () => {
-    const AudioContextClass =
-      window.AudioContext ||
-      (
-        window as typeof window & {
-          webkitAudioContext?: typeof AudioContext;
-        }
-      ).webkitAudioContext;
+    const ctx = getAudioContext();
 
-    if (!AudioContextClass) return;
+    if (!ctx) return;
 
-    const ctx =
-      audioContext || new AudioContextClass();
-
-    if (!audioContext) {
-      setAudioContext(ctx);
+    if (ctx.state === "suspended") {
+      ctx.resume();
     }
 
     const oscillator =
@@ -430,6 +563,7 @@ export default function MusicTutor() {
       ctx.createGain();
 
     oscillator.type = "square";
+
     oscillator.frequency.value = 1000;
 
     gain.gain.setValueAtTime(
@@ -454,10 +588,13 @@ export default function MusicTutor() {
 
   useEffect(() => {
     if (!isMetronomeRunning) {
-      if (metronomeRef.current !== null) {
+      if (
+        metronomeRef.current !== null
+      ) {
         window.clearInterval(
           metronomeRef.current
         );
+
         metronomeRef.current = null;
       }
 
@@ -476,10 +613,13 @@ export default function MusicTutor() {
       );
 
     return () => {
-      if (metronomeRef.current !== null) {
+      if (
+        metronomeRef.current !== null
+      ) {
         window.clearInterval(
           metronomeRef.current
         );
+
         metronomeRef.current = null;
       }
     };
@@ -493,37 +633,47 @@ export default function MusicTutor() {
   ======================================================= */
 
   const getFingering = () => {
-    if (
-      selectedInstrument.name ===
-        "B♭ Cornet" ||
-      selectedInstrument.name ===
-        "B♭ Trumpet"
+    switch (
+      selectedInstrument.name
     ) {
-      return selectedNote.cornetFingering;
+      case "B♭ Cornet":
+      case "B♭ Trumpet":
+        return selectedNote.cornetFingering;
+
+      case "Euphonium":
+        return selectedNote.euphoniumFingering;
+
+      case "E♭ Horn":
+        return selectedNote.ebHornFingering;
+
+      case "Trombone":
+        return selectedNote.trombonePosition;
+
+      default:
+        return "—";
+    }
+  };
+
+  /* =======================================================
+     TRANSPOSITION INFORMATION
+  ======================================================= */
+
+  const getSoundingPitch = () => {
+    if (
+      selectedInstrument.transposition ===
+      "B♭ transposing"
+    ) {
+      return `${selectedNote.name} written → sounds a whole step lower`;
     }
 
     if (
-      selectedInstrument.name ===
-      "Euphonium"
+      selectedInstrument.transposition ===
+      "E♭ transposing"
     ) {
-      return selectedNote.euphoniumFingering;
+      return `${selectedNote.name} written → sounds a major sixth lower`;
     }
 
-    if (
-      selectedInstrument.name ===
-      "Trombone"
-    ) {
-      return "Slide position depends on note";
-    }
-
-    if (
-      selectedInstrument.name ===
-      "E♭ Horn"
-    ) {
-      return "Use E♭ horn fingering chart";
-    }
-
-    return "—";
+    return `${selectedNote.name} sounds at concert pitch`;
   };
 
   /* =======================================================
@@ -534,7 +684,8 @@ export default function MusicTutor() {
     const index =
       notes.findIndex(
         (note) =>
-          note.name === selectedNote.name
+          note.name ===
+          selectedNote.name
       );
 
     const nextIndex =
@@ -542,6 +693,27 @@ export default function MusicTutor() {
 
     setSelectedNote(
       notes[nextIndex]
+    );
+  };
+
+  /* =======================================================
+     PREVIOUS NOTE
+  ======================================================= */
+
+  const previousNote = () => {
+    const index =
+      notes.findIndex(
+        (note) =>
+          note.name ===
+          selectedNote.name
+      );
+
+    const previousIndex =
+      (index - 1 + notes.length) %
+      notes.length;
+
+    setSelectedNote(
+      notes[previousIndex]
     );
   };
 
@@ -565,6 +737,7 @@ export default function MusicTutor() {
           margin: "0 auto",
         }}
       >
+
         {/* =================================================
             HEADER
         ================================================= */}
@@ -588,11 +761,13 @@ export default function MusicTutor() {
             style={{
               color: "#d1d5db",
               fontSize: 17,
+              lineHeight: 1.6,
             }}
           >
-            Learn music notation, notes,
-            fingerings, rhythm, clefs,
-            time signatures and tempo.
+            Learn music notation, read the
+            staff, understand rhythm, find
+            fingerings and practise with
+            sound and a metronome.
           </p>
         </header>
 
@@ -682,7 +857,7 @@ export default function MusicTutor() {
             style={{
               marginTop: 18,
               color: "#d1d5db",
-              lineHeight: 1.6,
+              lineHeight: 1.7,
             }}
           >
             {selectedInstrument.description}
@@ -716,10 +891,12 @@ export default function MusicTutor() {
             style={{
               color: "#4b5563",
               marginBottom: 20,
+              lineHeight: 1.6,
             }}
           >
-            Select a note and see exactly
-            where it belongs on the staff.
+            Select a note to see its exact
+            position on the staff and the
+            fingering for your instrument.
           </p>
 
           {/* NOTE BUTTONS */}
@@ -762,11 +939,13 @@ export default function MusicTutor() {
             ))}
           </div>
 
-          {/* STAFF */}
+          {/* REAL VEXFLOW STAFF */}
 
           <MusicStaff
             selectedNote={selectedNote}
-            clef={selectedInstrument.clef}
+            clef={
+              selectedInstrument.clef
+            }
             timeSignature={
               selectedTimeSignature
             }
@@ -783,6 +962,7 @@ export default function MusicTutor() {
               marginTop: 20,
             }}
           >
+
             <div
               style={{
                 background: "#f3f4f6",
@@ -791,7 +971,7 @@ export default function MusicTutor() {
               }}
             >
               <strong>
-                Note
+                Written Note
               </strong>
 
               <div
@@ -813,7 +993,7 @@ export default function MusicTutor() {
               }}
             >
               <strong>
-                Fingering
+                Fingering / Position
               </strong>
 
               <div
@@ -835,7 +1015,7 @@ export default function MusicTutor() {
               }}
             >
               <strong>
-                Frequency
+                Sounding Frequency
               </strong>
 
               <div
@@ -845,14 +1025,41 @@ export default function MusicTutor() {
                   marginTop: 5,
                 }}
               >
-                {selectedNote.frequency.toFixed(
+                {selectedNote.concertFrequency.toFixed(
                   2
                 )} Hz
               </div>
             </div>
           </div>
 
-          {/* PLAY */}
+          {/* TRANSPOSITION */}
+
+          <div
+            style={{
+              marginTop: 18,
+              padding: 18,
+              borderRadius: 14,
+              background: "#eff6ff",
+              border:
+                "1px solid #bfdbfe",
+              color: "#1e3a8a",
+            }}
+          >
+            <strong>
+              🎼 Written vs Sounding Pitch
+            </strong>
+
+            <p
+              style={{
+                marginTop: 8,
+                lineHeight: 1.6,
+              }}
+            >
+              {getSoundingPitch()}
+            </p>
+          </div>
+
+          {/* PLAY / NAVIGATION */}
 
           <div
             style={{
@@ -863,11 +1070,23 @@ export default function MusicTutor() {
             }}
           >
             <button
-              onClick={() =>
-                playNote(
-                  selectedNote.frequency
-                )
-              }
+              onClick={previousNote}
+              style={{
+                padding:
+                  "12px 22px",
+                border: "none",
+                borderRadius: 12,
+                background: "#6b7280",
+                color: "#ffffff",
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
+            >
+              ⬅ Previous
+            </button>
+
+            <button
+              onClick={playNote}
               style={{
                 padding:
                   "12px 22px",
@@ -895,7 +1114,7 @@ export default function MusicTutor() {
                 cursor: "pointer",
               }}
             >
-              ➡️ Next Note
+              Next Note ➡️
             </button>
           </div>
         </section>
@@ -919,7 +1138,7 @@ export default function MusicTutor() {
               marginBottom: 12,
             }}
           >
-            🎼 Clefs
+            🎼 Understanding Clefs
           </h2>
 
           <p
@@ -929,10 +1148,10 @@ export default function MusicTutor() {
             }}
           >
             A clef tells you how the notes
-            on the staff should be named.
-            Different instruments use
-            different clefs because their
-            ranges are different.
+            on the five-line staff should
+            be named. The same sounding pitch
+            can appear in a different position
+            when a different clef is used.
           </p>
 
           <div
@@ -957,18 +1176,19 @@ export default function MusicTutor() {
                   fontWeight: 700,
                 }}
               >
-                Treble Clef
+                🎼 Treble Clef
               </h3>
 
               <p
                 style={{
                   color: "#d1d5db",
                   marginTop: 8,
+                  lineHeight: 1.6,
                 }}
               >
-                Commonly used for cornet,
-                trumpet, E♭ horn and
-                brass-band euphonium.
+                Common in brass-band music
+                for cornet, trumpet, E♭ horn
+                and euphonium.
               </p>
             </div>
 
@@ -985,18 +1205,18 @@ export default function MusicTutor() {
                   fontWeight: 700,
                 }}
               >
-                Bass Clef
+                𝄢 Bass Clef
               </h3>
 
               <p
                 style={{
                   color: "#d1d5db",
                   marginTop: 8,
+                  lineHeight: 1.6,
                 }}
               >
                 Commonly used for trombone
-                and other lower-pitched
-                instruments.
+                and other low instruments.
               </p>
             </div>
           </div>
@@ -1031,8 +1251,11 @@ export default function MusicTutor() {
               marginBottom: 18,
             }}
           >
-            Choose a time signature to see
-            how the beats are counted.
+            The top number tells you how
+            many beats are grouped in the
+            measure. The bottom number tells
+            you which note value receives
+            the beat.
           </p>
 
           <div
@@ -1100,12 +1323,14 @@ export default function MusicTutor() {
                     fontWeight: 800,
                   }}
                 >
-                  {selected.value}
+                  {selected.value} —{" "}
+                  {selected.title}
                 </h3>
 
                 <p
                   style={{
                     marginTop: 8,
+                    lineHeight: 1.6,
                   }}
                 >
                   {selected.description}
@@ -1120,10 +1345,25 @@ export default function MusicTutor() {
                     fontWeight: 700,
                   }}
                 >
-                  Counting:
-                  {" "}
+                  Counting:{" "}
                   {selected.counting}
                 </div>
+
+                {selected.value ===
+                  "6/8" && (
+                  <p
+                    style={{
+                      marginTop: 12,
+                      color: "#1d4ed8",
+                      fontWeight: 700,
+                    }}
+                  >
+                    💡 6/8 is normally felt
+                    as TWO big beats, each
+                    divided into three eighth
+                    notes.
+                  </p>
+                )}
               </div>
             );
           })()}
@@ -1157,10 +1397,9 @@ export default function MusicTutor() {
               lineHeight: 1.7,
             }}
           >
-            Practice counting quarter notes,
-            eighth notes and rests. Start
-            slowly and increase your tempo
-            as you become comfortable.
+            Learn the values of notes and
+            rests. A rhythm tells you HOW
+            LONG each sound or silence lasts.
           </p>
 
           <div
@@ -1173,27 +1412,40 @@ export default function MusicTutor() {
             }}
           >
             {[
-              "Quarter note",
-              "Half note",
-              "Whole note",
-              "Eighth notes",
-              "Quarter rest",
-              "Eighth rest",
-            ].map((rhythm) => (
-              <div
-                key={rhythm}
-                style={{
-                  background: "#111827",
-                  padding: 18,
-                  borderRadius: 14,
-                  textAlign: "center",
-                  border:
-                    "1px solid #374151",
-                }}
-              >
-                {rhythm}
-              </div>
-            ))}
+              ["Quarter note", "1 beat"],
+              ["Half note", "2 beats"],
+              ["Whole note", "4 beats"],
+              ["Eighth note", "½ beat"],
+              ["Quarter rest", "1 beat silence"],
+              ["Eighth rest", "½ beat silence"],
+            ].map(
+              ([rhythm, value]) => (
+                <div
+                  key={rhythm}
+                  style={{
+                    background: "#111827",
+                    padding: 18,
+                    borderRadius: 14,
+                    textAlign: "center",
+                    border:
+                      "1px solid #374151",
+                  }}
+                >
+                  <strong>
+                    {rhythm}
+                  </strong>
+
+                  <div
+                    style={{
+                      color: "#fbbf24",
+                      marginTop: 8,
+                    }}
+                  >
+                    {value}
+                  </div>
+                </div>
+              )
+            )}
           </div>
         </section>
 
@@ -1238,7 +1490,9 @@ export default function MusicTutor() {
             value={bpm}
             onChange={(event) =>
               setBpm(
-                Number(event.target.value)
+                Number(
+                  event.target.value
+                )
               )
             }
             style={{
@@ -1275,7 +1529,9 @@ export default function MusicTutor() {
                   <strong>
                     {tempo.name}
                   </strong>
+
                   <br />
+
                   {tempo.bpm} BPM
                 </button>
               )
@@ -1285,7 +1541,8 @@ export default function MusicTutor() {
           <button
             onClick={() =>
               setIsMetronomeRunning(
-                (running) => !running
+                (running) =>
+                  !running
               )
             }
             style={{
@@ -1311,7 +1568,7 @@ export default function MusicTutor() {
         </section>
 
         {/* =================================================
-            PRACTICE
+            PRACTICE MODE
         ================================================= */}
 
         <section
@@ -1339,7 +1596,8 @@ export default function MusicTutor() {
               lineHeight: 1.7,
             }}
           >
-            Your practice routine:
+            Follow this sequence when
+            practising:
           </p>
 
           <ol
@@ -1355,8 +1613,16 @@ export default function MusicTutor() {
             </li>
 
             <li>
-              Identify the note on the
-              staff.
+              Select a note.
+            </li>
+
+            <li>
+              Identify its position on
+              the staff.
+            </li>
+
+            <li>
+              Say the note name.
             </li>
 
             <li>
@@ -1368,8 +1634,7 @@ export default function MusicTutor() {
             </li>
 
             <li>
-              Practice with the
-              metronome.
+              Practise with the metronome.
             </li>
 
             <li>
