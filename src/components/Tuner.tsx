@@ -417,11 +417,13 @@ export default function Tuner() {
             }
             className="w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none focus:border-amber-400"
           >
-            <option>Bb Cornet</option>
-            <option>Bb Trumpet</option>
-            <option>Eb Horn</option>
-            <option>Euphonium</option>
-            <option>Trombone</option>
+          <option>Bb Cornet</option>
+<option>Bb Trumpet</option>
+<option>Bb Flugelhorn</option>
+<option>Eb Horn</option>
+<option>Euphonium</option>
+<option>Trombone</option>
+<option>Bass</option>
           </select>
         </div>
 
