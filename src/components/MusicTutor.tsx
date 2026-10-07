@@ -38,11 +38,13 @@ const instruments: Instrument[] = [
       "A low brass instrument commonly written in bass clef.",
   },
   {
-    name: "Trombone",
-    clef: "bass",
-    transposition: "Concert",
-    description:
-      "A low brass instrument commonly written in bass clef.",
+   {
+  name: "Euphonium",
+  clef: "treble",
+  transposition: "B♭",
+  description:
+    "A British brass-band euphonium normally written in treble clef as a B♭ transposing instrument.",
+},
   },
 ];
 
