@@ -1,5 +1,5 @@
-import Tuner from './components/Tuner';
 import React, { useState } from 'react';
+import Tuner from './components/Tuner';
 import { Header } from './components/Header';
 import { BrassAcademy } from './components/BrassAcademy';
 import { ScaleStudio } from './components/ScaleStudio';
@@ -11,7 +11,7 @@ import { QuizStudio } from './components/QuizStudio';
 import { AboutFounder } from './components/AboutFounder';
 import MusicTutor from './components/MusicTutor';
 
-type ActiveTab =type ActiveTab =
+type ActiveTab =
   | 'academy'
   | 'scales'
   | 'accidentals'
