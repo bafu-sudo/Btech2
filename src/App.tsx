@@ -26,14 +26,9 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1">
-        {activeTab === 'academy' && <BrassAcademy />}
-        {activeTab === 'scales' && <ScaleStudio />}
-        {activeTab === 'accidentals' && <SharpsFlatsMasterclass />}
-        {activeTab === 'scores' && <ScoreLibrary />}
-        {activeTab === 'trombone' && <TromboneSlideStudio />}
-        {activeTab === 'percussion' && <PercussionLab />}
-        {activeTab === 'quiz' && <QuizStudio />}
-        {activeTab === 'about' && <AboutFounder />}
+        const [activeTab, setActiveTab] = useState<
+  'academy' | 'scales' | 'accidentals' | 'scores' | 'trombone' | 'percussion' | 'quiz' | 'about' | 'musicTutor'
+>('academy');
       </main>
 
       {/* Founder Tribute Banner before footer */}
