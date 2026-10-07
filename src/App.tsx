@@ -1,3 +1,4 @@
+import Tuner from './components/Tuner';
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { BrassAcademy } from './components/BrassAcademy';
@@ -10,7 +11,7 @@ import { QuizStudio } from './components/QuizStudio';
 import { AboutFounder } from './components/AboutFounder';
 import MusicTutor from './components/MusicTutor';
 
-type ActiveTab =
+type ActiveTab =type ActiveTab =
   | 'academy'
   | 'scales'
   | 'accidentals'
@@ -19,7 +20,9 @@ type ActiveTab =
   | 'percussion'
   | 'quiz'
   | 'about'
-  | 'musicTutor';
+  | 'musicTutor'
+  | 'tuner';
+ 
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('academy');
@@ -41,7 +44,7 @@ export default function App() {
         {activeTab === 'academy' && <BrassAcademy />}
 
         {activeTab === 'musicTutor' && <MusicTutor />}
-
+{activeTab === 'tuner' && <Tuner />}
         {activeTab === 'scales' && <ScaleStudio />}
 
         {activeTab === 'accidentals' && <SharpsFlatsMasterclass />}
