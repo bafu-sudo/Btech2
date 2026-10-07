@@ -69,13 +69,13 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
 
 export const INITIAL_GROUPS: BrassBandGroup[] = [
   {
-    id: 'group-sa-youth',
-    name: 'Salvation Army Youth Band',
-    groupType: 'church-band',
+    id: 'group-academy-youth',
+    name: 'Academy Youth Brass Band',
+    groupType: 'community-band',
     leaderName: 'Bandmaster Nokuvimba Bafu',
     leaderTitle: 'Bandmaster',
-    organization: 'The Salvation Army Zimbabwe Territory',
-    description: 'Young brass players developing musicianship for Sunday worship, hymn accompaniment, open-air ministry and band festivals.',
+    organization: 'Btech2 Brass Music Academy',
+    description: 'Young brass players developing musicianship, tone production, sight-reading, and ensemble discipline.',
     students: [
       {
         id: 'student-a',
@@ -91,7 +91,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         practiceStreakDays: 8,
         totalPracticeMinutes: 240,
         lastActive: 'Today at 09:15 AM',
-        encouragingFeedback: 'Excellent scale fluency! Continue building confidence with syncopated 6/8 hymn rhythms.',
+        encouragingFeedback: 'Excellent scale fluency! Continue building confidence with syncopated 6/8 rhythms.',
         assignedBadges: ['first-lesson', 'first-instrument-exercise', '7-day-streak', 'quiz-achievement']
       },
       {
@@ -181,7 +181,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
       }
     ],
     sections: [
-      { id: 'sec-cornets', name: 'Cornet Section', instrument: 'Cornets & Flugel', leaderStudentName: 'Student A', weeklyGoal: 'Melody clarity on Salvation Army Hymn 24' },
+      { id: 'sec-cornets', name: 'Cornet Section', instrument: 'Cornets & Flugel', leaderStudentName: 'Student A', weeklyGoal: 'Melody clarity and clean articulation' },
       { id: 'sec-horns', name: 'Horn Section', instrument: 'Eb Tenor Horns', leaderStudentName: 'Student B', weeklyGoal: 'Steady off-beat accompaniment & pitch center' },
       { id: 'sec-euph-baritone', name: 'Euphonium & Baritone Section', instrument: 'Bb Euphonium & Baritone', leaderStudentName: 'Student C', weeklyGoal: 'Countermelody & sustained breath support' },
       { id: 'sec-trombones', name: 'Trombone Section', instrument: 'Tenor & Bass Trombone', leaderStudentName: 'Student D', weeklyGoal: 'Rapid slide transitions 1st to 6th position' },
@@ -190,7 +190,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
     assignments: [
       {
         id: 'asg-1',
-        title: 'Sunday Practice – Week 4: C Major Scale Mastery',
+        title: 'Weekly Practice – Week 4: C Major Scale Mastery',
         description: 'Practice the full 8-note octave scale with smooth legato and crisp staccato tonguing.',
         category: 'scale-practice',
         instrument: 'All Brass',
@@ -230,7 +230,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
       {
         id: 'asg-4',
         title: 'Full Band Hymn: "Amazing Grace" (New Britain)',
-        description: 'Practice melody and harmony parts for Sunday morning band meditation.',
+        description: 'Practice melody and harmony parts for band rehearsal.',
         category: 'song-practice',
         instrument: 'All Brass',
         difficulty: 'Intermediate',
@@ -258,7 +258,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
       {
         id: 'notif-1',
         title: 'New Band Practice Assigned',
-        message: 'Bandmaster Nokuvimba Bafu posted Sunday Practice – Week 4 activities.',
+        message: 'Bandmaster Nokuvimba Bafu posted Weekly Practice – Week 4 activities.',
         timestamp: '2 hours ago',
         read: false,
         type: 'assignment'
@@ -282,13 +282,13 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
     ]
   },
   {
-    id: 'group-brookhurst',
-    name: 'Brookhurst International School Brass Band',
+    id: 'group-community-brass',
+    name: 'Community Youth Brass Band',
     groupType: 'school-band',
     leaderName: 'Music Department / Mr. K. Henderson',
     leaderTitle: 'Music Director',
-    organization: 'Brookhurst International School',
-    description: 'School curriculum brass training program for Grade 7–10 students covering foundational sight-reading, ensemble discipline, and concert repertoire.',
+    organization: 'Civic Music Academy',
+    description: 'Brass training program for young musicians covering foundational sight-reading, ensemble discipline, and concert repertoire.',
     students: [
       {
         id: 'st-b-1',
@@ -367,7 +367,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
     assignments: [
       {
         id: 'asg-b1',
-        title: 'Weekly School Assignment: F Major & Bb Major Scales',
+        title: 'Weekly Assignment: F Major & Bb Major Scales',
         description: 'Complete both 1-flat and 2-flat major scales on your instrument.',
         category: 'scale-practice',
         instrument: 'All Brass',

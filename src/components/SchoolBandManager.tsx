@@ -1295,7 +1295,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
               <input
                 type="text"
                 required
-                placeholder="e.g. Salvation Army Harare Central Band or St. George's College Brass"
+                placeholder="e.g. City Youth Brass Band or St. George's Brass Ensemble"
                 value={newGroupName}
                 onChange={(e) => setNewGroupName(e.target.value)}
                 className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400"
@@ -1309,7 +1309,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. Brookhurst School or Salvation Army"
+                  placeholder="e.g. Community Music Academy or High School Band"
                   value={newGroupOrg}
                   onChange={(e) => setNewGroupOrg(e.target.value)}
                   className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400"

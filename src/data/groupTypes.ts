@@ -76,7 +76,7 @@ export interface BrassBandGroup {
   leaderName: string;
   leaderTitle: string; // 'Bandmaster' | 'Music Director' | 'Teacher'
   description: string;
-  organization: string; // e.g. 'The Salvation Army' or 'Brookhurst International School'
+  organization: string; // e.g. 'National Youth Brass Band' or 'City Music Academy'
   students: Student[];
   assignments: Assignment[];
   sections: GroupSection[];
