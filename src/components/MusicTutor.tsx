@@ -1,4 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Music2,
+  Volume2,
+  RotateCcw,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
+
 import {
   Renderer,
   Stave,
@@ -6,259 +14,265 @@ import {
   Voice,
   Formatter,
   Accidental,
-} from "vexflow";
+  Beam,
+} from 'vexflow';
 
-/* =========================================================
-   TYPES
-========================================================= */
+type AccidentalType = 'natural' | 'sharp' | 'flat';
 
-type Clef = "treble" | "bass";
-
-type Instrument = {
-  name: string;
-  clef: Clef;
-  transposition: string;
-  description: string;
-  fingeringType: "valves" | "slide" | "eb-horn";
-};
+type Instrument =
+  | 'Bb Cornet'
+  | 'Bb Trumpet'
+  | 'Eb Horn'
+  | 'Euphonium'
+  | 'Trombone';
 
 type NoteData = {
   name: string;
+  octave: number;
   vexKey: string;
-  concertFrequency: number;
-  cornetFingering: string;
-  euphoniumFingering: string;
-  ebHornFingering: string;
-  trombonePosition: string;
+  fingering: string;
+  sharpFingering: string;
+  flatFingering: string;
 };
 
-/* =========================================================
-   INSTRUMENTS
-========================================================= */
-
-const instruments: Instrument[] = [
+const NOTES: NoteData[] = [
   {
-    name: "B♭ Cornet",
-    clef: "treble",
-    transposition: "B♭ transposing",
-    description:
-      "A British brass-band B♭ instrument normally written in treble clef. Written C sounds as concert B♭.",
-    fingeringType: "valves",
+    name: 'C',
+    octave: 4,
+    vexKey: 'c/4',
+    fingering: '1+3',
+    sharpFingering: '2+3',
+    flatFingering: '1+3',
   },
   {
-    name: "B♭ Trumpet",
-    clef: "treble",
-    transposition: "B♭ transposing",
-    description:
-      "A B♭ brass instrument normally written in treble clef. Written C sounds as concert B♭.",
-    fingeringType: "valves",
+    name: 'D',
+    octave: 4,
+    vexKey: 'd/4',
+    fingering: '1+3',
+    sharpFingering: '1+2',
+    flatFingering: '1+2',
   },
   {
-    name: "E♭ Horn",
-    clef: "treble",
-    transposition: "E♭ transposing",
-    description:
-      "A British brass-band E♭ horn normally written in treble clef.",
-    fingeringType: "eb-horn",
+    name: 'E',
+    octave: 4,
+    vexKey: 'e/4',
+    fingering: '1+2',
+    sharpFingering: '2',
+    flatFingering: '1+2+3',
   },
   {
-    name: "Euphonium",
-    clef: "treble",
-    transposition: "B♭ transposing",
-    description:
-      "A British brass-band euphonium is normally written in treble clef as a B♭ transposing instrument.",
-    fingeringType: "valves",
+    name: 'F',
+    octave: 4,
+    vexKey: 'f/4',
+    fingering: '1',
+    sharpFingering: '2',
+    flatFingering: '1+2',
   },
   {
-    name: "Trombone",
-    clef: "bass",
-    transposition: "Concert pitch",
-    description:
-      "A trombone is commonly written in bass clef at concert pitch.",
-    fingeringType: "slide",
-  },
-];
-
-/* =========================================================
-   NOTE DATA
-
-   These are WRITTEN notes.
-
-   For B♭ cornet/euphonium:
-   C4 written = concert B♭3
-   D4 written = concert C4
-   etc.
-
-   Frequencies below are CONCERT frequencies.
-========================================================= */
-
-const notes: NoteData[] = [
-  {
-    name: "C4",
-    vexKey: "c/4",
-    concertFrequency: 233.08,
-    cornetFingering: "1 + 3",
-    euphoniumFingering: "1 + 3",
-    ebHornFingering: "1 + 3",
-    trombonePosition: "6th",
+    name: 'G',
+    octave: 4,
+    vexKey: 'g/4',
+    fingering: '0',
+    sharpFingering: '2',
+    flatFingering: '2+3',
   },
   {
-    name: "D4",
-    vexKey: "d/4",
-    concertFrequency: 261.63,
-    cornetFingering: "1 + 3",
-    euphoniumFingering: "1 + 3",
-    ebHornFingering: "2 + 3",
-    trombonePosition: "4th",
+    name: 'A',
+    octave: 4,
+    vexKey: 'a/4',
+    fingering: '1+2',
+    sharpFingering: '2',
+    flatFingering: '2+3',
   },
   {
-    name: "E4",
-    vexKey: "e/4",
-    concertFrequency: 293.66,
-    cornetFingering: "1 + 2",
-    euphoniumFingering: "1 + 2",
-    ebHornFingering: "1 + 2",
-    trombonePosition: "2nd",
+    name: 'B',
+    octave: 4,
+    vexKey: 'b/4',
+    fingering: '2',
+    sharpFingering: '1',
+    flatFingering: '1+2',
   },
   {
-    name: "F4",
-    vexKey: "f/4",
-    concertFrequency: 311.13,
-    cornetFingering: "1",
-    euphoniumFingering: "1",
-    ebHornFingering: "1",
-    trombonePosition: "1st",
+    name: 'C',
+    octave: 5,
+    vexKey: 'c/5',
+    fingering: '0',
+    sharpFingering: '2+3',
+    flatFingering: '1+3',
   },
   {
-    name: "G4",
-    vexKey: "g/4",
-    concertFrequency: 349.23,
-    cornetFingering: "0",
-    euphoniumFingering: "0",
-    ebHornFingering: "0",
-    trombonePosition: "4th",
+    name: 'D',
+    octave: 5,
+    vexKey: 'd/5',
+    fingering: '1+3',
+    sharpFingering: '1+2',
+    flatFingering: '1+2',
   },
   {
-    name: "A4",
-    vexKey: "a/4",
-    concertFrequency: 392.0,
-    cornetFingering: "1 + 2",
-    euphoniumFingering: "1 + 2",
-    ebHornFingering: "1 + 2",
-    trombonePosition: "2nd",
+    name: 'E',
+    octave: 5,
+    vexKey: 'e/5',
+    fingering: '1+2',
+    sharpFingering: '2',
+    flatFingering: '1+2+3',
   },
   {
-    name: "B4",
-    vexKey: "b/4",
-    concertFrequency: 440.0,
-    cornetFingering: "2",
-    euphoniumFingering: "2",
-    ebHornFingering: "2",
-    trombonePosition: "1st",
+    name: 'F',
+    octave: 5,
+    vexKey: 'f/5',
+    fingering: '1',
+    sharpFingering: '2',
+    flatFingering: '1+2',
   },
   {
-    name: "C5",
-    vexKey: "c/5",
-    concertFrequency: 466.16,
-    cornetFingering: "0",
-    euphoniumFingering: "0",
-    ebHornFingering: "0",
-    trombonePosition: "4th",
+    name: 'G',
+    octave: 5,
+    vexKey: 'g/5',
+    fingering: '0',
+    sharpFingering: '2',
+    flatFingering: '2+3',
   },
 ];
 
-/* =========================================================
-   TIME SIGNATURES
-========================================================= */
+const instrumentClefs: Record<Instrument, string> = {
+  'Bb Cornet': 'treble',
+  'Bb Trumpet': 'treble',
+  'Eb Horn': 'treble',
+  Euphonium: 'treble',
+  Trombone: 'bass',
+};
 
-const timeSignatures = [
-  {
-    value: "2/4",
-    title: "Simple Duple",
-    description:
-      "Two quarter-note beats in each measure. Common in marches.",
-    counting: "1 2 | 1 2",
-  },
-  {
-    value: "3/4",
-    title: "Simple Triple",
-    description:
-      "Three quarter-note beats in each measure. Common in waltzes.",
-    counting: "1 2 3 | 1 2 3",
-  },
-  {
-    value: "4/4",
-    title: "Common Time",
-    description:
-      "Four quarter-note beats in each measure. One of the most common time signatures.",
-    counting: "1 2 3 4 | 1 2 3 4",
-  },
-  {
-    value: "5/4",
-    title: "Five Beats",
-    description:
-      "Five quarter-note beats in each measure. It can be grouped 3+2 or 2+3.",
-    counting: "1 2 3 1 2 | 1 2 3 1 2",
-  },
-  {
-    value: "6/8",
-    title: "Compound Duple",
-    description:
-      "Six eighth notes per measure, normally felt as two groups of three.",
-    counting: "1-la-li 2-la-li",
-  },
-];
+const instrumentDescriptions: Record<Instrument, string> = {
+  'Bb Cornet': 'B♭ brass-band notation',
+  'Bb Trumpet': 'B♭ trumpet notation',
+  'Eb Horn': 'E♭ brass-band notation',
+  Euphonium: 'Brass-band treble notation',
+  Trombone: 'Concert-pitch bass clef',
+};
 
-/* =========================================================
-   TEMPO
-========================================================= */
+const getFingering = (
+  note: NoteData,
+  accidental: AccidentalType,
+  instrument: Instrument
+): string => {
+  if (instrument === 'Trombone') {
+    const trombone: Record<string, string> = {
+      C4: '6th',
+      D4: '4th',
+      E4: '2nd',
+      F4: '1st',
+      G4: '4th',
+      A4: '2nd',
+      B4: '7th',
+      C5: '6th',
+      D5: '4th',
+      E5: '2nd',
+      F5: '1st',
+      G5: '4th',
+    };
 
-const tempoNames = [
-  { name: "Largo", bpm: 50 },
-  { name: "Adagio", bpm: 70 },
-  { name: "Andante", bpm: 90 },
-  { name: "Moderato", bpm: 110 },
-  { name: "Allegro", bpm: 130 },
-  { name: "Vivace", bpm: 150 },
-  { name: "Presto", bpm: 180 },
-];
+    return trombone[`${note.name}${note.octave}`] || 'See position chart';
+  }
 
-/* =========================================================
-   STAFF RENDERER
-========================================================= */
+  if (accidental === 'sharp') {
+    return note.sharpFingering;
+  }
 
-function MusicStaff({
-  selectedNote,
-  clef,
-  timeSignature,
-}: {
-  selectedNote: NoteData;
-  clef: Clef;
-  timeSignature: string;
-}) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  if (accidental === 'flat') {
+    return note.flatFingering;
+  }
 
-  useEffect(() => {
-    const container = containerRef.current;
+  return note.fingering;
+};
 
-    if (!container) return;
+const getFrequency = (
+  note: NoteData,
+  accidental: AccidentalType,
+  instrument: Instrument
+): number => {
+  const semitones: Record<string, number> = {
+    C: 0,
+    D: 2,
+    E: 4,
+    F: 5,
+    G: 7,
+    A: 9,
+    B: 11,
+  };
 
-    /*
-      Completely remove the previous VexFlow SVG.
-      This prevents old notes from remaining when
-      the user selects another note.
-    */
-    container.innerHTML = "";
+  let midi = 12 * (note.octave + 1) + semitones[note.name];
 
-    const width = Math.max(
-      800,
-      container.clientWidth || 800
-    );
+  if (accidental === 'sharp') {
+    midi += 1;
+  }
 
-    const height = 330;
+  if (accidental === 'flat') {
+    midi -= 1;
+  }
+
+  // B♭ instruments sound a whole step lower than written.
+  if (
+    instrument === 'Bb Cornet' ||
+    instrument === 'Bb Trumpet' ||
+    instrument === 'Euphonium'
+  ) {
+    midi -= 2;
+  }
+
+  // E♭ horn sounds a major sixth lower than written.
+  if (instrument === 'Eb Horn') {
+    midi -= 9;
+  }
+
+  return 440 * Math.pow(2, (midi - 69) / 12);
+};
+
+export const MusicTutor: React.FC = () => {
+  const staffRef = useRef<HTMLDivElement>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  const [selectedIndex, setSelectedIndex] = useState(3);
+  const [accidental, setAccidental] =
+    useState<AccidentalType>('natural');
+
+  const [instrument, setInstrument] =
+    useState<Instrument>('Bb Cornet');
+
+  const selectedNote = NOTES[selectedIndex];
+
+  const clef = instrumentClefs[instrument];
+
+  const displayName =
+    selectedNote.name +
+    (accidental === 'sharp'
+      ? '♯'
+      : accidental === 'flat'
+        ? '♭'
+        : '') +
+    selectedNote.octave;
+
+  const fingering = getFingering(
+    selectedNote,
+    accidental,
+    instrument
+  );
+
+  const frequency = getFrequency(
+    selectedNote,
+    accidental,
+    instrument
+  );
+
+  const renderStaff = () => {
+    if (!staffRef.current) return;
+
+    staffRef.current.innerHTML = '';
+
+    const width = 700;
+    const height = 300;
 
     const renderer = new Renderer(
-      container,
+      staffRef.current,
       Renderer.Backends.SVG
     );
 
@@ -266,1408 +280,458 @@ function MusicStaff({
 
     const context = renderer.getContext();
 
-    context.setFont(
-      "Arial",
-      16,
-      "bold"
-    );
+    const stave = new Stave(60, 70, 580);
 
-    /*
-      Create the staff.
+    stave.addClef(clef);
+    stave.addTimeSignature('4/4');
 
-      IMPORTANT:
-      VexFlow pitch notation is:
+    stave.setContext(context).draw();
 
-      c/4 = middle C
-      d/4 = D
-      e/4 = E
-      f/4 = F
-      g/4 = G
-      a/4 = A
-      b/4 = B
-      c/5 = high C
-
-      In treble clef, c/4 is therefore
-      below the staff with a ledger line.
-    */
-
-    const stave = new Stave(
-      120,
-      80,
-      width - 180
-    );
-
-    stave
-      .addClef(clef)
-      .addTimeSignature(timeSignature);
-
-    stave
-      .setContext(context)
-      .draw();
-
-    /*
-      Create ONE quarter note.
-
-      We explicitly give VexFlow the selected
-      pitch rather than trying to calculate
-      the vertical position ourselves.
-    */
-
-    const note = new StaveNote({
+    const staveNote = new StaveNote({
       keys: [selectedNote.vexKey],
-      duration: "q",
+      duration: 'q',
       clef,
     });
 
-    /*
-      Create a complete 4/4 voice.
+    if (accidental === 'sharp') {
+      staveNote.addModifier(new Accidental('#'), 0);
+    }
 
-      We use SOFT mode because this component
-      is a learning display showing one note,
-      not a complete measure of four notes.
-    */
+    if (accidental === 'flat') {
+      staveNote.addModifier(new Accidental('b'), 0);
+    }
+
+    if (accidental === 'natural') {
+      staveNote.addModifier(new Accidental('n'), 0);
+    }
 
     const voice = new Voice({
-      num_beats: 4,
-      beat_value: 4,
+      numBeats: 4,
+      beatValue: 4,
     });
 
     voice.setMode(Voice.Mode.SOFT);
 
-    voice.addTickables([note]);
-
-    /*
-      Format the note.
-
-      This is the same basic VexFlow rendering
-      pattern used by the official examples.
-    */
+    voice.addTickables([
+      staveNote,
+      new StaveNote({
+        keys: [clef === 'bass' ? 'd/4' : 'c/4'],
+        duration: 'qr',
+        clef,
+      }),
+      new StaveNote({
+        keys: [clef === 'bass' ? 'd/4' : 'c/4'],
+        duration: 'qr',
+        clef,
+      }),
+      new StaveNote({
+        keys: [clef === 'bass' ? 'd/4' : 'c/4'],
+        duration: 'qr',
+        clef,
+      }),
+    ]);
 
     new Formatter()
       .joinVoices([voice])
-      .format([voice], width - 300);
+      .format([voice], 450);
 
-    /*
-      Draw the note on the stave.
-    */
+    voice.draw(context, stave);
 
-    voice.draw(
-      context,
-      stave
+    // Add a second visual staff line underneath
+    const infoStave = new Stave(60, 190, 580);
+
+    infoStave.setContext(context).draw();
+
+    context.setFont('Arial', 16, 'bold');
+
+    context.fillText(
+      `${selectedNote.name}${
+        accidental === 'sharp'
+          ? '♯'
+          : accidental === 'flat'
+            ? '♭'
+            : ''
+      }${selectedNote.octave}`,
+      90,
+      235
     );
 
-    /*
-      Add educational labels BELOW the staff.
-    */
+    context.setFont('Arial', 13, 'normal');
 
-    context.setFont(
-      "Arial",
-      22,
-      "bold"
+    context.fillText(
+      `Fingering: ${fingering}`,
+      180,
+      235
     );
 
     context.fillText(
-      selectedNote.name,
-      135,
-      250
-    );
-
-    context.setFont(
-      "Arial",
-      15,
-      "normal"
-    );
-
-    context.fillText(
-      "Written note",
-      135,
-      275
-    );
-
-    /*
-      Add a small explanation for C4
-      so beginners can immediately see
-      why it is below the treble staff.
-    */
-
-    if (
-      selectedNote.name === "C4" &&
-      clef === "treble"
-    ) {
-      context.setFont(
-        "Arial",
-        14,
-        "normal"
-      );
-
-      context.fillText(
-        "Middle C — ledger line below the treble staff",
-        300,
-        270
-      );
-    }
-  }, [
-    selectedNote,
-    clef,
-    timeSignature,
-  ]);
-
-  return (
-    <div
-      style={{
-        background: "#ffffff",
-        borderRadius: 18,
-        padding: 18,
-        overflowX: "auto",
-        boxShadow:
-          "0 10px 30px rgba(0,0,0,0.20)",
-      }}
-    >
-      <div
-        ref={containerRef}
-        style={{
-          minWidth: 800,
-          width: "100%",
-        }}
-      />
-    </div>
-  );
-}
-
-/* =========================================================
-   MAIN MUSIC TUTOR
-========================================================= */
-
-export default function MusicTutor() {
-  const [selectedInstrument, setSelectedInstrument] =
-    useState<Instrument>(instruments[0]);
-
-  const [selectedNote, setSelectedNote] =
-    useState<NoteData>(notes[0]);
-
-  const [selectedTimeSignature, setSelectedTimeSignature] =
-    useState("4/4");
-
-  const [bpm, setBpm] = useState(90);
-
-  const [isMetronomeRunning, setIsMetronomeRunning] =
-    useState(false);
-
-  const [audioContext, setAudioContext] =
-    useState<AudioContext | null>(null);
-
-  const metronomeRef =
-    useRef<number | null>(null);
-
-  /* =======================================================
-     AUDIO CONTEXT
-  ======================================================= */
-
-  const getAudioContext = () => {
-    const AudioContextClass =
-      window.AudioContext ||
-      (
-        window as typeof window & {
-          webkitAudioContext?: typeof AudioContext;
-        }
-      ).webkitAudioContext;
-
-    if (!AudioContextClass) {
-      return null;
-    }
-
-    const ctx =
-      audioContext ||
-      new AudioContextClass();
-
-    if (!audioContext) {
-      setAudioContext(ctx);
-    }
-
-    return ctx;
-  };
-
-  /* =======================================================
-     PLAY NOTE
-  ======================================================= */
-
-  const playNote = () => {
-    const ctx = getAudioContext();
-
-    if (!ctx) return;
-
-    if (ctx.state === "suspended") {
-      ctx.resume();
-    }
-
-    /*
-      The stored frequency is the SOUNDING
-      concert-pitch frequency.
-
-      This is important for transposing instruments.
-    */
-
-    const oscillator =
-      ctx.createOscillator();
-
-    const gain =
-      ctx.createGain();
-
-    oscillator.type = "sine";
-
-    oscillator.frequency.value =
-      selectedNote.concertFrequency;
-
-    gain.gain.setValueAtTime(
-      0.0001,
-      ctx.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.3,
-      ctx.currentTime + 0.03
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.0001,
-      ctx.currentTime + 0.9
-    );
-
-    oscillator.connect(gain);
-    gain.connect(ctx.destination);
-
-    oscillator.start();
-
-    oscillator.stop(
-      ctx.currentTime + 0.9
-    );
-  };
-
-  /* =======================================================
-     METRONOME
-  ======================================================= */
-
-  const metronomeTick = () => {
-    const ctx = getAudioContext();
-
-    if (!ctx) return;
-
-    if (ctx.state === "suspended") {
-      ctx.resume();
-    }
-
-    const oscillator =
-      ctx.createOscillator();
-
-    const gain =
-      ctx.createGain();
-
-    oscillator.type = "square";
-
-    oscillator.frequency.value = 1000;
-
-    gain.gain.setValueAtTime(
-      0.12,
-      ctx.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.0001,
-      ctx.currentTime + 0.05
-    );
-
-    oscillator.connect(gain);
-    gain.connect(ctx.destination);
-
-    oscillator.start();
-
-    oscillator.stop(
-      ctx.currentTime + 0.05
+      `Instrument: ${instrument}`,
+      360,
+      235
     );
   };
 
   useEffect(() => {
-    if (!isMetronomeRunning) {
-      if (
-        metronomeRef.current !== null
-      ) {
-        window.clearInterval(
-          metronomeRef.current
-        );
-
-        metronomeRef.current = null;
-      }
-
-      return;
-    }
-
-    const interval =
-      (60 / bpm) * 1000;
-
-    metronomeTick();
-
-    metronomeRef.current =
-      window.setInterval(
-        metronomeTick,
-        interval
-      );
-
-    return () => {
-      if (
-        metronomeRef.current !== null
-      ) {
-        window.clearInterval(
-          metronomeRef.current
-        );
-
-        metronomeRef.current = null;
-      }
-    };
+    renderStaff();
   }, [
-    isMetronomeRunning,
-    bpm,
+    selectedIndex,
+    accidental,
+    instrument,
   ]);
 
-  /* =======================================================
-     FINGERING
-  ======================================================= */
-
-  const getFingering = () => {
-    switch (
-      selectedInstrument.name
-    ) {
-      case "B♭ Cornet":
-      case "B♭ Trumpet":
-        return selectedNote.cornetFingering;
-
-      case "Euphonium":
-        return selectedNote.euphoniumFingering;
-
-      case "E♭ Horn":
-        return selectedNote.ebHornFingering;
-
-      case "Trombone":
-        return selectedNote.trombonePosition;
-
-      default:
-        return "—";
+  const playNote = () => {
+    if (!audioContextRef.current) {
+      audioContextRef.current =
+        new AudioContext();
     }
+
+    const audioContext =
+      audioContextRef.current;
+
+    const oscillator =
+      audioContext.createOscillator();
+
+    const gain =
+      audioContext.createGain();
+
+    oscillator.type = 'triangle';
+
+    oscillator.frequency.value =
+      frequency;
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.35,
+      audioContext.currentTime + 0.03
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      audioContext.currentTime + 1.3
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+      audioContext.currentTime + 1.3
+    );
   };
-
-  /* =======================================================
-     TRANSPOSITION INFORMATION
-  ======================================================= */
-
-  const getSoundingPitch = () => {
-    if (
-      selectedInstrument.transposition ===
-      "B♭ transposing"
-    ) {
-      return `${selectedNote.name} written → sounds a whole step lower`;
-    }
-
-    if (
-      selectedInstrument.transposition ===
-      "E♭ transposing"
-    ) {
-      return `${selectedNote.name} written → sounds a major sixth lower`;
-    }
-
-    return `${selectedNote.name} sounds at concert pitch`;
-  };
-
-  /* =======================================================
-     NEXT NOTE
-  ======================================================= */
 
   const nextNote = () => {
-    const index =
-      notes.findIndex(
-        (note) =>
-          note.name ===
-          selectedNote.name
-      );
-
-    const nextIndex =
-      (index + 1) % notes.length;
-
-    setSelectedNote(
-      notes[nextIndex]
+    setSelectedIndex(
+      (previous) =>
+        (previous + 1) % NOTES.length
     );
+    setAccidental('natural');
   };
-
-  /* =======================================================
-     PREVIOUS NOTE
-  ======================================================= */
 
   const previousNote = () => {
-    const index =
-      notes.findIndex(
-        (note) =>
-          note.name ===
-          selectedNote.name
-      );
-
-    const previousIndex =
-      (index - 1 + notes.length) %
-      notes.length;
-
-    setSelectedNote(
-      notes[previousIndex]
+    setSelectedIndex(
+      (previous) =>
+        (previous - 1 + NOTES.length) %
+        NOTES.length
     );
+    setAccidental('natural');
   };
 
-  /* =======================================================
-     RENDER
-  ======================================================= */
+  const resetNote = () => {
+    setAccidental('natural');
+  };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(135deg, #111827, #1f2937)",
-        color: "#ffffff",
-        padding: "30px 20px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-        }}
-      >
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
 
-        {/* =================================================
-            HEADER
-        ================================================= */}
+      {/* HEADER */}
+      <div className="mb-8 text-center">
 
-        <header
-          style={{
-            marginBottom: 30,
-          }}
-        >
-          <h1
-            style={{
-              fontSize: 38,
-              fontWeight: 800,
-              marginBottom: 8,
-            }}
-          >
-            🎼 Music Tutor
-          </h1>
+        <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-semibold text-amber-300">
+          <Music2 className="h-4 w-4" />
+          Btech Music Tutor
+        </div>
 
-          <p
-            style={{
-              color: "#d1d5db",
-              fontSize: 17,
-              lineHeight: 1.6,
-            }}
-          >
-            Learn music notation, read the
-            staff, understand rhythm, find
-            fingerings and practise with
-            sound and a metronome.
-          </p>
-        </header>
+        <h1 className="mt-4 font-serif text-3xl font-bold text-slate-100 sm:text-4xl">
+          Interactive Staff & Fingering Tutor
+        </h1>
 
-        {/* =================================================
-            INSTRUMENT SELECTOR
-        ================================================= */}
+        <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-400">
+          Change the note, add sharps or flats,
+          and instantly see the notation and
+          fingering.
+        </p>
 
-        <section
-          style={{
-            background: "#1f2937",
-            padding: 24,
-            borderRadius: 20,
-            marginBottom: 24,
-            border:
-              "1px solid #374151",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 24,
-              fontWeight: 700,
-              marginBottom: 15,
-            }}
-          >
-            🎺 Select Your Instrument
-          </h2>
+      </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(180px, 1fr))",
-              gap: 12,
-            }}
-          >
-            {instruments.map(
-              (instrument) => (
-                <button
-                  key={instrument.name}
-                  onClick={() =>
-                    setSelectedInstrument(
-                      instrument
-                    )
-                  }
-                  style={{
-                    padding: 16,
-                    borderRadius: 14,
-                    border:
-                      selectedInstrument.name ===
-                      instrument.name
-                        ? "2px solid #fbbf24"
-                        : "1px solid #4b5563",
-                    background:
-                      selectedInstrument.name ===
-                      instrument.name
-                        ? "#92400e"
-                        : "#111827",
-                    color: "#ffffff",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
-                >
-                  <strong>
-                    {instrument.name}
-                  </strong>
+      {/* MAIN PANEL */}
+      <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-4 shadow-2xl sm:p-6">
 
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#d1d5db",
-                      marginTop: 6,
-                    }}
-                  >
-                    {instrument.clef ===
-                    "treble"
-                      ? "Treble clef"
-                      : "Bass clef"}
-                    {" • "}
-                    {instrument.transposition}
-                  </div>
-                </button>
-              )
-            )}
-          </div>
+        {/* INSTRUMENT */}
+        <div className="mb-6">
 
-          <p
-            style={{
-              marginTop: 18,
-              color: "#d1d5db",
-              lineHeight: 1.7,
-            }}
-          >
-            {selectedInstrument.description}
-          </p>
-        </section>
+          <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Instrument
+          </label>
 
-        {/* =================================================
-            NOTE LESSON
-        ================================================= */}
-
-        <section
-          style={{
-            background: "#ffffff",
-            color: "#111827",
-            padding: 24,
-            borderRadius: 20,
-            marginBottom: 24,
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 26,
-              fontWeight: 800,
-              marginBottom: 8,
-            }}
-          >
-            🎵 Learn the Notes
-          </h2>
-
-          <p
-            style={{
-              color: "#4b5563",
-              marginBottom: 20,
-              lineHeight: 1.6,
-            }}
-          >
-            Select a note to see its exact
-            position on the staff and the
-            fingering for your instrument.
-          </p>
-
-          {/* NOTE BUTTONS */}
-
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 10,
-              marginBottom: 25,
-            }}
-          >
-            {notes.map((note) => (
-              <button
-                key={note.name}
-                onClick={() =>
-                  setSelectedNote(note)
-                }
-                style={{
-                  padding:
-                    "10px 18px",
-                  borderRadius: 10,
-                  border:
-                    selectedNote.name ===
-                    note.name
-                      ? "2px solid #d97706"
-                      : "1px solid #d1d5db",
-                  background:
-                    selectedNote.name ===
-                    note.name
-                      ? "#fef3c7"
-                      : "#f9fafb",
-                  color: "#111827",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                }}
-              >
-                {note.name}
-              </button>
-            ))}
-          </div>
-
-          {/* REAL VEXFLOW STAFF */}
-
-          <MusicStaff
-            selectedNote={selectedNote}
-            clef={
-              selectedInstrument.clef
-            }
-            timeSignature={
-              selectedTimeSignature
-            }
-          />
-
-          {/* NOTE INFORMATION */}
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: 15,
-              marginTop: 20,
-            }}
-          >
-
-            <div
-              style={{
-                background: "#f3f4f6",
-                padding: 18,
-                borderRadius: 14,
-              }}
-            >
-              <strong>
-                Written Note
-              </strong>
-
-              <div
-                style={{
-                  fontSize: 28,
-                  fontWeight: 800,
-                  marginTop: 5,
-                }}
-              >
-                {selectedNote.name}
-              </div>
-            </div>
-
-            <div
-              style={{
-                background: "#f3f4f6",
-                padding: 18,
-                borderRadius: 14,
-              }}
-            >
-              <strong>
-                Fingering / Position
-              </strong>
-
-              <div
-                style={{
-                  fontSize: 24,
-                  fontWeight: 800,
-                  marginTop: 5,
-                }}
-              >
-                {getFingering()}
-              </div>
-            </div>
-
-            <div
-              style={{
-                background: "#f3f4f6",
-                padding: 18,
-                borderRadius: 14,
-              }}
-            >
-              <strong>
-                Sounding Frequency
-              </strong>
-
-              <div
-                style={{
-                  fontSize: 24,
-                  fontWeight: 800,
-                  marginTop: 5,
-                }}
-              >
-                {selectedNote.concertFrequency.toFixed(
-                  2
-                )} Hz
-              </div>
-            </div>
-          </div>
-
-          {/* TRANSPOSITION */}
-
-          <div
-            style={{
-              marginTop: 18,
-              padding: 18,
-              borderRadius: 14,
-              background: "#eff6ff",
-              border:
-                "1px solid #bfdbfe",
-              color: "#1e3a8a",
-            }}
-          >
-            <strong>
-              🎼 Written vs Sounding Pitch
-            </strong>
-
-            <p
-              style={{
-                marginTop: 8,
-                lineHeight: 1.6,
-              }}
-            >
-              {getSoundingPitch()}
-            </p>
-          </div>
-
-          {/* PLAY / NAVIGATION */}
-
-          <div
-            style={{
-              display: "flex",
-              gap: 12,
-              flexWrap: "wrap",
-              marginTop: 20,
-            }}
-          >
-            <button
-              onClick={previousNote}
-              style={{
-                padding:
-                  "12px 22px",
-                border: "none",
-                borderRadius: 12,
-                background: "#6b7280",
-                color: "#ffffff",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              ⬅ Previous
-            </button>
-
-            <button
-              onClick={playNote}
-              style={{
-                padding:
-                  "12px 22px",
-                border: "none",
-                borderRadius: 12,
-                background: "#2563eb",
-                color: "#ffffff",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              🔊 Play Note
-            </button>
-
-            <button
-              onClick={nextNote}
-              style={{
-                padding:
-                  "12px 22px",
-                border: "none",
-                borderRadius: 12,
-                background: "#059669",
-                color: "#ffffff",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              Next Note ➡️
-            </button>
-          </div>
-        </section>
-
-        {/* =================================================
-            CLEF LESSON
-        ================================================= */}
-
-        <section
-          style={{
-            background: "#1f2937",
-            padding: 24,
-            borderRadius: 20,
-            marginBottom: 24,
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 25,
-              fontWeight: 800,
-              marginBottom: 12,
-            }}
-          >
-            🎼 Understanding Clefs
-          </h2>
-
-          <p
-            style={{
-              color: "#d1d5db",
-              lineHeight: 1.7,
-            }}
-          >
-            A clef tells you how the notes
-            on the five-line staff should
-            be named. The same sounding pitch
-            can appear in a different position
-            when a different clef is used.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: 15,
-              marginTop: 18,
-            }}
-          >
-            <div
-              style={{
-                background: "#111827",
-                padding: 18,
-                borderRadius: 14,
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: 20,
-                  fontWeight: 700,
-                }}
-              >
-                🎼 Treble Clef
-              </h3>
-
-              <p
-                style={{
-                  color: "#d1d5db",
-                  marginTop: 8,
-                  lineHeight: 1.6,
-                }}
-              >
-                Common in brass-band music
-                for cornet, trumpet, E♭ horn
-                and euphonium.
-              </p>
-            </div>
-
-            <div
-              style={{
-                background: "#111827",
-                padding: 18,
-                borderRadius: 14,
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: 20,
-                  fontWeight: 700,
-                }}
-              >
-                𝄢 Bass Clef
-              </h3>
-
-              <p
-                style={{
-                  color: "#d1d5db",
-                  marginTop: 8,
-                  lineHeight: 1.6,
-                }}
-              >
-                Commonly used for trombone
-                and other low instruments.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            TIME SIGNATURES
-        ================================================= */}
-
-        <section
-          style={{
-            background: "#ffffff",
-            color: "#111827",
-            padding: 24,
-            borderRadius: 20,
-            marginBottom: 24,
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 25,
-              fontWeight: 800,
-              marginBottom: 12,
-            }}
-          >
-            🥁 Time Signatures
-          </h2>
-
-          <p
-            style={{
-              color: "#4b5563",
-              marginBottom: 18,
-            }}
-          >
-            The top number tells you how
-            many beats are grouped in the
-            measure. The bottom number tells
-            you which note value receives
-            the beat.
-          </p>
-
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 10,
-            }}
-          >
-            {timeSignatures.map(
-              (signature) => (
-                <button
-                  key={signature.value}
-                  onClick={() =>
-                    setSelectedTimeSignature(
-                      signature.value
-                    )
-                  }
-                  style={{
-                    padding:
-                      "12px 20px",
-                    borderRadius: 12,
-                    border:
-                      selectedTimeSignature ===
-                      signature.value
-                        ? "2px solid #2563eb"
-                        : "1px solid #d1d5db",
-                    background:
-                      selectedTimeSignature ===
-                      signature.value
-                        ? "#dbeafe"
-                        : "#f9fafb",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                  }}
-                >
-                  {signature.value}
-                </button>
-              )
-            )}
-          </div>
-
-          {(() => {
-            const selected =
-              timeSignatures.find(
-                (item) =>
-                  item.value ===
-                  selectedTimeSignature
-              );
-
-            if (!selected) return null;
-
-            return (
-              <div
-                style={{
-                  marginTop: 20,
-                  background: "#f3f4f6",
-                  padding: 20,
-                  borderRadius: 14,
-                }}
-              >
-                <h3
-                  style={{
-                    fontSize: 22,
-                    fontWeight: 800,
-                  }}
-                >
-                  {selected.value} —{" "}
-                  {selected.title}
-                </h3>
-
-                <p
-                  style={{
-                    marginTop: 8,
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {selected.description}
-                </p>
-
-                <div
-                  style={{
-                    marginTop: 12,
-                    fontFamily:
-                      "monospace",
-                    fontSize: 20,
-                    fontWeight: 700,
-                  }}
-                >
-                  Counting:{" "}
-                  {selected.counting}
-                </div>
-
-                {selected.value ===
-                  "6/8" && (
-                  <p
-                    style={{
-                      marginTop: 12,
-                      color: "#1d4ed8",
-                      fontWeight: 700,
-                    }}
-                  >
-                    💡 6/8 is normally felt
-                    as TWO big beats, each
-                    divided into three eighth
-                    notes.
-                  </p>
-                )}
-              </div>
-            );
-          })()}
-        </section>
-
-        {/* =================================================
-            RHYTHM
-        ================================================= */}
-
-        <section
-          style={{
-            background: "#1f2937",
-            padding: 24,
-            borderRadius: 20,
-            marginBottom: 24,
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 25,
-              fontWeight: 800,
-              marginBottom: 12,
-            }}
-          >
-            🥁 Rhythm Trainer
-          </h2>
-
-          <p
-            style={{
-              color: "#d1d5db",
-              lineHeight: 1.7,
-            }}
-          >
-            Learn the values of notes and
-            rests. A rhythm tells you HOW
-            LONG each sound or silence lasts.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(150px, 1fr))",
-              gap: 12,
-              marginTop: 20,
-            }}
-          >
-            {[
-              ["Quarter note", "1 beat"],
-              ["Half note", "2 beats"],
-              ["Whole note", "4 beats"],
-              ["Eighth note", "½ beat"],
-              ["Quarter rest", "1 beat silence"],
-              ["Eighth rest", "½ beat silence"],
-            ].map(
-              ([rhythm, value]) => (
-                <div
-                  key={rhythm}
-                  style={{
-                    background: "#111827",
-                    padding: 18,
-                    borderRadius: 14,
-                    textAlign: "center",
-                    border:
-                      "1px solid #374151",
-                  }}
-                >
-                  <strong>
-                    {rhythm}
-                  </strong>
-
-                  <div
-                    style={{
-                      color: "#fbbf24",
-                      marginTop: 8,
-                    }}
-                  >
-                    {value}
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        </section>
-
-        {/* =================================================
-            TEMPO
-        ================================================= */}
-
-        <section
-          style={{
-            background: "#ffffff",
-            color: "#111827",
-            padding: 24,
-            borderRadius: 20,
-            marginBottom: 24,
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 25,
-              fontWeight: 800,
-              marginBottom: 12,
-            }}
-          >
-            ⏱️ Tempo & Metronome
-          </h2>
-
-          <div
-            style={{
-              fontSize: 44,
-              fontWeight: 900,
-              textAlign: "center",
-              margin: "20px 0",
-            }}
-          >
-            {bpm} BPM
-          </div>
-
-          <input
-            type="range"
-            min="40"
-            max="220"
-            value={bpm}
+          <select
+            value={instrument}
             onChange={(event) =>
-              setBpm(
-                Number(
-                  event.target.value
-                )
+              setInstrument(
+                event.target.value as Instrument
               )
             }
-            style={{
-              width: "100%",
-            }}
-          />
+            className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-200 outline-none focus:border-amber-400 sm:w-auto"
+          >
+            <option>Bb Cornet</option>
+            <option>Bb Trumpet</option>
+            <option>Eb Horn</option>
+            <option>Euphonium</option>
+            <option>Trombone</option>
+          </select>
+
+          <p className="mt-2 text-xs text-slate-500">
+            {instrumentDescriptions[instrument]}
+          </p>
+
+        </div>
+
+        {/* STAFF */}
+        <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-white p-3 sm:p-5">
 
           <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 10,
-              marginTop: 20,
-            }}
-          >
-            {tempoNames.map(
-              (tempo) => (
-                <button
-                  key={tempo.name}
-                  onClick={() =>
-                    setBpm(tempo.bpm)
-                  }
-                  style={{
-                    padding:
-                      "10px 15px",
-                    borderRadius: 10,
-                    border:
-                      "1px solid #d1d5db",
-                    background:
-                      "#f9fafb",
-                    cursor: "pointer",
-                  }}
-                >
-                  <strong>
-                    {tempo.name}
-                  </strong>
+            ref={staffRef}
+            className="mx-auto min-w-[700px]"
+          />
 
-                  <br />
+        </div>
 
-                  {tempo.bpm} BPM
-                </button>
-              )
-            )}
+        {/* NOTE INFORMATION */}
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+          {/* NOTE */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-center">
+
+            <p className="text-xs uppercase tracking-wider text-slate-500">
+              Selected Note
+            </p>
+
+            <div className="mt-2 text-4xl font-bold text-amber-300">
+              {displayName}
+            </div>
+
+            <p className="mt-1 text-xs text-slate-500">
+              Written notation
+            </p>
+
           </div>
+
+          {/* FINGERING */}
+          <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5 text-center">
+
+            <p className="text-xs uppercase tracking-wider text-slate-500">
+              Fingering
+            </p>
+
+            <div className="mt-2 text-3xl font-bold text-slate-100">
+              {fingering}
+            </div>
+
+            <p className="mt-1 text-xs text-slate-500">
+              {instrument}
+            </p>
+
+          </div>
+
+          {/* FREQUENCY */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-center">
+
+            <p className="text-xs uppercase tracking-wider text-slate-500">
+              Sound
+            </p>
+
+            <div className="mt-2 text-3xl font-bold text-slate-100">
+              {frequency.toFixed(1)}
+            </div>
+
+            <p className="mt-1 text-xs text-slate-500">
+              Hz
+            </p>
+
+          </div>
+
+        </div>
+
+        {/* ACCIDENTAL CONTROLS */}
+        <div className="mt-6">
+
+          <p className="mb-3 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Change Accidental
+          </p>
+
+          <div className="grid grid-cols-3 gap-3">
+
+            <button
+              onClick={() =>
+                setAccidental('flat')
+              }
+              className={`rounded-xl border px-4 py-4 text-center transition ${
+                accidental === 'flat'
+                  ? 'border-amber-400 bg-amber-400/10 text-amber-300'
+                  : 'border-slate-700 bg-slate-950 text-slate-300 hover:border-slate-500'
+              }`}
+            >
+              <div className="text-3xl font-serif">
+                ♭
+              </div>
+
+              <div className="mt-1 text-xs font-semibold">
+                Flat
+              </div>
+            </button>
+
+            <button
+              onClick={() =>
+                setAccidental('natural')
+              }
+              className={`rounded-xl border px-4 py-4 text-center transition ${
+                accidental === 'natural'
+                  ? 'border-amber-400 bg-amber-400/10 text-amber-300'
+                  : 'border-slate-700 bg-slate-950 text-slate-300 hover:border-slate-500'
+              }`}
+            >
+              <div className="text-3xl font-serif">
+                ♮
+              </div>
+
+              <div className="mt-1 text-xs font-semibold">
+                Natural
+              </div>
+            </button>
+
+            <button
+              onClick={() =>
+                setAccidental('sharp')
+              }
+              className={`rounded-xl border px-4 py-4 text-center transition ${
+                accidental === 'sharp'
+                  ? 'border-amber-400 bg-amber-400/10 text-amber-300'
+                  : 'border-slate-700 bg-slate-950 text-slate-300 hover:border-slate-500'
+              }`}
+            >
+              <div className="text-3xl font-serif">
+                ♯
+              </div>
+
+              <div className="mt-1 text-xs font-semibold">
+                Sharp
+              </div>
+            </button>
+
+          </div>
+
+        </div>
+
+        {/* NOTE NAVIGATION */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
 
           <button
-            onClick={() =>
-              setIsMetronomeRunning(
-                (running) =>
-                  !running
-              )
-            }
-            style={{
-              width: "100%",
-              marginTop: 22,
-              padding: 15,
-              border: "none",
-              borderRadius: 14,
-              background:
-                isMetronomeRunning
-                  ? "#dc2626"
-                  : "#16a34a",
-              color: "#ffffff",
-              fontSize: 18,
-              fontWeight: 800,
-              cursor: "pointer",
-            }}
+            onClick={previousNote}
+            className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:border-amber-400 hover:text-amber-300"
           >
-            {isMetronomeRunning
-              ? "⏹ Stop Metronome"
-              : "▶ Start Metronome"}
+            <ChevronLeft className="h-4 w-4" />
+            Previous
           </button>
-        </section>
 
-        {/* =================================================
-            PRACTICE MODE
-        ================================================= */}
-
-        <section
-          style={{
-            background:
-              "linear-gradient(135deg, #92400e, #78350f)",
-            padding: 28,
-            borderRadius: 20,
-            marginBottom: 30,
-          }}
-        >
-          <h2
-            style={{
-              fontSize: 28,
-              fontWeight: 900,
-              marginBottom: 12,
-            }}
+          <button
+            onClick={resetNote}
+            className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:border-amber-400 hover:text-amber-300"
           >
-            🎺 Practice Mode
-          </h2>
+            <RotateCcw className="h-4 w-4" />
+            Natural
+          </button>
 
-          <p
-            style={{
-              color: "#fef3c7",
-              lineHeight: 1.7,
-            }}
+          <button
+            onClick={playNote}
+            className="flex items-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-amber-300"
           >
-            Follow this sequence when
-            practising:
-          </p>
+            <Volume2 className="h-4 w-4" />
+            Play Note
+          </button>
 
-          <ol
-            style={{
-              marginTop: 12,
-              paddingLeft: 22,
-              color: "#ffffff",
-              lineHeight: 2,
-            }}
+          <button
+            onClick={nextNote}
+            className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:border-amber-400 hover:text-amber-300"
           >
-            <li>
+            Next
+            <ChevronRight className="h-4 w-4" />
+          </button>
+
+        </div>
+
+        {/* EXPLANATION */}
+        <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+
+          <h3 className="font-serif text-lg font-bold text-slate-100">
+            How to use this lesson
+          </h3>
+
+          <div className="mt-3 grid gap-3 text-sm text-slate-400 sm:grid-cols-2">
+
+            <p>
+              <span className="font-semibold text-amber-300">
+                1.
+              </span>{' '}
               Select your instrument.
-            </li>
+            </p>
 
-            <li>
-              Select a note.
-            </li>
+            <p>
+              <span className="font-semibold text-amber-300">
+                2.
+              </span>{' '}
+              Choose a note.
+            </p>
 
-            <li>
-              Identify its position on
-              the staff.
-            </li>
+            <p>
+              <span className="font-semibold text-amber-300">
+                3.
+              </span>{' '}
+              Change it to sharp, flat or natural.
+            </p>
 
-            <li>
-              Say the note name.
-            </li>
+            <p>
+              <span className="font-semibold text-amber-300">
+                4.
+              </span>{' '}
+              Look at the actual symbol on the staff.
+            </p>
 
-            <li>
+            <p>
+              <span className="font-semibold text-amber-300">
+                5.
+              </span>{' '}
               Check the fingering.
-            </li>
+            </p>
 
-            <li>
-              Play the note.
-            </li>
+            <p>
+              <span className="font-semibold text-amber-300">
+                6.
+              </span>{' '}
+              Press Play Note and listen.
+            </p>
 
-            <li>
-              Practise with the metronome.
-            </li>
+          </div>
 
-            <li>
-              Move to the next note.
-            </li>
-          </ol>
-        </section>
+        </div>
 
-        {/* =================================================
-            FOOTER
-        ================================================= */}
-
-        <footer
-          style={{
-            textAlign: "center",
-            color: "#9ca3af",
-            padding: 20,
-          }}
-        >
-          <p>
-            🎼 Btech2 Music Tutor
-          </p>
-
-          <p
-            style={{
-              fontSize: 13,
-              marginTop: 5,
-            }}
-          >
-            Learn • Read • Play • Improve
-          </p>
-        </footer>
       </div>
+
     </div>
   );
-}
+};
+
+export default MusicTutor;
