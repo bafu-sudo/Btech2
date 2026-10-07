@@ -84,7 +84,7 @@ const NATURAL_SEMITONES: Record<string, number> = {
    ========================================================= */
 
 const BB_FINGERINGS: Record<number, string> = {
-  0: C: 'Open',       // C
+ 0: 'Open',          // C
   1: '1+2+3',     // C# / Db
   2: '1+3',       // D
   3: '2',         // D# / Eb
