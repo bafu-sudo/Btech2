@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
             Instruments
           </button>
 
-          {/* NEW: Music Tutor */}
+          {/* Music Tutor */}
           <button
             onClick={() => setActiveTab('musicTutor')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
@@ -152,7 +152,7 @@ export const Header: React.FC<HeaderProps> = ({
             Percussion
           </button>
 
-          {/* Quiz */}
+          {/* Theory Quiz */}
           <button
             onClick={() => setActiveTab('quiz')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
@@ -183,16 +183,8 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mute */}
           <button
             onClick={toggleMute}
-            aria-label={
-              isMuted
-                ? 'Unmute brass sound'
-                : 'Mute brass sound'
-            }
-            title={
-              isMuted
-                ? 'Unmute Brass Audio'
-                : 'Mute Brass Audio'
-            }
+            aria-label={isMuted ? 'Unmute brass sound' : 'Mute brass sound'}
+            title={isMuted ? 'Unmute Brass Audio' : 'Mute Brass Audio'}
             className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-slate-300 transition-colors hover:border-slate-700 hover:text-amber-400 shrink-0"
           >
             {isMuted ? (
