@@ -31,16 +31,6 @@ type NoteData = {
   vexKey: string;
 };
 
-/*
-|--------------------------------------------------------------------------
-| NOTES
-|--------------------------------------------------------------------------
-| These are WRITTEN notes for the tutor.
-|
-| The B♭ cornet is taught using treble-clef brass-band notation.
-|--------------------------------------------------------------------------
-*/
-
 const NOTES: NoteData[] = [
   { name: 'C', octave: 4, vexKey: 'c/4' },
   { name: 'D', octave: 4, vexKey: 'd/4' },
@@ -49,7 +39,6 @@ const NOTES: NoteData[] = [
   { name: 'G', octave: 4, vexKey: 'g/4' },
   { name: 'A', octave: 4, vexKey: 'a/4' },
   { name: 'B', octave: 4, vexKey: 'b/4' },
-
   { name: 'C', octave: 5, vexKey: 'c/5' },
   { name: 'D', octave: 5, vexKey: 'd/5' },
   { name: 'E', octave: 5, vexKey: 'e/5' },
@@ -59,102 +48,75 @@ const NOTES: NoteData[] = [
 
 /*
 |--------------------------------------------------------------------------
-| B♭ CORNET / B♭ TRUMPET FINGERINGS
+| B♭ CORNET / TRUMPET CHROMATIC FINGERINGS
 |--------------------------------------------------------------------------
 |
-| 0     = open
-| 1     = first valve
-| 2     = second valve
-| 3     = third valve
+| These are common basic 3-valve fingerings.
 |
-| These are standard basic 3-valve fingerings.
-|
-| Enharmonic spellings such as D# and Eb can have the same fingering.
+| 0   = open
+| 1   = first valve
+| 2   = second valve
+| 3   = third valve
 |--------------------------------------------------------------------------
 */
 
 const BB_FINGERINGS: Record<string, string> = {
-  // OCTAVE 4
-  C4: '1+3',
-  'C#4': '2+3',
-  Db4: '1+2+3',
+  C: '1+3',
+  'C#': '1+2+3',
+  Db: '1+2+3',
 
-  D4: '1+3',
-  'D#4': '2',
-  Eb4: '2',
+  D: '1+3',
+  'D#': '2',
+  Eb: '2',
 
-  E4: '1+2',
-  'Fb4': '1+2+3',
+  E: '1+2',
+  Fb: '1+2+3',
 
-  F4: '1',
-  'E#4': '1',
+  F: '1',
+  'E#': '1',
 
-  'F#4': '2',
-  Gb4: '2',
+  'F#': '2',
+  Gb: '2',
 
-  G4: '0',
-  'G#4': '2+3',
-  Ab4: '3',
+  G: '0',
+  'G#': '2+3',
+  Ab: '2+3',
 
-  A4: '1+2',
-  'A#4': '1',
-  Bb4: '1',
+  A: '1+2',
+  'A#': '1',
+  Bb: '1',
 
-  B4: '2',
-  Cb5: '2',
+  B: '2',
+  Cb: '2',
 
-  'B#4': '0',
-
-  // OCTAVE 5
   C5: '0',
-  'B#4': '0',
-
-  'C#5': '2+3',
-  Db5: '1+2+3',
-
-  D5: '1+3',
-  'D#5': '2',
-  Eb5: '2',
-
-  E5: '1+2',
-  Fb5: '1+2+3',
-
-  F5: '1',
-  'E#5': '1',
-
-  'F#5': '2',
-  Gb5: '2',
-
-  G5: '0',
-  'G#5': '2+3',
-  Ab5: '3',
 };
 
 /*
 |--------------------------------------------------------------------------
-| TROMBONE POSITIONS
+| TROMBONE
 |--------------------------------------------------------------------------
 */
 
 const TROMBONE_POSITIONS: Record<string, string> = {
-  C4: '6th position',
-  D4: '4th position',
-  E4: '2nd position',
-  F4: '1st position',
-  G4: '4th position',
-  A4: '2nd position',
-  B4: '7th position',
+  C4: '6th',
+  D4: '4th',
+  E4: '2nd',
+  F4: '1st',
+  G4: '4th',
+  A4: '2nd',
+  B4: '7th',
 
-  C5: '6th position',
-  D5: '4th position',
-  E5: '2nd position',
-  F5: '1st position',
-  G5: '4th position',
+  C5: '6th',
+  D5: '4th',
+  E5: '2nd',
+  F5: '1st',
+  G5: '4th',
 };
 
 /*
 |--------------------------------------------------------------------------
-| INSTRUMENT INFORMATION
+| INSTRUMENT SETTINGS
 |--------------------------------------------------------------------------
 */
 
@@ -183,47 +145,39 @@ const instrumentDescriptions: Record<Instrument, string> = {
 const getAccidentalSymbol = (
   accidental: AccidentalType
 ): string => {
-  switch (accidental) {
-    case 'sharp':
-      return '♯';
-
-    case 'flat':
-      return '♭';
-
-    default:
-      return '';
-  }
+  if (accidental === 'sharp') return '♯';
+  if (accidental === 'flat') return '♭';
+  return '';
 };
 
 /*
 |--------------------------------------------------------------------------
-| VEXFLOW NOTE KEY
+| NOTE NAME USED FOR FINGERING
 |--------------------------------------------------------------------------
 |
-| VexFlow needs the written pitch position.
-| The accidental is added separately with Accidental().
+| This converts the selected written note + accidental into a
+| chromatic note name.
+|
+| Example:
+|
+| F + sharp = F#
+| G + flat  = Gb
 |--------------------------------------------------------------------------
 */
 
-const getVexKey = (
-  note: NoteData
-): string => {
-  return note.vexKey;
-};
-
-/*
-|--------------------------------------------------------------------------
-| DISPLAY NAME
-|--------------------------------------------------------------------------
-*/
-
-const getDisplayName = (
+const getFingeringName = (
   note: NoteData,
   accidental: AccidentalType
 ): string => {
-  return `${note.name}${getAccidentalSymbol(
-    accidental
-  )}${note.octave}`;
+  if (accidental === 'natural') {
+    return note.name;
+  }
+
+  if (accidental === 'sharp') {
+    return `${note.name}#`;
+  }
+
+  return `${note.name}b`;
 };
 
 /*
@@ -237,50 +191,53 @@ const getFingering = (
   accidental: AccidentalType,
   instrument: Instrument
 ): string => {
-  const baseName = note.name;
-  const octave = note.octave;
-
-  let key = `${baseName}${octave}`;
-
-  if (accidental === 'sharp') {
-    key = `${baseName}#${octave}`;
-  }
-
-  if (accidental === 'flat') {
-    key = `${baseName}b${octave}`;
-  }
+  const fingeringName = getFingeringName(
+    note,
+    accidental
+  );
 
   /*
-    Trombone is position based.
+    Trombone uses slide positions rather than valves.
   */
 
   if (instrument === 'Trombone') {
+    const key = `${note.name}${note.octave}`;
+
     return (
-      TROMBONE_POSITIONS[key] ||
+      TROMBONE_POSITIONS[key] ??
       'See position chart'
     );
   }
 
   /*
-    B♭ cornet and trumpet.
+    B♭ cornet and B♭ trumpet.
   */
 
   if (
     instrument === 'Bb Cornet' ||
     instrument === 'Bb Trumpet'
   ) {
+    /*
+      For C5 and above, use the octave-specific
+      natural C fingering where appropriate.
+    */
+
+    if (
+      fingeringName === 'C' &&
+      note.octave === 5
+    ) {
+      return '0';
+    }
+
     return (
-      BB_FINGERINGS[key] ||
+      BB_FINGERINGS[fingeringName] ??
       'See fingering chart'
     );
   }
 
   /*
-    We deliberately don't claim that E♭ horn and
-    euphonium use identical fingering systems.
-
-    This can be expanded later with their own
-    verified databases.
+    These instruments will get their own verified
+    fingering databases later.
   */
 
   return 'Fingering chart coming soon';
@@ -288,7 +245,7 @@ const getFingering = (
 
 /*
 |--------------------------------------------------------------------------
-| MIDI / FREQUENCY
+| FREQUENCY
 |--------------------------------------------------------------------------
 */
 
@@ -297,7 +254,7 @@ const getFrequency = (
   accidental: AccidentalType,
   instrument: Instrument
 ): number => {
-  const semitones: Record<string, number> = {
+  const semitoneMap: Record<string, number> = {
     C: 0,
     D: 2,
     E: 4,
@@ -309,7 +266,7 @@ const getFrequency = (
 
   let midi =
     12 * (note.octave + 1) +
-    semitones[note.name];
+    semitoneMap[note.name];
 
   if (accidental === 'sharp') {
     midi += 1;
@@ -320,8 +277,8 @@ const getFrequency = (
   }
 
   /*
-    Written B♭ instrument:
-    written C → concert B♭.
+    B♭ instruments:
+    Written C sounds concert B♭.
   */
 
   if (
@@ -334,7 +291,7 @@ const getFrequency = (
 
   /*
     E♭ horn:
-    written C → concert E♭.
+    Written C sounds concert E♭.
   */
 
   if (instrument === 'Eb Horn') {
@@ -364,7 +321,7 @@ export const MusicTutor: React.FC = () => {
     useRef<AudioContext | null>(null);
 
   const [selectedIndex, setSelectedIndex] =
-    useState(3);
+    useState<number>(3);
 
   const [accidental, setAccidental] =
     useState<AccidentalType>('natural');
@@ -379,10 +336,9 @@ export const MusicTutor: React.FC = () => {
     instrumentClefs[instrument];
 
   const displayName =
-    getDisplayName(
-      selectedNote,
+    `${selectedNote.name}${getAccidentalSymbol(
       accidental
-    );
+    )}${selectedNote.octave}`;
 
   const fingering =
     getFingering(
@@ -400,7 +356,7 @@ export const MusicTutor: React.FC = () => {
 
   /*
   |--------------------------------------------------------------------------
-  | RENDER STAFF
+  | RENDER MUSIC STAFF
   |--------------------------------------------------------------------------
   */
 
@@ -408,6 +364,10 @@ export const MusicTutor: React.FC = () => {
     if (!staffRef.current) {
       return;
     }
+
+    /*
+      Clear the previous SVG.
+    */
 
     staffRef.current.innerHTML = '';
 
@@ -426,7 +386,9 @@ export const MusicTutor: React.FC = () => {
       renderer.getContext();
 
     /*
-      Main musical stave.
+    |--------------------------------------------------------------------------
+    | MAIN STAFF
+    |--------------------------------------------------------------------------
     */
 
     const stave =
@@ -444,26 +406,22 @@ export const MusicTutor: React.FC = () => {
       .draw();
 
     /*
-      IMPORTANT:
-      The pitch position remains the same.
-
-      The accidental is rendered separately
-      using VexFlow.
+    |--------------------------------------------------------------------------
+    | SELECTED NOTE
+    |--------------------------------------------------------------------------
     */
 
     const staveNote =
       new StaveNote({
         keys: [
-          getVexKey(
-            selectedNote
-          ),
+          selectedNote.vexKey,
         ],
         duration: 'q',
         clef,
       });
 
     /*
-      Add the ACTUAL musical accidental.
+      Add sharp.
     */
 
     if (accidental === 'sharp') {
@@ -473,6 +431,10 @@ export const MusicTutor: React.FC = () => {
       );
     }
 
+    /*
+      Add flat.
+    */
+
     if (accidental === 'flat') {
       staveNote.addModifier(
         new Accidental('b'),
@@ -481,8 +443,11 @@ export const MusicTutor: React.FC = () => {
     }
 
     /*
-      Natural is useful when returning from
-      an accidental context.
+      Add natural.
+
+      This is intentional for the learning
+      interface so the student can clearly
+      see the natural symbol.
     */
 
     if (accidental === 'natural') {
@@ -493,45 +458,41 @@ export const MusicTutor: React.FC = () => {
     }
 
     /*
-      Three quarter rests complete the
-      4/4 measure.
+    |--------------------------------------------------------------------------
+    | RESTS
+    |--------------------------------------------------------------------------
     */
+
+    const restKey =
+      clef === 'bass'
+        ? 'd/4'
+        : 'c/4';
 
     const rest1 =
       new StaveNote({
-        keys: [
-          clef === 'bass'
-            ? 'd/4'
-            : 'c/4',
-        ],
+        keys: [restKey],
         duration: 'qr',
         clef,
       });
 
     const rest2 =
       new StaveNote({
-        keys: [
-          clef === 'bass'
-            ? 'd/4'
-            : 'c/4',
-        ],
+        keys: [restKey],
         duration: 'qr',
         clef,
       });
 
     const rest3 =
       new StaveNote({
-        keys: [
-          clef === 'bass'
-            ? 'd/4'
-            : 'c/4',
-        ],
+        keys: [restKey],
         duration: 'qr',
         clef,
       });
 
     /*
-      Voice.
+    |--------------------------------------------------------------------------
+    | VOICE
+    |--------------------------------------------------------------------------
     */
 
     const voice =
@@ -552,9 +513,7 @@ export const MusicTutor: React.FC = () => {
     ]);
 
     new Formatter()
-      .joinVoices([
-        voice,
-      ])
+      .joinVoices([voice])
       .format(
         [voice],
         500
@@ -566,7 +525,9 @@ export const MusicTutor: React.FC = () => {
     );
 
     /*
-      INFORMATION STAVE.
+    |--------------------------------------------------------------------------
+    | INFORMATION AREA
+    |--------------------------------------------------------------------------
     */
 
     const infoStave =
@@ -600,16 +561,22 @@ export const MusicTutor: React.FC = () => {
 
     context.fillText(
       `Fingering: ${fingering}`,
-      270,
+      275,
       225
     );
 
     context.fillText(
       instrument,
-      500,
+      510,
       225
     );
   };
+
+  /*
+  |--------------------------------------------------------------------------
+  | RENDER WHEN STATE CHANGES
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
     renderStaff();
@@ -625,7 +592,7 @@ export const MusicTutor: React.FC = () => {
   |--------------------------------------------------------------------------
   */
 
-  const playNote = () => {
+  const playNote = async () => {
     if (!audioContextRef.current) {
       audioContextRef.current =
         new AudioContext();
@@ -638,7 +605,7 @@ export const MusicTutor: React.FC = () => {
       audioContext.state ===
       'suspended'
     ) {
-      audioContext.resume();
+      await audioContext.resume();
     }
 
     const oscillator =
@@ -653,37 +620,39 @@ export const MusicTutor: React.FC = () => {
     oscillator.frequency.value =
       frequency;
 
+    const now =
+      audioContext.currentTime;
+
     gain.gain.setValueAtTime(
       0.0001,
-      audioContext.currentTime
+      now
     );
 
     gain.gain.exponentialRampToValueAtTime(
       0.3,
-      audioContext.currentTime + 0.03
+      now + 0.03
     );
 
     gain.gain.exponentialRampToValueAtTime(
       0.0001,
-      audioContext.currentTime + 1.3
+      now + 1.3
     );
 
     oscillator.connect(gain);
-
     gain.connect(
       audioContext.destination
     );
 
-    oscillator.start();
+    oscillator.start(now);
 
     oscillator.stop(
-      audioContext.currentTime + 1.3
+      now + 1.3
     );
   };
 
   /*
   |--------------------------------------------------------------------------
-  | NAVIGATION
+  | NEXT NOTE
   |--------------------------------------------------------------------------
   */
 
@@ -699,6 +668,12 @@ export const MusicTutor: React.FC = () => {
     );
   };
 
+  /*
+  |--------------------------------------------------------------------------
+  | PREVIOUS NOTE
+  |--------------------------------------------------------------------------
+  */
+
   const previousNote = () => {
     setSelectedIndex(
       previous =>
@@ -710,6 +685,12 @@ export const MusicTutor: React.FC = () => {
       'natural'
     );
   };
+
+  /*
+  |--------------------------------------------------------------------------
+  | RESET
+  |--------------------------------------------------------------------------
+  */
 
   const resetNote = () => {
     setAccidental(
@@ -746,9 +727,10 @@ export const MusicTutor: React.FC = () => {
 
         <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-400">
 
-          Read the note on the staff,
-          change its accidental and
-          instantly see the fingering.
+          Learn to identify notes,
+          understand accidentals,
+          discover fingerings and
+          hear the pitch.
 
         </p>
 
@@ -762,20 +744,24 @@ export const MusicTutor: React.FC = () => {
 
         <div className="mb-6">
 
-          <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <label
+            htmlFor="instrument"
+            className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500"
+          >
 
             Instrument
 
           </label>
 
           <select
+            id="instrument"
             value={instrument}
             onChange={event =>
               setInstrument(
                 event.target.value as Instrument
               )
             }
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-200 outline-none focus:border-amber-400 sm:w-auto"
+            className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-200 outline-none transition focus:border-amber-400 sm:w-auto"
           >
 
             <option value="Bb Cornet">
@@ -819,7 +805,7 @@ export const MusicTutor: React.FC = () => {
 
         </div>
 
-        {/* NOTE DETAILS */}
+        {/* NOTE INFORMATION */}
 
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
 
@@ -841,7 +827,7 @@ export const MusicTutor: React.FC = () => {
 
             <p className="mt-1 text-xs text-slate-500">
 
-              Staff position
+              Note on the staff
 
             </p>
 
@@ -897,13 +883,13 @@ export const MusicTutor: React.FC = () => {
 
         </div>
 
-        {/* ACCIDENTAL BUTTONS */}
+        {/* ACCIDENTALS */}
 
         <div className="mt-7">
 
           <p className="mb-3 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">
 
-            Change the note
+            Accidentals
 
           </p>
 
@@ -912,6 +898,7 @@ export const MusicTutor: React.FC = () => {
             {/* FLAT */}
 
             <button
+              type="button"
               onClick={() =>
                 setAccidental('flat')
               }
@@ -923,15 +910,11 @@ export const MusicTutor: React.FC = () => {
             >
 
               <div className="text-3xl font-serif">
-
                 ♭
-
               </div>
 
               <div className="mt-1 text-xs font-bold">
-
                 Flat
-
               </div>
 
             </button>
@@ -939,6 +922,7 @@ export const MusicTutor: React.FC = () => {
             {/* NATURAL */}
 
             <button
+              type="button"
               onClick={() =>
                 setAccidental('natural')
               }
@@ -950,15 +934,11 @@ export const MusicTutor: React.FC = () => {
             >
 
               <div className="text-3xl font-serif">
-
                 ♮
-
               </div>
 
               <div className="mt-1 text-xs font-bold">
-
                 Natural
-
               </div>
 
             </button>
@@ -966,6 +946,7 @@ export const MusicTutor: React.FC = () => {
             {/* SHARP */}
 
             <button
+              type="button"
               onClick={() =>
                 setAccidental('sharp')
               }
@@ -977,15 +958,11 @@ export const MusicTutor: React.FC = () => {
             >
 
               <div className="text-3xl font-serif">
-
                 ♯
-
               </div>
 
               <div className="mt-1 text-xs font-bold">
-
                 Sharp
-
               </div>
 
             </button>
@@ -994,11 +971,12 @@ export const MusicTutor: React.FC = () => {
 
         </div>
 
-        {/* NAVIGATION */}
+        {/* CONTROLS */}
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
 
           <button
+            type="button"
             onClick={previousNote}
             className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:border-amber-400 hover:text-amber-300"
           >
@@ -1010,6 +988,7 @@ export const MusicTutor: React.FC = () => {
           </button>
 
           <button
+            type="button"
             onClick={resetNote}
             className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:border-amber-400 hover:text-amber-300"
           >
@@ -1021,6 +1000,7 @@ export const MusicTutor: React.FC = () => {
           </button>
 
           <button
+            type="button"
             onClick={playNote}
             className="flex items-center gap-2 rounded-xl bg-amber-400 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-amber-300"
           >
@@ -1032,6 +1012,7 @@ export const MusicTutor: React.FC = () => {
           </button>
 
           <button
+            type="button"
             onClick={nextNote}
             className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:border-amber-400 hover:text-amber-300"
           >
@@ -1044,13 +1025,13 @@ export const MusicTutor: React.FC = () => {
 
         </div>
 
-        {/* TEACHING GUIDE */}
+        {/* LESSON */}
 
         <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
 
           <h3 className="font-serif text-lg font-bold text-slate-100">
 
-            Learn the connection
+            How to use the tutor
 
           </h3>
 
@@ -1060,41 +1041,41 @@ export const MusicTutor: React.FC = () => {
               <span className="font-bold text-amber-300">
                 1.
               </span>{' '}
-              Look at where the note sits on
-              the staff.
+              Look at the note on the staff.
             </p>
 
             <p>
               <span className="font-bold text-amber-300">
                 2.
               </span>{' '}
-              Identify the written note.
+              Say the note name.
             </p>
 
             <p>
               <span className="font-bold text-amber-300">
                 3.
               </span>{' '}
-              Add a sharp, flat or natural.
+              Try the sharp or flat buttons
+              and watch the notation change.
             </p>
 
             <p>
               <span className="font-bold text-amber-300">
                 4.
               </span>{' '}
-              Look at the fingering Btech
-              gives you.
+              Check the fingering shown by
+              Btech.
             </p>
 
             <p>
               <span className="font-bold text-amber-300">
                 5.
               </span>{' '}
-              Press <strong className="text-slate-200">
+              Press{' '}
+              <strong className="text-slate-200">
                 Play Note
               </strong>{' '}
-              and connect what you see
-              with what you hear.
+              to hear the pitch.
             </p>
 
           </div>
