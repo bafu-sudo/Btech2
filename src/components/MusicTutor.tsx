@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Renderer, Stave, StaveNote, Voice, Formatter } from "vexflow";
 
 type Instrument = {
   name: string;
-  clef: string;
+  clef: "treble" | "bass";
   transposition: string;
   description: string;
 };
@@ -10,140 +11,137 @@ type Instrument = {
 const instruments: Instrument[] = [
   {
     name: "B♭ Cornet",
-    clef: "Treble",
+    clef: "treble",
     transposition: "B♭",
     description:
       "A brass-band instrument normally written in treble clef as a B♭ transposing instrument.",
   },
   {
     name: "B♭ Trumpet",
-    clef: "Treble",
+    clef: "treble",
     transposition: "B♭",
     description:
       "A B♭ transposing brass instrument normally written in treble clef.",
   },
   {
     name: "E♭ Horn",
-    clef: "Treble",
+    clef: "treble",
     transposition: "E♭",
     description:
       "An E♭ brass-band horn normally written in treble clef.",
   },
   {
     name: "Euphonium",
-    clef: "Bass",
-    transposition: "Concert / B♭ depending on notation",
+    clef: "bass",
+    transposition: "Concert / B♭",
     description:
-      "A low brass instrument commonly written in bass clef in concert-pitch notation.",
+      "A low brass instrument commonly written in bass clef.",
   },
   {
     name: "Trombone",
-    clef: "Bass",
+    clef: "bass",
     transposition: "Concert",
     description:
-      "A low brass instrument commonly written in bass clef at concert pitch.",
+      "A low brass instrument commonly written in bass clef.",
   },
 ];
 
-const notes = [
-  { name: "C", y: 150 },
-  { name: "D", y: 137 },
-  { name: "E", y: 124 },
-  { name: "F", y: 111 },
-  { name: "G", y: 98 },
-  { name: "A", y: 85 },
-  { name: "B", y: 72 },
-  { name: "C5", y: 59 },
-];
-
-const fingering: Record<string, Record<string, string>> = {
-  "B♭ Cornet": {
-    C: "0",
-    D: "1 + 3",
-    E: "1 + 2",
-    F: "1",
-    G: "0",
-    A: "1 + 2",
-    B: "2",
-    C5: "0",
-  },
-
-  "B♭ Trumpet": {
-    C: "0",
-    D: "1 + 3",
-    E: "1 + 2",
-    F: "1",
-    G: "0",
-    A: "1 + 2",
-    B: "2",
-    C5: "0",
-  },
-
-  "E♭ Horn": {
-    G: "0",
-    A: "1 + 2",
-    B: "1",
-    C: "0",
-    D: "1 + 2",
-    E: "1",
-    F: "0",
-  },
-
-  Euphonium: {
-    C: "1",
-    D: "1 + 2",
-    E: "2",
-    F: "0",
-    G: "1 + 2",
-    A: "2",
-    B: "1",
-  },
-
-  Trombone: {
-    C: "6th position",
-    D: "5th position",
-    E: "4th position",
-    F: "1st position",
-    G: "4th position",
-    A: "2nd position",
-    B: "1st position",
-  },
+type NoteData = {
+  name: string;
+  vexKey: string;
+  frequency: number;
+  cornetFingering: string;
+  euphoniumFingering: string;
 };
+
+const notes: NoteData[] = [
+  {
+    name: "C4",
+    vexKey: "c/4",
+    frequency: 261.63,
+    cornetFingering: "0",
+    euphoniumFingering: "1",
+  },
+  {
+    name: "D4",
+    vexKey: "d/4",
+    frequency: 293.66,
+    cornetFingering: "1 + 3",
+    euphoniumFingering: "1 + 2",
+  },
+  {
+    name: "E4",
+    vexKey: "e/4",
+    frequency: 329.63,
+    cornetFingering: "1 + 2",
+    euphoniumFingering: "2",
+  },
+  {
+    name: "F4",
+    vexKey: "f/4",
+    frequency: 349.23,
+    cornetFingering: "1",
+    euphoniumFingering: "0",
+  },
+  {
+    name: "G4",
+    vexKey: "g/4",
+    frequency: 392.0,
+    cornetFingering: "0",
+    euphoniumFingering: "1 + 2",
+  },
+  {
+    name: "A4",
+    vexKey: "a/4",
+    frequency: 440,
+    cornetFingering: "1 + 2",
+    euphoniumFingering: "2",
+  },
+  {
+    name: "B4",
+    vexKey: "b/4",
+    frequency: 493.88,
+    cornetFingering: "2",
+    euphoniumFingering: "1",
+  },
+  {
+    name: "C5",
+    vexKey: "c/5",
+    frequency: 523.25,
+    cornetFingering: "0",
+    euphoniumFingering: "1",
+  },
+];
 
 const timeSignatures = [
   {
     value: "2/4",
-    title: "2/4",
     description:
-      "Two quarter-note beats in every measure. A common simple duple meter.",
+      "Two quarter-note beats in each measure. This is simple duple meter.",
     counting: "1 2 | 1 2",
   },
   {
     value: "3/4",
-    title: "3/4",
     description:
-      "Three quarter-note beats in every measure. Often used for waltz-like music.",
+      "Three quarter-note beats in each measure. This is commonly used for waltz-like music.",
     counting: "1 2 3 | 1 2 3",
   },
   {
     value: "4/4",
-    title: "4/4",
     description:
-      "Four quarter-note beats in every measure. One of the most common time signatures.",
+      "Four quarter-note beats in each measure. This is one of the most common meters.",
     counting: "1 2 3 4 | 1 2 3 4",
   },
   {
     value: "5/4",
-    title: "5/4",
     description:
       "Five quarter-note beats in each measure. The beats can be grouped in different ways.",
     counting: "1 2 3 4 5",
   },
   {
     value: "6/8",
-    title: "6/8",
     description:
-      "Six eighth notes in each measure, normally grouped into two main beats.",
+      "Six eighth notes per measure, normally felt as two main beats, each divided into three.",
     counting: "1-la-li 2-la-li",
   },
 ];
@@ -158,130 +156,14 @@ const tempoNames = [
   { name: "Presto", bpm: 180 },
 ];
 
-function MusicStaff({
-  selectedNote,
-  timeSignature,
-}: {
-  selectedNote: string;
-  timeSignature: string;
-}) {
-  const note = notes.find((n) => n.name === selectedNote) || notes[0];
-
-  return (
-    <div
-      style={{
-        background: "#ffffff",
-        color: "#111827",
-        borderRadius: 16,
-        padding: 24,
-        overflow: "hidden",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 20,
-          marginBottom: 15,
-          fontWeight: 700,
-          fontSize: 22,
-        }}
-      >
-        <span style={{ fontSize: 50 }}>𝄞</span>
-
-        <span>{timeSignature}</span>
-
-        <span style={{ fontSize: 15 }}>♩ = 100</span>
-      </div>
-
-      <div
-        style={{
-          position: "relative",
-          height: 220,
-          minWidth: 600,
-        }}
-      >
-        {[0, 1, 2, 3, 4].map((line) => (
-          <div
-            key={line}
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: 70 + line * 25,
-              height: 2,
-              background: "#111827",
-            }}
-          />
-        ))}
-
-        <div
-          style={{
-            position: "absolute",
-            left: 25,
-            top: 27,
-            fontSize: 70,
-          }}
-        >
-          𝄞
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            left: 100,
-            top: 57,
-            fontSize: 22,
-            fontWeight: 700,
-          }}
-        >
-          {timeSignature}
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            left: 190,
-            top: note.y,
-            transform: "translateY(-50%)",
-            fontSize: 55,
-            lineHeight: 1,
-          }}
-        >
-          ♩
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            left: 270,
-            top: 130,
-            fontSize: 25,
-          }}
-        >
-          {selectedNote}
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            left: 400,
-            top: 70,
-            height: 102,
-            borderLeft: "2px solid #111827",
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
 function playTone(frequency: number, duration = 0.7) {
   const AudioContext =
     window.AudioContext ||
-    (window as typeof window & {
-      webkitAudioContext?: typeof window.AudioContext;
-    }).webkitAudioContext;
+    (
+      window as typeof window & {
+        webkitAudioContext?: typeof AudioContext;
+      }
+    ).webkitAudioContext;
 
   if (!AudioContext) return;
 
@@ -310,29 +192,102 @@ function playTone(frequency: number, duration = 0.7) {
   oscillator.stop(context.currentTime + duration);
 }
 
-const noteFrequencies: Record<string, number> = {
-  C: 261.63,
-  D: 293.66,
-  E: 329.63,
-  F: 349.23,
-  G: 392.0,
-  A: 440.0,
-  B: 493.88,
-  C5: 523.25,
-};
+function MusicStaff({
+  selectedNote,
+  clef,
+  timeSignature,
+}: {
+  selectedNote: NoteData;
+  clef: "treble" | "bass";
+  timeSignature: string;
+}) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    containerRef.current.innerHTML = "";
+
+    const width = Math.max(
+      700,
+      containerRef.current.clientWidth || 700
+    );
+
+    const height = 230;
+
+    const renderer = new Renderer(
+      containerRef.current,
+      Renderer.Backends.SVG
+    );
+
+    renderer.resize(width, height);
+
+    const context = renderer.getContext();
+
+    context.setFont("Arial", 14, "bold");
+
+    const stave = new Stave(20, 65, width - 40);
+
+    stave.addClef(clef);
+    stave.addTimeSignature(timeSignature);
+
+    stave.setContext(context).draw();
+
+    const staveNote = new StaveNote({
+      keys: [selectedNote.vexKey],
+      duration: "q",
+      clef,
+    });
+
+    const voice = new Voice({
+      numBeats: 1,
+      beatValue: 4,
+    });
+
+    voice.addTickables([staveNote]);
+
+    new Formatter()
+      .joinVoices([voice])
+      .format([voice], Math.max(180, width - 260));
+
+    voice.draw(context, stave);
+  }, [selectedNote, clef, timeSignature]);
+
+  return (
+    <div
+      style={{
+        background: "#ffffff",
+        borderRadius: 18,
+        padding: 18,
+        overflowX: "auto",
+      }}
+    >
+      <div
+        ref={containerRef}
+        style={{
+          minWidth: 700,
+          width: "100%",
+        }}
+      />
+    </div>
+  );
+}
 
 export default function MusicTutor() {
   const [instrumentIndex, setInstrumentIndex] = useState(0);
-  const [selectedNote, setSelectedNote] = useState("C");
+  const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
   const [timeSignature, setTimeSignature] = useState("4/4");
   const [bpm, setBpm] = useState(100);
   const [metronomeRunning, setMetronomeRunning] = useState(false);
   const [activeLesson, setActiveLesson] = useState("Notes");
 
   const instrument = instruments[instrumentIndex];
+  const selectedNote = notes[selectedNoteIndex];
 
   const currentFingering =
-    fingering[instrument.name]?.[selectedNote] || "Not available";
+    instrument.name === "Euphonium"
+      ? selectedNote.euphoniumFingering
+      : selectedNote.cornetFingering;
 
   useEffect(() => {
     if (!metronomeRunning) return;
@@ -347,7 +302,7 @@ export default function MusicTutor() {
   }, [metronomeRunning, bpm]);
 
   const playSelectedNote = () => {
-    playTone(noteFrequencies[selectedNote] || 261.63);
+    playTone(selectedNote.frequency);
   };
 
   return (
@@ -518,7 +473,10 @@ export default function MusicTutor() {
                 </h2>
 
                 <div style={{ color: "#67e8f9" }}>
-                  {instrument.clef} clef · {instrument.transposition}
+                  {instrument.clef === "treble"
+                    ? "Treble"
+                    : "Bass"}{" "}
+                  clef · {instrument.transposition}
                 </div>
               </div>
             </section>
@@ -527,6 +485,7 @@ export default function MusicTutor() {
               <>
                 <MusicStaff
                   selectedNote={selectedNote}
+                  clef={instrument.clef}
                   timeSignature={timeSignature}
                 />
 
@@ -551,14 +510,16 @@ export default function MusicTutor() {
                       style={{
                         display: "grid",
                         gridTemplateColumns:
-                          "repeat(auto-fit, minmax(70px, 1fr))",
+                          "repeat(auto-fit, minmax(80px, 1fr))",
                         gap: 10,
                       }}
                     >
-                      {notes.map((note) => (
+                      {notes.map((note, index) => (
                         <button
                           key={note.name}
-                          onClick={() => setSelectedNote(note.name)}
+                          onClick={() =>
+                            setSelectedNoteIndex(index)
+                          }
                           style={{
                             padding: 15,
                             borderRadius: 12,
@@ -566,11 +527,11 @@ export default function MusicTutor() {
                             cursor: "pointer",
                             fontWeight: 800,
                             background:
-                              selectedNote === note.name
+                              selectedNoteIndex === index
                                 ? "#22d3ee"
                                 : "#1e293b",
                             color:
-                              selectedNote === note.name
+                              selectedNoteIndex === index
                                 ? "#020617"
                                 : "#fff",
                           }}
@@ -588,7 +549,7 @@ export default function MusicTutor() {
                       padding: 24,
                     }}
                   >
-                    <h2>{selectedNote}</h2>
+                    <h2>{selectedNote.name}</h2>
 
                     <p style={{ color: "#94a3b8" }}>
                       Fingering
@@ -635,11 +596,16 @@ export default function MusicTutor() {
               >
                 <h2>Understanding Clefs</h2>
 
-                <p style={{ color: "#cbd5e1", lineHeight: 1.7 }}>
-                  A clef tells the musician how the notes on the
-                  staff should be interpreted. Different instruments
-                  use different clefs because they play in different
-                  registers.
+                <p
+                  style={{
+                    color: "#cbd5e1",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  A clef tells the musician how notes on the
+                  staff should be interpreted. The Music Tutor
+                  automatically changes the displayed clef when
+                  you change instrument.
                 </p>
 
                 <div
@@ -665,7 +631,10 @@ export default function MusicTutor() {
                         textAlign: "center",
                       }}
                     >
-                      <div style={{ fontSize: 70 }}>{symbol}</div>
+                      <div style={{ fontSize: 70 }}>
+                        {symbol}
+                      </div>
+
                       <strong>{name}</strong>
                     </div>
                   ))}
@@ -685,9 +654,9 @@ export default function MusicTutor() {
                   <h2>Time Signatures</h2>
 
                   <p style={{ color: "#cbd5e1" }}>
-                    The top number tells you how many beats are in
-                    each measure. The bottom number tells you which
-                    note value receives the beat.
+                    The top number tells you how many beats are
+                    in each measure. The bottom number tells you
+                    which note value receives the beat.
                   </p>
 
                   <div
@@ -720,47 +689,50 @@ export default function MusicTutor() {
                           cursor: "pointer",
                         }}
                       >
-                        {item.title}
+                        {item.value}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {(() => {
-                  const selected =
-                    timeSignatures.find(
-                      (item) => item.value === timeSignature
-                    ) || timeSignatures[2];
+                <div
+                  style={{
+                    marginTop: 20,
+                    background: "#ffffff",
+                    color: "#020617",
+                    borderRadius: 20,
+                    padding: 30,
+                  }}
+                >
+                  {(() => {
+                    const selected =
+                      timeSignatures.find(
+                        (item) =>
+                          item.value === timeSignature
+                      ) || timeSignatures[2];
 
-                  return (
-                    <div
-                      style={{
-                        marginTop: 20,
-                        background: "#ffffff",
-                        color: "#020617",
-                        borderRadius: 20,
-                        padding: 30,
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontSize: 80,
-                          fontWeight: 900,
-                        }}
-                      >
-                        {selected.value}
-                      </div>
+                    return (
+                      <>
+                        <div
+                          style={{
+                            fontSize: 80,
+                            fontWeight: 900,
+                          }}
+                        >
+                          {selected.value}
+                        </div>
 
-                      <h3>{selected.title}</h3>
+                        <h3>{selected.value}</h3>
 
-                      <p>{selected.description}</p>
+                        <p>{selected.description}</p>
 
-                      <strong>
-                        Counting: {selected.counting}
-                      </strong>
-                    </div>
-                  );
-                })()}
+                        <strong>
+                          Counting: {selected.counting}
+                        </strong>
+                      </>
+                    );
+                  })()}
+                </div>
               </section>
             )}
 
@@ -799,7 +771,9 @@ export default function MusicTutor() {
                 >
                   <button
                     onClick={() =>
-                      setBpm((value) => Math.max(30, value - 5))
+                      setBpm((value) =>
+                        Math.max(30, value - 5)
+                      )
                     }
                     style={{
                       padding: "12px 25px",
@@ -813,7 +787,9 @@ export default function MusicTutor() {
 
                   <button
                     onClick={() =>
-                      setMetronomeRunning(!metronomeRunning)
+                      setMetronomeRunning(
+                        (value) => !value
+                      )
                     }
                     style={{
                       padding: "12px 30px",
@@ -826,12 +802,16 @@ export default function MusicTutor() {
                       fontWeight: 900,
                     }}
                   >
-                    {metronomeRunning ? "STOP" : "START"}
+                    {metronomeRunning
+                      ? "STOP"
+                      : "START"}
                   </button>
 
                   <button
                     onClick={() =>
-                      setBpm((value) => Math.min(240, value + 5))
+                      setBpm((value) =>
+                        Math.min(240, value + 5)
+                      )
                     }
                     style={{
                       padding: "12px 25px",
@@ -893,12 +873,12 @@ export default function MusicTutor() {
                     margin: "40px 0",
                   }}
                 >
-                  ♩ ♪♪ ♩ 𝅗𝅥
+                  ♩ ♪ ♪ ♩ 𝅗𝅥
                 </div>
 
                 <p style={{ textAlign: "center" }}>
-                  Learn to recognize note values and count the
-                  rhythm.
+                  Learn to recognize note values and count
+                  rhythm correctly.
                 </p>
 
                 <div
@@ -956,12 +936,13 @@ export default function MusicTutor() {
                 <h2>Practice Session</h2>
 
                 <p style={{ color: "#cbd5e1" }}>
-                  Practice {selectedNote} on the{" "}
+                  Practice {selectedNote.name} on the{" "}
                   {instrument.name}.
                 </p>
 
                 <MusicStaff
                   selectedNote={selectedNote}
+                  clef={instrument.clef}
                   timeSignature={timeSignature}
                 />
 
@@ -977,7 +958,7 @@ export default function MusicTutor() {
                     cursor: "pointer",
                   }}
                 >
-                  ▶ Start Practice
+                  ▶ Play Practice Note
                 </button>
               </section>
             )}
