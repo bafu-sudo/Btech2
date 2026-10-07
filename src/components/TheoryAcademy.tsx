@@ -18,6 +18,7 @@ import {
   Sliders
 } from 'lucide-react';
 import { brassAudio } from '../audio/brassAudio';
+import { NotationFlashcards } from './NotationFlashcards';
 
 interface TheoryModule {
   id: string;
@@ -526,16 +527,16 @@ export const TheoryAcademy: React.FC = () => {
       {/* MODULE 8: TRIADS ACADEMY */}
       {activeModuleId === 'triads' && (
         <div className="space-y-6">
-          <div className="rounded-2xl border border-amber-500/30 bg-slate-900/90 p-6 sm:p-8 shadow-xl">
-            <div className="max-w-2xl mb-6">
+          <div className="rounded-3xl border border-amber-500/30 bg-slate-900/90 p-6 sm:p-8 shadow-xl">
+            <div className="max-w-3xl mb-6">
               <span className="text-xs uppercase font-semibold text-amber-400 tracking-wider">
                 Harmony & Chords Masterclass
               </span>
-              <h2 className="font-serif text-2xl font-bold text-slate-100 mt-1">
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-100 mt-1">
                 8. Triads Academy (Major, Minor, Diminished, Augmented)
               </h2>
-              <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                A <strong>triad</strong> is a three-note chord built from stacked thirds: <strong>Root + 3rd + 5th</strong>. Choose a root note and triad quality below, then hear it played simultaneously or arpeggiated.
+              <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+                A <strong>triad</strong> is a three-note chord built from stacked thirds: <strong>Root + 3rd + 5th</strong>. It is the harmonic bedrock of every hymn tune, march fanfare, and brass band arrangement. Select any root note and triad quality below to hear it in four-part brass resonance and see its exact interval anatomy.
               </p>
             </div>
 
@@ -552,7 +553,7 @@ export const TheoryAcademy: React.FC = () => {
                       onClick={() => setTriadRoot(r)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                         triadRoot === r
-                          ? 'bg-amber-400 text-slate-950 font-bold'
+                          ? 'bg-amber-400 text-slate-950 font-bold shadow'
                           : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-800'
                       }`}
                     >
@@ -571,13 +572,16 @@ export const TheoryAcademy: React.FC = () => {
                     <button
                       key={t}
                       onClick={() => setTriadType(t)}
-                      className={`p-2 rounded-lg text-xs font-bold capitalize transition-all text-left ${
+                      className={`p-2.5 rounded-lg text-xs font-bold capitalize transition-all text-left flex items-center justify-between ${
                         triadType === t
-                          ? 'bg-amber-400 text-slate-950 font-bold'
+                          ? 'bg-amber-400 text-slate-950 font-bold shadow'
                           : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-800'
                       }`}
                     >
-                      {t}
+                      <span>{t}</span>
+                      <span className="font-mono text-[10px] opacity-80">
+                        {t === 'major' ? 'R-M3-P5' : t === 'minor' ? 'R-m3-P5' : t === 'diminished' ? 'R-m3-d5' : 'R-M3-A5'}
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -585,24 +589,26 @@ export const TheoryAcademy: React.FC = () => {
             </div>
 
             {/* Triad Analysis Card & Audio Actions */}
-            <div className="rounded-xl border border-slate-800 bg-slate-950 p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="rounded-2xl border border-slate-800 bg-slate-950 p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
               <div>
                 <span className="text-xs font-mono text-amber-400 font-bold">
-                  Active Chord Formulation
+                  Active Chord Formulation & Stacking
                 </span>
                 <h3 className="font-serif text-3xl font-bold text-slate-100 capitalize mt-1">
                   {triadRoot} {triadType} Triad
                 </h3>
-                <div className="flex items-center gap-4 text-xs text-slate-300 mt-2 font-mono">
-                  <span>Root: <strong className="text-amber-300">{triadRoot}</strong></span>
-                  <span>·</span>
-                  <span>
+                <div className="flex flex-wrap items-center gap-3 text-xs text-slate-300 mt-2 font-mono">
+                  <span className="bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                    Root: <strong className="text-amber-300">{triadRoot}</strong> (0 st)
+                  </span>
+                  <span>+</span>
+                  <span className="bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
                     3rd: <strong className="text-amber-300">
                       {triadType === 'major' || triadType === 'augmented' ? 'Major 3rd (+4 st)' : 'Minor 3rd (+3 st)'}
                     </strong>
                   </span>
-                  <span>·</span>
-                  <span>
+                  <span>+</span>
+                  <span className="bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
                     5th: <strong className="text-amber-300">
                       {triadType === 'diminished' ? 'Dim 5th (+6 st)' : triadType === 'augmented' ? 'Aug 5th (+8 st)' : 'Perf 5th (+7 st)'}
                     </strong>
@@ -610,7 +616,7 @@ export const TheoryAcademy: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <button
                   onClick={handlePlayTriad}
                   className="flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs hover:bg-amber-300 transition-all shadow"
@@ -623,9 +629,75 @@ export const TheoryAcademy: React.FC = () => {
                   className="flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 font-semibold text-xs hover:text-white transition-all"
                 >
                   <Volume2 className="h-4 w-4" />
-                  <span>Arpeggiate Notes</span>
+                  <span>Arpeggiate (R → 3 → 5)</span>
                 </button>
               </div>
+            </div>
+
+            {/* In-Depth Triad Pedagogical Guide: The 4 Qualities */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-serif font-bold text-amber-300 text-sm">Major Triad</span>
+                  <span className="font-mono text-[10px] bg-slate-900 px-2 py-0.5 rounded text-slate-400">4 + 3 semitones</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Formula: <strong>Root + Major 3rd + Perfect 5th</strong>. Triumphant, open, stable, and cheerful. The harmonic anchor of all brass band marches and hymn verses.
+                </p>
+                <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
+                  Example: C – E – G
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-serif font-bold text-amber-300 text-sm">Minor Triad</span>
+                  <span className="font-mono text-[10px] bg-slate-900 px-2 py-0.5 rounded text-slate-400">3 + 4 semitones</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Formula: <strong>Root + Minor 3rd + Perfect 5th</strong>. Sombre, contemplative, dark, and expressive. Essential for funeral marches and slow contemplative airs.
+                </p>
+                <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
+                  Example: C – E♭ – G
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-serif font-bold text-amber-300 text-sm">Diminished Triad</span>
+                  <span className="font-mono text-[10px] bg-slate-900 px-2 py-0.5 rounded text-slate-400">3 + 3 semitones</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Formula: <strong>Root + Minor 3rd + Diminished 5th (Tritone)</strong>. High tension, unstable, suspenseful. Naturally built on the leading tone (vii°).
+                </p>
+                <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
+                  Example: B – D – F (in C major)
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-serif font-bold text-amber-300 text-sm">Augmented Triad</span>
+                  <span className="font-mono text-[10px] bg-slate-900 px-2 py-0.5 rounded text-slate-400">4 + 4 semitones</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Formula: <strong>Root + Major 3rd + Augmented 5th</strong>. Mysterious, dreamy, floating, and unresolved. Symmetrical chord spanning two major thirds.
+                </p>
+                <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
+                  Example: C – E – G#
+                </div>
+              </div>
+            </div>
+
+            {/* Brass Band Section Intonation Rules for Triads */}
+            <div className="mt-6 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs text-slate-300 space-y-2">
+              <span className="font-serif font-bold text-amber-300 text-sm block">
+                🎺 Bandmaster's Just-Intonation Rule for Brass Triads
+              </span>
+              <p className="leading-relaxed">
+                In a pure acoustic brass band triad (e.g. Basses on Root C, Euphoniums on 5th G, Horns/Flugel on 3rd E):
+                The <strong>Major 3rd must be tuned 14 cents FLAT</strong> compared to equal temperament piano tuning to eliminate beats and ring warmly in the church or concert hall! When you play the 3rd of a major triad, lower your embouchure slightly to let the full section lock into ringing resonance.
+              </p>
             </div>
           </div>
         </div>
@@ -672,37 +744,41 @@ export const TheoryAcademy: React.FC = () => {
         </div>
       )}
 
-      {/* MODULE 11: ARTICULATION ACADEMY */}
+      {/* MODULE 11: ARTICULATION ACADEMY (ENHANCED WITH GRAPHIC FLASHCARDS & NOTATION ON STAFF) */}
       {activeModuleId === 'articulation' && (
-        <div className="space-y-6">
+        <div className="space-y-8">
+          {/* Complete Graphic Notation Flashcards System */}
+          <NotationFlashcards />
+
+          {/* Quick Sound Matrix for Rehearsals */}
           <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 sm:p-8">
-            <h2 className="font-serif text-2xl font-bold text-slate-100 mb-2">
-              11. Articulation Academy for Brass Musicians
-            </h2>
-            <p className="text-sm text-slate-300 leading-relaxed mb-6">
-              Articulation dictates how each note begins, sustains, and terminates. In brass playing, the tongue acts as a valve releasing pressurized air into the mouthpiece. Click each articulation to hear synthesized demonstrations:
+            <h3 className="font-serif text-xl font-bold text-slate-100 mb-2">
+              Brass Band Rapid Articulation Rehearsal Matrix
+            </h3>
+            <p className="text-xs text-slate-300 leading-relaxed mb-6">
+              Compare articulations on the concert pitch F (349.23 Hz) in sequence to hear the acoustic contrast between tongue release speed, note length, and dynamic attack:
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
               {[
-                { type: 'staccato', sym: '•', title: 'Staccato', desc: 'Short, light, and separated. Leaves daylight between notes.' },
-                { type: 'tenuto', sym: '—', title: 'Tenuto', desc: 'Hold note for its full intended duration with broad warm tone.' },
-                { type: 'accent', sym: '>', title: 'Accent', desc: 'Sudden dynamic burst on the attack of the note.' },
-                { type: 'marcato', sym: '^', title: 'Marcato', desc: 'Sharply accented and detached (often called "the rooftop accent").' },
-                { type: 'legato', sym: '⌒', title: 'Legato / Slur', desc: 'Smooth, unbroken connection between pitches without tongue.' }
+                { type: 'staccato', sym: '•', title: 'Staccato', desc: 'Short, light, 50% length with acoustic daylight.' },
+                { type: 'tenuto', sym: '—', title: 'Tenuto', desc: '100% full duration, sustained warm core tone.' },
+                { type: 'accent', sym: '>', title: 'Accent', desc: 'Explosive initial burst, rapid settle to dynamic.' },
+                { type: 'marcato', sym: '^', title: 'Marcato', desc: 'Sharply accented AND detached rooftop attack.' },
+                { type: 'legato', sym: '⌒', title: 'Legato / Slur', desc: 'Seamless pitch change with zero tongue stroke.' }
               ].map((art) => (
                 <div
                   key={art.type}
-                  className="rounded-xl border border-slate-800 bg-slate-950 p-5 space-y-3 flex flex-col justify-between"
+                  className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2 flex flex-col justify-between"
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-serif text-lg font-bold text-slate-100">{art.title}</span>
-                      <span className="font-serif text-2xl font-bold text-amber-400 bg-slate-900 h-10 w-10 flex items-center justify-center rounded-lg border border-slate-800">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-serif text-base font-bold text-slate-100">{art.title}</span>
+                      <span className="font-serif text-xl font-bold text-amber-400 bg-slate-900 h-8 w-8 flex items-center justify-center rounded-lg border border-slate-800">
                         {art.sym}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-400 leading-relaxed">
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
                       {art.desc}
                     </p>
                   </div>
@@ -712,10 +788,128 @@ export const TheoryAcademy: React.FC = () => {
                     className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs font-bold text-amber-300 hover:bg-slate-800 transition-all mt-2"
                   >
                     <Volume2 className="h-3.5 w-3.5" />
-                    <span>Hear {art.title} Articulation</span>
+                    <span>Hear {art.title}</span>
                   </button>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODULE 12: DYNAMICS ACADEMY */}
+      {activeModuleId === 'dynamics' && (
+        <div className="space-y-6">
+          <div className="rounded-3xl border border-amber-500/30 bg-slate-900/90 p-6 sm:p-8 shadow-xl">
+            <span className="text-xs uppercase font-semibold text-amber-400 tracking-wider">
+              Acoustic Physics & Expressive Markings
+            </span>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-100 mt-1 mb-2">
+              12. Dynamics & Acoustic Power in Brass Music
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+              Dynamics do not simply alter volume; they govern the entire harmonic timbre, lip buzz resistance, and section pyramid balance of a British brass band. Explore each dynamic below with interactive audio synthesis and technical brass tips:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { sym: 'pp', name: 'Pianissimo', meaning: 'Very Soft', freq: 349.23, vol: 0.15, tip: 'Warm, relaxed, whisper air column. Do NOT clamp the lips or tone will sound thin and strident.' },
+                { sym: 'p', name: 'Piano', meaning: 'Soft', freq: 349.23, vol: 0.28, tip: 'Gentle conversational air. Perfect for accompaniments under a solo cornet or euphonium.' },
+                { sym: 'mp', name: 'Mezzo Piano', meaning: 'Moderately Soft', freq: 349.23, vol: 0.45, tip: 'Warm, centered core resonance. The baseline for inner-band harmonized chorales.' },
+                { sym: 'mf', name: 'Mezzo Forte', meaning: 'Moderately Loud', freq: 349.23, vol: 0.65, tip: 'Natural speaking voice of the instrument with effortless diaphragmatic support.' },
+                { sym: 'f', name: 'Forte', meaning: 'Loud', freq: 349.23, vol: 0.85, tip: 'Fast pressurized air. Resonant bell flare without forcing into a distorted buzz.' },
+                { sym: 'ff', name: 'Fortissimo', meaning: 'Very Loud', freq: 349.23, vol: 1.05, tip: 'Maximum acoustic power. Lower brass pyramid carries the foundation with soaring cornets.' },
+                { sym: 'sfz', name: 'Sforzando', meaning: 'Sudden Force', freq: 349.23, vol: 1.15, tip: 'Explosive hammer attack on front of note, instantly dropping to underlying dynamic.' },
+                { sym: '<', name: 'Crescendo', meaning: 'Gradually Louder', freq: 349.23, vol: 0.75, tip: 'Smoothly accelerate air speed over time; open teeth slightly to avoid going sharp.' },
+                { sym: '>', name: 'Diminuendo', meaning: 'Gradually Softer', freq: 349.23, vol: 0.5, tip: 'Taper air volume while maintaining firm embouchure corners so pitch does not drop flat.' }
+              ].map((dyn) => (
+                <div
+                  key={dyn.sym}
+                  className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-3 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-serif text-3xl font-black text-amber-400 italic">{dyn.sym}</span>
+                      <span className="text-xs font-mono bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold">
+                        {dyn.name}
+                      </span>
+                    </div>
+                    <div className="text-xs text-amber-300 font-semibold mb-1">"{dyn.meaning}"</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      {dyn.tip}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => brassAudio.playBrassTone(dyn.freq, 0.7, 'cornet')}
+                    className="flex items-center justify-center gap-1.5 w-full py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-amber-300 hover:bg-slate-800 transition-all mt-2"
+                  >
+                    <Volume2 className="h-3.5 w-3.5" />
+                    <span>Hear {dyn.sym} Dynamic Sample</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODULE 16: TRANSPOSITION & CLEFS MASTERCLASS */}
+      {activeModuleId === 'transposition' && (
+        <div className="space-y-6">
+          <div className="rounded-3xl border border-amber-500/30 bg-slate-900/90 p-6 sm:p-8 shadow-xl">
+            <span className="text-xs uppercase font-semibold text-amber-400 tracking-wider">
+              Clefs, Pitch Centers & Transposition
+            </span>
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-100 mt-1 mb-2">
+              16. Clefs, Transposition & How They Shape Articulations
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+              Learn why the British brass band system is the most unified educational method in world music: almost every player reads Treble Clef transposed, so fingering patterns and tongue articulation feelings are identical across instruments!
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="font-serif text-4xl text-amber-400">𝄞</span>
+                  <h3 className="font-serif text-xl font-bold text-slate-100">Treble Clef (G Clef)</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Wraps around the 2nd line, fixing it as G4. In brass bands, Bb Cornets, Eb Soprano, Eb Tenor Horns, Bb Baritones, Euphoniums, Tenor Trombones, EEb Basses, and giant BBb Basses all read Treble Clef!
+                </p>
+                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs space-y-1 font-mono">
+                  <div><strong>Lines:</strong> E4 – G4 – B4 – D5 – F5</div>
+                  <div><strong>Spaces:</strong> F4 – A4 – C5 – E5 ("FACE")</div>
+                </div>
+                <button
+                  onClick={() => brassAudio.playBrassTone(392.00, 0.8, 'cornet')}
+                  className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs hover:bg-amber-300"
+                >
+                  <Volume2 className="h-3.5 w-3.5 fill-slate-950" />
+                  <span>Hear G4 Reference Pitch (392 Hz)</span>
+                </button>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="font-serif text-4xl text-amber-400">𝄢</span>
+                  <h3 className="font-serif text-xl font-bold text-slate-100">Bass Clef (F Clef)</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Centers between the two dots on line 4, fixing it as F3. In brass bands, this is read exclusively by the <strong>Bass Trombone</strong> at concert pitch (non-transposing).
+                </p>
+                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs space-y-1 font-mono">
+                  <div><strong>Lines:</strong> G2 – B2 – D3 – F3 – A3</div>
+                  <div><strong>Spaces:</strong> A2 – C3 – E3 – G3</div>
+                </div>
+                <button
+                  onClick={() => brassAudio.playBrassTone(174.61, 0.8, 'trombone')}
+                  className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-slate-900 border border-slate-700 text-amber-300 font-bold text-xs hover:bg-slate-800"
+                >
+                  <Volume2 className="h-3.5 w-3.5" />
+                  <span>Hear F3 Reference Pitch (174.6 Hz)</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
