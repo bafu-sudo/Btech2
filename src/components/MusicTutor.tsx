@@ -113,6 +113,8 @@ const notes: NoteData[] = [
     cornetFingering: "0",
     euphoniumFingering: "1",
   },
+];,
+  },
 ];
 
 const timeSignatures = [
@@ -208,6 +210,7 @@ function MusicStaff({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Clear previous score
     containerRef.current.innerHTML = "";
 
     const width = Math.max(
@@ -215,7 +218,7 @@ function MusicStaff({
       containerRef.current.clientWidth || 700
     );
 
-    const height = 230;
+    const height = 260;
 
     const renderer = new Renderer(
       containerRef.current,
@@ -226,31 +229,40 @@ function MusicStaff({
 
     const context = renderer.getContext();
 
-    context.setFont("Arial", 14, "bold");
+    // Create the actual music staff
+    const stave = new Stave(
+      80,
+      70,
+      width - 140
+    );
 
-    const stave = new Stave(20, 65, width - 40);
-
+    // Add correct clef
     stave.addClef(clef);
+
+    // Add time signature
     stave.addTimeSignature(timeSignature);
 
     stave.setContext(context).draw();
 
-    const staveNote = new StaveNote({
+    // Create the selected note
+    const note = new StaveNote({
       keys: [selectedNote.vexKey],
       duration: "q",
-      clef,
+      clef: clef,
     });
 
+    // Create voice
     const voice = new Voice({
       numBeats: 1,
       beatValue: 4,
     });
 
-    voice.addTickables([staveNote]);
+    voice.addTickables([note]);
 
+    // Position the note correctly on the staff
     new Formatter()
       .joinVoices([voice])
-      .format([voice], Math.max(180, width - 260));
+      .format([voice], 300);
 
     voice.draw(context, stave);
   }, [selectedNote, clef, timeSignature]);
