@@ -6,15 +6,13 @@ type Instrument = {
   clef: "treble" | "bass";
   transposition: string;
   description: string;
-};
-
-const instruments: Instrument[] = [
+};const instruments: Instrument[] = [
   {
     name: "B♭ Cornet",
     clef: "treble",
     transposition: "B♭",
     description:
-      "A brass-band instrument normally written in treble clef as a B♭ transposing instrument.",
+      "A British brass-band instrument normally written in treble clef as a B♭ transposing instrument.",
   },
   {
     name: "B♭ Trumpet",
@@ -32,19 +30,17 @@ const instruments: Instrument[] = [
   },
   {
     name: "Euphonium",
-    clef: "bass",
-    transposition: "Concert / B♭",
+    clef: "treble",
+    transposition: "B♭",
     description:
-      "A low brass instrument commonly written in bass clef.",
+      "A British brass-band euphonium normally written in treble clef as a B♭ transposing instrument.",
   },
   {
-   {
-  name: "Euphonium",
-  clef: "treble",
-  transposition: "B♭",
-  description:
-    "A British brass-band euphonium normally written in treble clef as a B♭ transposing instrument.",
-},
+    name: "Trombone",
+    clef: "bass",
+    transposition: "Concert",
+    description:
+      "A low brass instrument commonly written in bass clef.",
   },
 ];
 
@@ -59,6 +55,63 @@ type NoteData = {
 const notes: NoteData[] = [
   {
     name: "C4",
+    vexKey: "c/4",
+    frequency: 261.63,
+    cornetFingering: "0",
+    euphoniumFingering: "1",
+  },
+  {
+    name: "D4",
+    vexKey: "d/4",
+    frequency: 293.66,
+    cornetFingering: "1 + 3",
+    euphoniumFingering: "1 + 2",
+  },
+  {
+    name: "E4",
+    vexKey: "e/4",
+    frequency: 329.63,
+    cornetFingering: "1 + 2",
+    euphoniumFingering: "2",
+  },
+  {
+    name: "F4",
+    vexKey: "f/4",
+    frequency: 349.23,
+    cornetFingering: "1",
+    euphoniumFingering: "0",
+  },
+  {
+    name: "G4",
+    vexKey: "g/4",
+    frequency: 392.0,
+    cornetFingering: "0",
+    euphoniumFingering: "1 + 2",
+  },
+  {
+    name: "A4",
+    vexKey: "a/4",
+    frequency: 440,
+    cornetFingering: "1 + 2",
+    euphoniumFingering: "2",
+  },
+  {
+    name: "B4",
+    vexKey: "b/4",
+    frequency: 493.88,
+    cornetFingering: "2",
+    euphoniumFingering: "1",
+  },
+  {
+    name: "C5",
+    vexKey: "c/5",
+    frequency: 523.25,
+    cornetFingering: "0",
+    euphoniumFingering: "1",
+  },
+];
+
+  name: "C4",
     vexKey: "c/4",
     frequency: 261.63,
     cornetFingering: "0",
