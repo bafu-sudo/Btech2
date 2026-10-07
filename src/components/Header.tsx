@@ -5,6 +5,7 @@ import { brassAudio } from '../audio/brassAudio';
 type ActiveTab =
   | 'academy'
   | 'musicTutor'
+  | 'tuner'
   | 'scales'
   | 'accidentals'
   | 'scores'
@@ -39,6 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Brand */}
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={() => setActiveTab('academy')}
             className="flex items-center gap-2 text-left transition-opacity hover:opacity-90"
           >
@@ -64,6 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Instruments */}
           <button
+            type="button"
             onClick={() => setActiveTab('academy')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'academy'
@@ -76,6 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Music Tutor */}
           <button
+            type="button"
             onClick={() => setActiveTab('musicTutor')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'musicTutor'
@@ -86,8 +90,22 @@ export const Header: React.FC<HeaderProps> = ({
             🎼 Music Tutor
           </button>
 
+          {/* Tuner */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('tuner')}
+            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+              activeTab === 'tuner'
+                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
+                : 'hover:text-amber-200'
+            }`}
+          >
+            🎛️ Tuner
+          </button>
+
           {/* Scales */}
           <button
+            type="button"
             onClick={() => setActiveTab('scales')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'scales'
@@ -100,6 +118,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Sharps & Flats */}
           <button
+            type="button"
             onClick={() => setActiveTab('accidentals')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'accidentals'
@@ -112,6 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Scores */}
           <button
+            type="button"
             onClick={() => setActiveTab('scores')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'scores'
@@ -130,6 +150,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Trombone */}
           <button
+            type="button"
             onClick={() => setActiveTab('trombone')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'trombone'
@@ -142,6 +163,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Percussion */}
           <button
+            type="button"
             onClick={() => setActiveTab('percussion')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'percussion'
@@ -154,6 +176,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Theory Quiz */}
           <button
+            type="button"
             onClick={() => setActiveTab('quiz')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'quiz'
@@ -166,6 +189,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* About */}
           <button
+            type="button"
             onClick={() => setActiveTab('about')}
             className={`whitespace-nowrap px-2 py-1 transition-colors ${
               activeTab === 'about'
@@ -182,9 +206,18 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Mute */}
           <button
+            type="button"
             onClick={toggleMute}
-            aria-label={isMuted ? 'Unmute brass sound' : 'Mute brass sound'}
-            title={isMuted ? 'Unmute Brass Audio' : 'Mute Brass Audio'}
+            aria-label={
+              isMuted
+                ? 'Unmute brass sound'
+                : 'Mute brass sound'
+            }
+            title={
+              isMuted
+                ? 'Unmute Brass Audio'
+                : 'Mute Brass Audio'
+            }
             className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-slate-300 transition-colors hover:border-slate-700 hover:text-amber-400 shrink-0"
           >
             {isMuted ? (
@@ -196,6 +229,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Founder */}
           <button
+            type="button"
             onClick={() => setActiveTab('about')}
             className="hidden xl:flex items-center gap-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-xs font-semibold text-amber-300 transition-colors hover:bg-amber-500/20 whitespace-nowrap"
           >
