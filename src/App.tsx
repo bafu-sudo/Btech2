@@ -10,9 +10,17 @@ import { PercussionLab } from './components/PercussionLab';
 import { QuizStudio } from './components/QuizStudio';
 import { AboutFounder } from './components/AboutFounder';
 import MusicTutor from './components/MusicTutor';
+import { SchoolBandManager } from './components/SchoolBandManager';
+import { BandmasterAcademy } from './components/BandmasterAcademy';
+import { OfflineLearning } from './components/OfflineLearning';
+import { TheoryAcademy } from './components/TheoryAcademy';
 
 type ActiveTab =
   | 'academy'
+  | 'theory'
+  | 'bandmaster'
+  | 'offline'
+  | 'groups'
   | 'scales'
   | 'accidentals'
   | 'scores'
@@ -22,7 +30,6 @@ type ActiveTab =
   | 'about'
   | 'musicTutor'
   | 'tuner';
- 
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('academy');
@@ -42,21 +49,22 @@ export default function App() {
       {/* Main Content */}
       <main className="flex-1">
         {activeTab === 'academy' && <BrassAcademy />}
+        {activeTab === 'theory' && <TheoryAcademy />}
+        {activeTab === 'bandmaster' && <BandmasterAcademy />}
+        {activeTab === 'offline' && <OfflineLearning />}
+
+        {activeTab === 'groups' && (
+          <SchoolBandManager onNavigateToTab={(targetTab) => setActiveTab(targetTab)} />
+        )}
 
         {activeTab === 'musicTutor' && <MusicTutor />}
-{activeTab === 'tuner' && <Tuner />}
+        {activeTab === 'tuner' && <Tuner />}
         {activeTab === 'scales' && <ScaleStudio />}
-
         {activeTab === 'accidentals' && <SharpsFlatsMasterclass />}
-
         {activeTab === 'scores' && <ScoreLibrary />}
-
         {activeTab === 'trombone' && <TromboneSlideStudio />}
-
         {activeTab === 'percussion' && <PercussionLab />}
-
         {activeTab === 'quiz' && <QuizStudio />}
-
         {activeTab === 'about' && <AboutFounder />}
       </main>
 
@@ -90,13 +98,17 @@ export default function App() {
         <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4">
 
           <div className="flex items-center gap-2">
-            <span className="font-serif font-bold text-slate-300">
-              btech
+            <span className="font-serif font-bold text-amber-400">
+              Btech2
             </span>
 
             <span aria-hidden="true">·</span>
 
-            <span>British Brass Band Academy</span>
+            <span>The Complete Brass Band & Conducting Academy</span>
+
+            <span aria-hidden="true">·</span>
+
+            <span className="text-amber-300 font-medium">"Learn. Practise. Conduct. Perform."</span>
           </div>
 
           <div className="flex items-center gap-4 text-slate-400">

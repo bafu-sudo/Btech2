@@ -91,6 +91,15 @@ export interface ScorePiece {
   lyricsOrVerse?: string;
   melodyNotes: MelodyNote[];
   abcNotation?: string;
+  // Licensing & Attribution
+  license?: 'Public Domain' | 'Creative Commons (CC BY 4.0)' | 'Original Btech2 Educational Arrangement' | 'Traditional Non-Copyright';
+  sourceUrl?: string;
+  attribution?: string;
+  redistributionPermitted?: boolean;
+  offlineDownloadPermitted?: boolean;
+  hasAudioSample?: boolean;
+  hasDownloadablePdf?: boolean;
+  availableParts?: string[];
 }
 
 export interface AccidentalInfo {

@@ -4,6 +4,10 @@ import { brassAudio } from '../audio/brassAudio';
 
 type ActiveTab =
   | 'academy'
+  | 'theory'
+  | 'bandmaster'
+  | 'offline'
+  | 'groups'
   | 'musicTutor'
   | 'tuner'
   | 'scales'
@@ -42,22 +46,26 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('academy')}
-            className="flex items-center gap-2 text-left transition-opacity hover:opacity-90"
+            className="flex items-center gap-2.5 text-left transition-opacity hover:opacity-90 group"
           >
-            <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-amber-400">
-              btech
-            </span>
+            {/* Elegant Brass Insignia Icon */}
+            <div className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 shadow-lg shadow-amber-500/20 ring-1 ring-amber-300/40">
+              <span className="font-serif text-slate-950 font-black text-sm tracking-tighter">B2</span>
+            </div>
 
-            <span
-              className="hidden text-xs text-slate-400 md:inline"
-              aria-hidden="true"
-            >
-              ·
-            </span>
-
-            <span className="hidden text-xs font-medium text-slate-400 md:inline">
-              British Brass Band Academy
-            </span>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5 leading-none">
+                <span className="font-serif text-lg sm:text-xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500">
+                  Btech2
+                </span>
+                <span className="rounded bg-amber-500/10 px-1 py-0.2 text-[9px] font-bold text-amber-300 border border-amber-500/20">
+                  ACADEMY
+                </span>
+              </div>
+              <span className="hidden text-[10px] font-medium text-slate-400 sm:inline mt-0.5 tracking-tight">
+                Brass Band & Conducting Platform
+              </span>
+            </div>
           </button>
         </div>
 
@@ -75,6 +83,67 @@ export const Header: React.FC<HeaderProps> = ({
             }`}
           >
             Instruments
+          </button>
+
+          {/* Music Theory Academy */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('theory')}
+            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'theory'
+                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
+                : 'hover:text-amber-200'
+            }`}
+          >
+            <span>🎼 Theory Academy</span>
+            <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300 font-bold border border-amber-500/30">
+              16 Modules
+            </span>
+          </button>
+
+          {/* Bandmaster Academy */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('bandmaster')}
+            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'bandmaster'
+                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
+                : 'hover:text-amber-200'
+            }`}
+          >
+            <span>🧭 Bandmaster</span>
+            <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300 font-bold border border-amber-500/30">
+              Academy
+            </span>
+          </button>
+
+          {/* Offline Learning */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('offline')}
+            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'offline'
+                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
+                : 'hover:text-amber-200'
+            }`}
+          >
+            <span>📥 Offline Library</span>
+          </button>
+
+          {/* School & Band Mode (Groups) */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('groups')}
+            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'groups'
+                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
+                : 'hover:text-amber-200'
+            }`}
+          >
+            <span>🏫 School & Band Mode</span>
+            <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300 font-bold border border-amber-500/30">
+              New
+            </span>
           </button>
 
           {/* Music Tutor */}

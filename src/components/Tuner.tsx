@@ -346,7 +346,7 @@ export default function Tuner() {
         }
 
         analyserRef.current.getFloatTimeDomainData(
-          bufferRef.current,
+          bufferRef.current as any,
         );
 
         const detectedFrequency = autoCorrelate(
