@@ -1,12 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Renderer, Stave, StaveNote, Voice, Formatter } from "vexflow";
+import {
+  Renderer,
+  Stave,
+  StaveNote,
+  Voice,
+  Formatter,
+} from "vexflow";
 
 type Instrument = {
   name: string;
   clef: "treble" | "bass";
   transposition: string;
   description: string;
-};const instruments: Instrument[] = [
+};
+
+const instruments: Instrument[] = [
   {
     name: "B♭ Cornet",
     clef: "treble",
@@ -111,65 +119,6 @@ const notes: NoteData[] = [
   },
 ];
 
-  name: "C4",
-    vexKey: "c/4",
-    frequency: 261.63,
-    cornetFingering: "0",
-    euphoniumFingering: "1",
-  },
-  {
-    name: "D4",
-    vexKey: "d/4",
-    frequency: 293.66,
-    cornetFingering: "1 + 3",
-    euphoniumFingering: "1 + 2",
-  },
-  {
-    name: "E4",
-    vexKey: "e/4",
-    frequency: 329.63,
-    cornetFingering: "1 + 2",
-    euphoniumFingering: "2",
-  },
-  {
-    name: "F4",
-    vexKey: "f/4",
-    frequency: 349.23,
-    cornetFingering: "1",
-    euphoniumFingering: "0",
-  },
-  {
-    name: "G4",
-    vexKey: "g/4",
-    frequency: 392.0,
-    cornetFingering: "0",
-    euphoniumFingering: "1 + 2",
-  },
-  {
-    name: "A4",
-    vexKey: "a/4",
-    frequency: 440,
-    cornetFingering: "1 + 2",
-    euphoniumFingering: "2",
-  },
-  {
-    name: "B4",
-    vexKey: "b/4",
-    frequency: 493.88,
-    cornetFingering: "2",
-    euphoniumFingering: "1",
-  },
-  {
-    name: "C5",
-    vexKey: "c/5",
-    frequency: 523.25,
-    cornetFingering: "0",
-    euphoniumFingering: "1",
-  },
-];,
-  },
-];
-
 const timeSignatures = [
   {
     value: "2/4",
@@ -214,7 +163,7 @@ const tempoNames = [
 ];
 
 function playTone(frequency: number, duration = 0.7) {
-  const AudioContext =
+  const AudioContextClass =
     window.AudioContext ||
     (
       window as typeof window & {
@@ -222,9 +171,9 @@ function playTone(frequency: number, duration = 0.7) {
       }
     ).webkitAudioContext;
 
-  if (!AudioContext) return;
+  if (!AudioContextClass) return;
 
-  const context = new AudioContext();
+  const context = new AudioContextClass();
 
   const oscillator = context.createOscillator();
   const gain = context.createGain();
@@ -233,10 +182,12 @@ function playTone(frequency: number, duration = 0.7) {
   oscillator.type = "sine";
 
   gain.gain.setValueAtTime(0.0001, context.currentTime);
+
   gain.gain.exponentialRampToValueAtTime(
     0.25,
     context.currentTime + 0.02
   );
+
   gain.gain.exponentialRampToValueAtTime(
     0.0001,
     context.currentTime + duration
@@ -263,7 +214,6 @@ function MusicStaff({
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Clear previous score
     containerRef.current.innerHTML = "";
 
     const width = Math.max(
@@ -271,7 +221,7 @@ function MusicStaff({
       containerRef.current.clientWidth || 700
     );
 
-    const height = 260;
+    const height = 280;
 
     const renderer = new Renderer(
       containerRef.current,
@@ -282,29 +232,30 @@ function MusicStaff({
 
     const context = renderer.getContext();
 
-    // Create the actual music staff
+    /*
+      The staff starts at x=80.
+      The note is positioned by VexFlow according to:
+      - its pitch key
+      - the selected clef
+    */
+
     const stave = new Stave(
       80,
       70,
       width - 140
     );
 
-    // Add correct clef
     stave.addClef(clef);
-
-    // Add time signature
     stave.addTimeSignature(timeSignature);
 
     stave.setContext(context).draw();
 
-    // Create the selected note
     const note = new StaveNote({
       keys: [selectedNote.vexKey],
       duration: "q",
       clef: clef,
     });
 
-    // Create voice
     const voice = new Voice({
       numBeats: 1,
       beatValue: 4,
@@ -312,7 +263,6 @@ function MusicStaff({
 
     voice.addTickables([note]);
 
-    // Position the note correctly on the staff
     new Formatter()
       .joinVoices([voice])
       .format([voice], 300);
@@ -345,8 +295,10 @@ export default function MusicTutor() {
   const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
   const [timeSignature, setTimeSignature] = useState("4/4");
   const [bpm, setBpm] = useState(100);
-  const [metronomeRunning, setMetronomeRunning] = useState(false);
-  const [activeLesson, setActiveLesson] = useState("Notes");
+  const [metronomeRunning, setMetronomeRunning] =
+    useState(false);
+  const [activeLesson, setActiveLesson] =
+    useState("Notes");
 
   const instrument = instruments[instrumentIndex];
   const selectedNote = notes[selectedNoteIndex];
@@ -384,7 +336,12 @@ export default function MusicTutor() {
           "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
       }}
     >
-      <div style={{ maxWidth: 1400, margin: "auto" }}>
+      <div
+        style={{
+          maxWidth: 1400,
+          margin: "auto",
+        }}
+      >
         <header style={{ marginBottom: 30 }}>
           <div
             style={{
@@ -418,8 +375,8 @@ export default function MusicTutor() {
               lineHeight: 1.6,
             }}
           >
-            An interactive music-learning environment designed for
-            brass and band students.
+            An interactive music-learning environment
+            designed for brass and band students.
           </p>
         </header>
 
@@ -439,7 +396,9 @@ export default function MusicTutor() {
               height: "fit-content",
             }}
           >
-            <h2 style={{ marginTop: 0 }}>Music Tutor</h2>
+            <h2 style={{ marginTop: 0 }}>
+              Music Tutor
+            </h2>
 
             {[
               "Notes",
@@ -461,7 +420,9 @@ export default function MusicTutor() {
                   textAlign: "left",
                   cursor: "pointer",
                   color:
-                    activeLesson === lesson ? "#020617" : "#ffffff",
+                    activeLesson === lesson
+                      ? "#020617"
+                      : "#ffffff",
                   background:
                     activeLesson === lesson
                       ? "#22d3ee"
@@ -478,7 +439,8 @@ export default function MusicTutor() {
             <section
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns:
+                  "1fr 1fr",
                 gap: 20,
                 marginBottom: 20,
               }}
@@ -504,7 +466,9 @@ export default function MusicTutor() {
                 <select
                   value={instrumentIndex}
                   onChange={(event) =>
-                    setInstrumentIndex(Number(event.target.value))
+                    setInstrumentIndex(
+                      Number(event.target.value)
+                    )
                   }
                   style={{
                     width: "100%",
@@ -512,14 +476,20 @@ export default function MusicTutor() {
                     borderRadius: 10,
                     background: "#1e293b",
                     color: "#fff",
-                    border: "1px solid #334155",
+                    border:
+                      "1px solid #334155",
                   }}
                 >
-                  {instruments.map((item, index) => (
-                    <option value={index} key={item.name}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {instruments.map(
+                    (item, index) => (
+                      <option
+                        value={index}
+                        key={item.name}
+                      >
+                        {item.name}
+                      </option>
+                    )
+                  )}
                 </select>
               </div>
 
@@ -528,10 +498,16 @@ export default function MusicTutor() {
                   background: "#0f172a",
                   borderRadius: 20,
                   padding: 20,
-                  border: "1px solid #1e293b",
+                  border:
+                    "1px solid #1e293b",
                 }}
               >
-                <div style={{ color: "#94a3b8", fontSize: 13 }}>
+                <div
+                  style={{
+                    color: "#94a3b8",
+                    fontSize: 13,
+                  }}
+                >
                   CURRENT INSTRUMENT
                 </div>
 
@@ -539,12 +515,27 @@ export default function MusicTutor() {
                   {instrument.name}
                 </h2>
 
-                <div style={{ color: "#67e8f9" }}>
-                  {instrument.clef === "treble"
+                <div
+                  style={{
+                    color: "#67e8f9",
+                  }}
+                >
+                  {instrument.clef ===
+                  "treble"
                     ? "Treble"
                     : "Bass"}{" "}
-                  clef · {instrument.transposition}
+                  clef ·{" "}
+                  {instrument.transposition}
                 </div>
+
+                <p
+                  style={{
+                    color: "#94a3b8",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {instrument.description}
+                </p>
               </div>
             </section>
 
@@ -553,14 +544,17 @@ export default function MusicTutor() {
                 <MusicStaff
                   selectedNote={selectedNote}
                   clef={instrument.clef}
-                  timeSignature={timeSignature}
+                  timeSignature={
+                    timeSignature
+                  }
                 />
 
                 <section
                   style={{
                     marginTop: 20,
                     display: "grid",
-                    gridTemplateColumns: "1fr 300px",
+                    gridTemplateColumns:
+                      "1fr 300px",
                     gap: 20,
                   }}
                 >
@@ -581,31 +575,38 @@ export default function MusicTutor() {
                         gap: 10,
                       }}
                     >
-                      {notes.map((note, index) => (
-                        <button
-                          key={note.name}
-                          onClick={() =>
-                            setSelectedNoteIndex(index)
-                          }
-                          style={{
-                            padding: 15,
-                            borderRadius: 12,
-                            border: 0,
-                            cursor: "pointer",
-                            fontWeight: 800,
-                            background:
-                              selectedNoteIndex === index
-                                ? "#22d3ee"
-                                : "#1e293b",
-                            color:
-                              selectedNoteIndex === index
-                                ? "#020617"
-                                : "#fff",
-                          }}
-                        >
-                          {note.name}
-                        </button>
-                      ))}
+                      {notes.map(
+                        (note, index) => (
+                          <button
+                            key={note.name}
+                            onClick={() =>
+                              setSelectedNoteIndex(
+                                index
+                              )
+                            }
+                            style={{
+                              padding: 15,
+                              borderRadius: 12,
+                              border: 0,
+                              cursor:
+                                "pointer",
+                              fontWeight: 800,
+                              background:
+                                selectedNoteIndex ===
+                                index
+                                  ? "#22d3ee"
+                                  : "#1e293b",
+                              color:
+                                selectedNoteIndex ===
+                                index
+                                  ? "#020617"
+                                  : "#fff",
+                            }}
+                          >
+                            {note.name}
+                          </button>
+                        )
+                      )}
                     </div>
                   </div>
 
@@ -616,9 +617,15 @@ export default function MusicTutor() {
                       padding: 24,
                     }}
                   >
-                    <h2>{selectedNote.name}</h2>
+                    <h2>
+                      {selectedNote.name}
+                    </h2>
 
-                    <p style={{ color: "#94a3b8" }}>
+                    <p
+                      style={{
+                        color: "#94a3b8",
+                      }}
+                    >
                       Fingering
                     </p>
 
@@ -633,17 +640,21 @@ export default function MusicTutor() {
                     </div>
 
                     <button
-                      onClick={playSelectedNote}
+                      onClick={
+                        playSelectedNote
+                      }
                       style={{
                         marginTop: 20,
                         width: "100%",
                         padding: 14,
                         border: 0,
                         borderRadius: 12,
-                        background: "#22d3ee",
+                        background:
+                          "#22d3ee",
                         color: "#020617",
                         fontWeight: 900,
-                        cursor: "pointer",
+                        cursor:
+                          "pointer",
                       }}
                     >
                       🔊 Play Note
@@ -661,7 +672,9 @@ export default function MusicTutor() {
                   padding: 30,
                 }}
               >
-                <h2>Understanding Clefs</h2>
+                <h2>
+                  Understanding Clefs
+                </h2>
 
                 <p
                   style={{
@@ -669,10 +682,12 @@ export default function MusicTutor() {
                     lineHeight: 1.7,
                   }}
                 >
-                  A clef tells the musician how notes on the
-                  staff should be interpreted. The Music Tutor
-                  automatically changes the displayed clef when
-                  you change instrument.
+                  A clef tells the musician
+                  how notes on the staff should
+                  be interpreted. The Music Tutor
+                  automatically changes the
+                  displayed clef when you change
+                  instrument.
                 </p>
 
                 <div
@@ -688,85 +703,124 @@ export default function MusicTutor() {
                     ["𝄞", "Treble Clef"],
                     ["𝄢", "Bass Clef"],
                     ["𝄡", "Alto Clef"],
-                  ].map(([symbol, name]) => (
-                    <div
-                      key={name}
-                      style={{
-                        background: "#1e293b",
-                        padding: 30,
-                        borderRadius: 15,
-                        textAlign: "center",
-                      }}
-                    >
-                      <div style={{ fontSize: 70 }}>
-                        {symbol}
-                      </div>
+                  ].map(
+                    ([symbol, name]) => (
+                      <div
+                        key={name}
+                        style={{
+                          background:
+                            "#1e293b",
+                          padding: 30,
+                          borderRadius: 15,
+                          textAlign:
+                            "center",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 70,
+                          }}
+                        >
+                          {symbol}
+                        </div>
 
-                      <strong>{name}</strong>
-                    </div>
-                  ))}
+                        <strong>
+                          {name}
+                        </strong>
+                      </div>
+                    )
+                  )}
                 </div>
               </section>
             )}
 
-            {activeLesson === "Time Signatures" && (
+            {activeLesson ===
+              "Time Signatures" && (
               <section>
                 <div
                   style={{
-                    background: "#0f172a",
+                    background:
+                      "#0f172a",
                     borderRadius: 20,
                     padding: 30,
                   }}
                 >
-                  <h2>Time Signatures</h2>
+                  <h2>
+                    Time Signatures
+                  </h2>
 
-                  <p style={{ color: "#cbd5e1" }}>
-                    The top number tells you how many beats are
-                    in each measure. The bottom number tells you
-                    which note value receives the beat.
+                  <p
+                    style={{
+                      color:
+                        "#cbd5e1",
+                    }}
+                  >
+                    The top number tells
+                    you how many beats are
+                    in each measure. The
+                    bottom number tells you
+                    which note value receives
+                    the beat.
                   </p>
 
                   <div
                     style={{
                       display: "flex",
-                      flexWrap: "wrap",
+                      flexWrap:
+                        "wrap",
                       gap: 10,
                       marginTop: 20,
                     }}
                   >
-                    {timeSignatures.map((item) => (
-                      <button
-                        key={item.value}
-                        onClick={() =>
-                          setTimeSignature(item.value)
-                        }
-                        style={{
-                          padding: "14px 22px",
-                          borderRadius: 12,
-                          border: 0,
-                          background:
-                            timeSignature === item.value
-                              ? "#22d3ee"
-                              : "#1e293b",
-                          color:
-                            timeSignature === item.value
-                              ? "#020617"
-                              : "#fff",
-                          fontWeight: 900,
-                          cursor: "pointer",
-                        }}
-                      >
-                        {item.value}
-                      </button>
-                    ))}
+                    {timeSignatures.map(
+                      (item) => (
+                        <button
+                          key={
+                            item.value
+                          }
+                          onClick={() =>
+                            setTimeSignature(
+                              item.value
+                            )
+                          }
+                          style={{
+                            padding:
+                              "14px 22px",
+                            borderRadius:
+                              12,
+                            border: 0,
+                            background:
+                              timeSignature ===
+                              item.value
+                                ? "#22d3ee"
+                                : "#1e293b",
+                            color:
+                              timeSignature ===
+                              item.value
+                                ? "#020617"
+                                : "#fff",
+                            fontWeight:
+                              900,
+                            cursor:
+                              "pointer",
+                          }}
+                        >
+                          {
+                            item.value
+                          }
+                        </button>
+                      )
+                    )}
                   </div>
                 </div>
 
                 <div
                   style={{
                     marginTop: 20,
-                    background: "#ffffff",
-                    color: "#020617",
+                    background:
+                      "#ffffff",
+                    color:
+                      "#020617",
                     borderRadius: 20,
                     padding: 30,
                   }}
@@ -775,8 +829,10 @@ export default function MusicTutor() {
                     const selected =
                       timeSignatures.find(
                         (item) =>
-                          item.value === timeSignature
-                      ) || timeSignatures[2];
+                          item.value ===
+                          timeSignature
+                      ) ||
+                      timeSignatures[2];
 
                     return (
                       <>
@@ -786,15 +842,28 @@ export default function MusicTutor() {
                             fontWeight: 900,
                           }}
                         >
-                          {selected.value}
+                          {
+                            selected.value
+                          }
                         </div>
 
-                        <h3>{selected.value}</h3>
+                        <h3>
+                          {
+                            selected.value
+                          }
+                        </h3>
 
-                        <p>{selected.description}</p>
+                        <p>
+                          {
+                            selected.description
+                          }
+                        </p>
 
                         <strong>
-                          Counting: {selected.counting}
+                          Counting:{" "}
+                          {
+                            selected.counting
+                          }
                         </strong>
                       </>
                     );
@@ -806,47 +875,65 @@ export default function MusicTutor() {
             {activeLesson === "Tempo" && (
               <section
                 style={{
-                  background: "#0f172a",
+                  background:
+                    "#0f172a",
                   borderRadius: 20,
                   padding: 30,
-                  textAlign: "center",
+                  textAlign:
+                    "center",
                 }}
               >
-                <h2>Tempo & Metronome</h2>
+                <h2>
+                  Tempo & Metronome
+                </h2>
 
                 <div
                   style={{
                     fontSize: 80,
                     fontWeight: 900,
-                    color: "#22d3ee",
+                    color:
+                      "#22d3ee",
                   }}
                 >
                   {bpm}
                 </div>
 
-                <div style={{ color: "#94a3b8" }}>
+                <div
+                  style={{
+                    color:
+                      "#94a3b8",
+                  }}
+                >
                   BPM
                 </div>
 
                 <div
                   style={{
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent:
+                      "center",
                     gap: 10,
                     marginTop: 25,
                   }}
                 >
                   <button
                     onClick={() =>
-                      setBpm((value) =>
-                        Math.max(30, value - 5)
+                      setBpm(
+                        (value) =>
+                          Math.max(
+                            30,
+                            value - 5
+                          )
                       )
                     }
                     style={{
-                      padding: "12px 25px",
-                      borderRadius: 10,
+                      padding:
+                        "12px 25px",
+                      borderRadius:
+                        10,
                       border: 0,
-                      cursor: "pointer",
+                      cursor:
+                        "pointer",
                     }}
                   >
                     −
@@ -855,18 +942,24 @@ export default function MusicTutor() {
                   <button
                     onClick={() =>
                       setMetronomeRunning(
-                        (value) => !value
+                        (value) =>
+                          !value
                       )
                     }
                     style={{
-                      padding: "12px 30px",
-                      borderRadius: 10,
+                      padding:
+                        "12px 30px",
+                      borderRadius:
+                        10,
                       border: 0,
-                      cursor: "pointer",
-                      background: metronomeRunning
-                        ? "#ef4444"
-                        : "#22d3ee",
-                      fontWeight: 900,
+                      cursor:
+                        "pointer",
+                      background:
+                        metronomeRunning
+                          ? "#ef4444"
+                          : "#22d3ee",
+                      fontWeight:
+                        900,
                     }}
                   >
                     {metronomeRunning
@@ -876,15 +969,22 @@ export default function MusicTutor() {
 
                   <button
                     onClick={() =>
-                      setBpm((value) =>
-                        Math.min(240, value + 5)
+                      setBpm(
+                        (value) =>
+                          Math.min(
+                            240,
+                            value + 5
+                          )
                       )
                     }
                     style={{
-                      padding: "12px 25px",
-                      borderRadius: 10,
+                      padding:
+                        "12px 25px",
+                      borderRadius:
+                        10,
                       border: 0,
-                      cursor: "pointer",
+                      cursor:
+                        "pointer",
                     }}
                   >
                     +
@@ -900,24 +1000,45 @@ export default function MusicTutor() {
                     marginTop: 30,
                   }}
                 >
-                  {tempoNames.map((tempo) => (
-                    <button
-                      key={tempo.name}
-                      onClick={() => setBpm(tempo.bpm)}
-                      style={{
-                        padding: 15,
-                        borderRadius: 12,
-                        border: 0,
-                        background: "#1e293b",
-                        color: "#fff",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <strong>{tempo.name}</strong>
-                      <br />
-                      <small>{tempo.bpm} BPM</small>
-                    </button>
-                  ))}
+                  {tempoNames.map(
+                    (tempo) => (
+                      <button
+                        key={
+                          tempo.name
+                        }
+                        onClick={() =>
+                          setBpm(
+                            tempo.bpm
+                          )
+                        }
+                        style={{
+                          padding: 15,
+                          borderRadius:
+                            12,
+                          border: 0,
+                          background:
+                            "#1e293b",
+                          color:
+                            "#fff",
+                          cursor:
+                            "pointer",
+                        }}
+                      >
+                        <strong>
+                          {
+                            tempo.name
+                          }
+                        </strong>
+                        <br />
+                        <small>
+                          {
+                            tempo.bpm
+                          }{" "}
+                          BPM
+                        </small>
+                      </button>
+                    )
+                  )}
                 </div>
               </section>
             )}
@@ -925,43 +1046,59 @@ export default function MusicTutor() {
             {activeLesson === "Rhythm" && (
               <section
                 style={{
-                  background: "#ffffff",
-                  color: "#020617",
+                  background:
+                    "#ffffff",
+                  color:
+                    "#020617",
                   borderRadius: 20,
                   padding: 30,
                 }}
               >
-                <h2>Rhythm Trainer</h2>
+                <h2>
+                  Rhythm Trainer
+                </h2>
 
                 <div
                   style={{
-                    textAlign: "center",
+                    textAlign:
+                      "center",
                     fontSize: 70,
-                    margin: "40px 0",
+                    margin:
+                      "40px 0",
                   }}
                 >
                   ♩ ♪ ♪ ♩ 𝅗𝅥
                 </div>
 
-                <p style={{ textAlign: "center" }}>
-                  Learn to recognize note values and count
+                <p
+                  style={{
+                    textAlign:
+                      "center",
+                  }}
+                >
+                  Learn to recognize
+                  note values and count
                   rhythm correctly.
                 </p>
 
                 <div
                   style={{
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent:
+                      "center",
                     gap: 10,
-                    flexWrap: "wrap",
+                    flexWrap:
+                      "wrap",
                   }}
                 >
                   <button
                     style={{
                       padding: 15,
-                      borderRadius: 10,
+                      borderRadius:
+                        10,
                       border: 0,
-                      cursor: "pointer",
+                      cursor:
+                        "pointer",
                     }}
                   >
                     1 2 3 4
@@ -970,9 +1107,11 @@ export default function MusicTutor() {
                   <button
                     style={{
                       padding: 15,
-                      borderRadius: 10,
+                      borderRadius:
+                        10,
                       border: 0,
-                      cursor: "pointer",
+                      cursor:
+                        "pointer",
                     }}
                   >
                     1 & 2 & 3 & 4 &
@@ -981,9 +1120,11 @@ export default function MusicTutor() {
                   <button
                     style={{
                       padding: 15,
-                      borderRadius: 10,
+                      borderRadius:
+                        10,
                       border: 0,
-                      cursor: "pointer",
+                      cursor:
+                        "pointer",
                     }}
                   >
                     1-la-li 2-la-li
@@ -992,37 +1133,61 @@ export default function MusicTutor() {
               </section>
             )}
 
-            {activeLesson === "Practice" && (
+            {activeLesson ===
+              "Practice" && (
               <section
                 style={{
-                  background: "#0f172a",
+                  background:
+                    "#0f172a",
                   borderRadius: 20,
                   padding: 30,
                 }}
               >
-                <h2>Practice Session</h2>
+                <h2>
+                  Practice Session
+                </h2>
 
-                <p style={{ color: "#cbd5e1" }}>
-                  Practice {selectedNote.name} on the{" "}
+                <p
+                  style={{
+                    color:
+                      "#cbd5e1",
+                  }}
+                >
+                  Practice{" "}
+                  {selectedNote.name}{" "}
+                  on the{" "}
                   {instrument.name}.
                 </p>
 
                 <MusicStaff
-                  selectedNote={selectedNote}
-                  clef={instrument.clef}
-                  timeSignature={timeSignature}
+                  selectedNote={
+                    selectedNote
+                  }
+                  clef={
+                    instrument.clef
+                  }
+                  timeSignature={
+                    timeSignature
+                  }
                 />
 
                 <button
-                  onClick={playSelectedNote}
+                  onClick={
+                    playSelectedNote
+                  }
                   style={{
                     marginTop: 20,
-                    padding: "14px 25px",
-                    borderRadius: 12,
+                    padding:
+                      "14px 25px",
+                    borderRadius:
+                      12,
                     border: 0,
-                    background: "#22d3ee",
-                    fontWeight: 900,
-                    cursor: "pointer",
+                    background:
+                      "#22d3ee",
+                    fontWeight:
+                      900,
+                    cursor:
+                      "pointer",
                   }}
                 >
                   ▶ Play Practice Note
