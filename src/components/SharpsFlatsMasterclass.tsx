@@ -130,7 +130,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
       valveDescription,
       slideDescription,
       concertSoundName,
-      fullName: `${baseNote}${mod === 'sharp' ? 'â™¯' : mod === 'flat' ? 'â™­' : 'â™®'}`
+      fullName: `${baseNote}${mod === 'sharp' ? '♯' : mod === 'flat' ? '♭' : '♮'}`
     };
   };
 
@@ -158,7 +158,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
           Sharps & Flats Masterclass for All Brass Instruments
         </h1>
         <p className="mt-1 text-xs sm:text-sm text-slate-400 max-w-3xl">
-          Understand exactly how accidentals modify the physics of your horn. Learn why adding a sharp pulls the trombone slide inward or switches to a shorter valve loop, why flats lengthen the tubing, and how key signatures transpose across Bâ™­, Eâ™­, and Concert instruments.
+          Understand exactly how accidentals modify the physics of your horn. Learn why adding a sharp pulls the trombone slide inward or switches to a shorter valve loop, why flats lengthen the tubing, and how key signatures transpose across B♭, E♭, and Concert instruments.
         </p>
       </div>
 
@@ -173,7 +173,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
               Audition How Accidentals Alter Brass Fingerings
             </h2>
             <p className="text-xs text-slate-400 mt-1">
-              Select a note below and apply a Flat (â™­), Natural (â™®), or Sharp (â™¯) to hear the acoustic shift and see the exact valve/slide adjustment.
+              Select a note below and apply a Flat (♭), Natural (♮), or Sharp (♯) to hear the acoustic shift and see the exact valve/slide adjustment.
             </p>
           </div>
 
@@ -223,7 +223,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
                       : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
                   }`}
                 >
-                  <span className="font-serif text-2xl font-bold">â™­ Flat</span>
+                  <span className="font-serif text-2xl font-bold">♭ Flat</span>
                   <span className="text-[10px] mt-0.5 opacity-80">-1 Semitone (Lowers)</span>
                 </button>
 
@@ -235,7 +235,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
                       : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
                   }`}
                 >
-                  <span className="font-serif text-2xl font-bold">â™® Natural</span>
+                  <span className="font-serif text-2xl font-bold">♮ Natural</span>
                   <span className="text-[10px] mt-0.5 opacity-80">Unmodified White Key</span>
                 </button>
 
@@ -247,7 +247,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
                       : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
                   }`}
                 >
-                  <span className="font-serif text-2xl font-bold">â™¯ Sharp</span>
+                  <span className="font-serif text-2xl font-bold">♯ Sharp</span>
                   <span className="text-[10px] mt-0.5 opacity-80">+1 Semitone (Raises)</span>
                 </button>
               </div>
@@ -303,8 +303,8 @@ export const SharpsFlatsMasterclass: React.FC = () => {
                 </span>
               </div>
               <div className="text-xs text-slate-400 mt-1.5">
-                {activeAccidentalMod === 'sharp' && 'Shortens tube length by 1 semitone â€” raises acoustic frequency'}
-                {activeAccidentalMod === 'flat' && 'Lengthens tube length by 1 semitone â€” lowers acoustic frequency'}
+                {activeAccidentalMod === 'sharp' && 'Shortens tube length by 1 semitone — raises acoustic frequency'}
+                {activeAccidentalMod === 'flat' && 'Lengthens tube length by 1 semitone — lowers acoustic frequency'}
                 {activeAccidentalMod === 'natural' && 'Natural unlengthened acoustic harmonic resonance'}
               </div>
             </div>
@@ -321,10 +321,10 @@ export const SharpsFlatsMasterclass: React.FC = () => {
               <div className="flex items-start gap-2 pt-1 border-t border-slate-800/80 text-[11px] text-slate-400">
                 <span className="text-slate-500 font-semibold w-24 shrink-0">Instrument:</span>
                 <span>
-                  {selectedInstrument === 'bb-cornet' && 'Bâ™­ Cornet (reads treble, sounds 1 whole tone lower)'}
-                  {selectedInstrument === 'eb-horn' && 'Eâ™­ Tenor Horn (reads treble, sounds major 6th lower)'}
-                  {selectedInstrument === 'trombone' && 'Tenor Trombone (slide positions 1â€“7 with overtone partials)'}
-                  {selectedInstrument === 'euphonium' && 'Bâ™­ Euphonium (reads treble, sounds octave + major second lower)'}
+                  {selectedInstrument === 'bb-cornet' && 'B♭ Cornet (reads treble, sounds 1 whole tone lower)'}
+                  {selectedInstrument === 'eb-horn' && 'E♭ Tenor Horn (reads treble, sounds major 6th lower)'}
+                  {selectedInstrument === 'trombone' && 'Tenor Trombone (slide positions 1–7 with overtone partials)'}
+                  {selectedInstrument === 'euphonium' && 'B♭ Euphonium (reads treble, sounds octave + major second lower)'}
                   {selectedInstrument === 'bass' && 'BBb Tuba / Eb Bass (reads treble in British tradition)'}
                   {selectedInstrument === 'glockenspiel' && 'Glockenspiel (sounds 2 octaves above written notation)'}
                 </span>
@@ -367,8 +367,8 @@ export const SharpsFlatsMasterclass: React.FC = () => {
               </div>
 
               <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 space-y-1">
-                <div>â€¢ <strong>Valves:</strong> {item.valveImpact}</div>
-                <div>â€¢ <strong>Trombone:</strong> {item.tromboneImpact}</div>
+                <div>• <strong>Valves:</strong> {item.valveImpact}</div>
+                <div>• <strong>Trombone:</strong> {item.tromboneImpact}</div>
               </div>
             </div>
           ))}
@@ -381,7 +381,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
         <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl">
           <div className="flex items-center gap-2 mb-2">
             <span className="rounded bg-rose-500/20 px-2.5 py-1 text-xs font-bold text-rose-300 font-mono">
-              â™¯ SHARPS
+              ♯ SHARPS
             </span>
             <h4 className="font-serif text-lg font-bold text-slate-100">
               The Order of Sharps
@@ -412,7 +412,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
         <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl">
           <div className="flex items-center gap-2 mb-2">
             <span className="rounded bg-sky-500/20 px-2.5 py-1 text-xs font-bold text-sky-300 font-mono">
-              â™­ FLATS
+              ♭ FLATS
             </span>
             <h4 className="font-serif text-lg font-bold text-slate-100">
               The Order of Flats
@@ -484,7 +484,7 @@ export const SharpsFlatsMasterclass: React.FC = () => {
       {/* SECTION 5: TRANSPOSITION ACCIDENTALS MATRIX */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8">
         <h3 className="font-serif text-xl sm:text-2xl font-bold text-slate-100 mb-2">
-          Transposition Key Signatures Matrix (Concert vs Bâ™­ vs Eâ™­)
+          Transposition Key Signatures Matrix (Concert vs B♭ vs E♭)
         </h3>
         <p className="text-xs sm:text-sm text-slate-400 mb-4">
           How key signatures shift across the band when accompanying hymns or concert pieces:
@@ -495,8 +495,8 @@ export const SharpsFlatsMasterclass: React.FC = () => {
             <thead>
               <tr className="border-b border-slate-800 text-slate-400 uppercase">
                 <th className="py-2.5 px-3">Concert Pitch (Piano / Organ)</th>
-                <th className="py-2.5 px-3 text-amber-300">Bâ™­ Brass (Cornet / Trombone / Euph)</th>
-                <th className="py-2.5 px-3 text-sky-300">Eâ™­ Brass (Tenor Horn / EEâ™­ Bass)</th>
+                <th className="py-2.5 px-3 text-amber-300">B♭ Brass (Cornet / Trombone / Euph)</th>
+                <th className="py-2.5 px-3 text-sky-300">E♭ Brass (Tenor Horn / EE♭ Bass)</th>
                 <th className="py-2.5 px-3">Transposition Rule</th>
               </tr>
             </thead>

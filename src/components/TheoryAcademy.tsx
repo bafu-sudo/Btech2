@@ -38,7 +38,7 @@ const THEORY_MODULES: TheoryModule[] = [
   { id: 'accidentals', number: 6, title: 'Accidentals (Sharps, Flats, Naturals)', category: 'Harmony', level: 'Beginner', summary: 'Pitch shifts, enharmonics, double sharps/flats, and valve impact.' },
   { id: 'intervals', number: 7, title: 'Intervals Academy', category: 'Ear Training', level: 'Intermediate', summary: 'Unison, 2nds, 3rds, 4ths, 5ths, octaves; major, minor, perfect, augmented, diminished.' },
   { id: 'triads', number: 8, title: 'Triads Academy (Major, Minor, Dim, Aug)', category: 'Harmony', level: 'Intermediate', summary: 'Stacked thirds, roots, 3rds and 5ths in all 12 keys with interactive audio synthesis.' },
-  { id: 'chords', number: 9, title: 'Chords, 7ths & Roman Numerals', category: 'Harmony', level: 'Advanced', summary: 'Major 7ths, Dominant 7ths, chord progressions (Iâ€“IVâ€“Vâ€“I) and brass band voicing.' },
+  { id: 'chords', number: 9, title: 'Chords, 7ths & Roman Numerals', category: 'Harmony', level: 'Advanced', summary: 'Major 7ths, Dominant 7ths, chord progressions (I–IV–V–I) and brass band voicing.' },
   { id: 'cadences', number: 10, title: 'Cadences & Harmonic Endings', category: 'Harmony', level: 'Advanced', summary: 'Authentic (V-I), Plagal (IV-I "Amen"), Half (to V), and Deceptive (V-vi) cadences.' },
   { id: 'articulation', number: 11, title: 'Articulation Academy', category: 'Performance', level: 'Beginner', summary: 'Staccato, tenuto, accent, marcato, slur, tie, and brass tongue technique.' },
   { id: 'dynamics', number: 12, title: 'Dynamics & Expressive Markings', category: 'Performance', level: 'Beginner', summary: 'pp to fff, crescendo, diminuendo, sforzando, and acoustic volume balance.' },
@@ -116,13 +116,13 @@ export const TheoryAcademy: React.FC = () => {
   const rootFrequencies: Record<string, { root: number; name: string }> = {
     C: { root: 261.63, name: 'C' },
     D: { root: 293.66, name: 'D' },
-    Eb: { root: 311.13, name: 'Eâ™­' },
+    Eb: { root: 311.13, name: 'E♭' },
     E: { root: 329.63, name: 'E' },
     F: { root: 349.23, name: 'F' },
     G: { root: 392.00, name: 'G' },
-    Ab: { root: 415.30, name: 'Aâ™­' },
+    Ab: { root: 415.30, name: 'A♭' },
     A: { root: 440.00, name: 'A' },
-    Bb: { root: 466.16, name: 'Bâ™­' }
+    Bb: { root: 466.16, name: 'B♭' }
   };
 
   const getTriadFrequencies = (rootName: string, type: 'major' | 'minor' | 'diminished' | 'augmented'): [number, number, number] => {
@@ -184,8 +184,8 @@ export const TheoryAcademy: React.FC = () => {
   const cadences = [
     {
       id: 'perfect',
-      name: 'Perfect Authentic Cadence (V â†’ I)',
-      chords: 'G Major â†’ C Major',
+      name: 'Perfect Authentic Cadence (V → I)',
+      chords: 'G Major → C Major',
       desc: 'The definitive musical full stop. Creates absolute resolution and finality in hymns & marches.',
       notes: [
         [392.00, 493.88, 587.33] as [number, number, number], // G-B-D (V)
@@ -194,8 +194,8 @@ export const TheoryAcademy: React.FC = () => {
     },
     {
       id: 'plagal',
-      name: 'Plagal Cadence (IV â†’ I "Amen")',
-      chords: 'F Major â†’ C Major',
+      name: 'Plagal Cadence (IV → I "Amen")',
+      chords: 'F Major → C Major',
       desc: 'Known as the "Church Cadence" or "Amen Cadence". Warm, serene religious resolution.',
       notes: [
         [349.23, 440.00, 523.25] as [number, number, number], // F-A-C (IV)
@@ -204,8 +204,8 @@ export const TheoryAcademy: React.FC = () => {
     },
     {
       id: 'half',
-      name: 'Half Cadence (I â†’ V)',
-      chords: 'C Major â†’ G Major',
+      name: 'Half Cadence (I → V)',
+      chords: 'C Major → G Major',
       desc: 'Ends on the dominant chord (V). Acts like a musical question mark requiring continuation.',
       notes: [
         [261.63, 329.63, 392.00] as [number, number, number], // C-E-G (I)
@@ -214,8 +214,8 @@ export const TheoryAcademy: React.FC = () => {
     },
     {
       id: 'deceptive',
-      name: 'Deceptive / Interrupted Cadence (V â†’ vi)',
-      chords: 'G Major â†’ A Minor',
+      name: 'Deceptive / Interrupted Cadence (V → vi)',
+      chords: 'G Major → A Minor',
       desc: 'Surprise twist! Instead of resolving to the tonic (I), it resolves to the minor submediant (vi).',
       notes: [
         [392.00, 493.88, 587.33] as [number, number, number], // G-B-D (V)
@@ -233,13 +233,13 @@ export const TheoryAcademy: React.FC = () => {
   // Glossary terms (Part 14)
   const glossaryTerms = [
     { term: 'Accelerando (accel.)', cat: 'Tempo', meaning: 'Gradually increase the tempo / play faster.' },
-    { term: 'Adagio', cat: 'Tempo', meaning: 'Slow and stately tempo (typically 66â€“76 BPM).' },
-    { term: 'Allegro', cat: 'Tempo', meaning: 'Lively, brisk and cheerful tempo (typically 120â€“156 BPM).' },
-    { term: 'Andante', cat: 'Tempo', meaning: 'At a gentle walking pace (typically 76â€“108 BPM).' },
+    { term: 'Adagio', cat: 'Tempo', meaning: 'Slow and stately tempo (typically 66–76 BPM).' },
+    { term: 'Allegro', cat: 'Tempo', meaning: 'Lively, brisk and cheerful tempo (typically 120–156 BPM).' },
+    { term: 'Andante', cat: 'Tempo', meaning: 'At a gentle walking pace (typically 76–108 BPM).' },
     { term: 'Cantabile', cat: 'Expression', meaning: 'In a singing, lyrical and expressive style.' },
     { term: 'Crescendo (cresc.)', cat: 'Dynamics', meaning: 'Gradually becoming louder (indicated by < wedge).' },
     { term: 'Diminuendo (dim.)', cat: 'Dynamics', meaning: 'Gradually becoming softer (indicated by > wedge).' },
-    { term: 'Fermata (ð„)', cat: 'Notation', meaning: 'Pause / hold the note longer than its written value until conductor cut-off.' },
+    { term: 'Fermata (𝄐)', cat: 'Notation', meaning: 'Pause / hold the note longer than its written value until conductor cut-off.' },
     { term: 'Forte (f)', cat: 'Dynamics', meaning: 'Loud volume, full resonant brass tone.' },
     { term: 'Legato', cat: 'Articulation', meaning: 'Smoothly connected notes without separation.' },
     { term: 'Marcato (^)', cat: 'Articulation', meaning: 'Strongly accented and detached ("hat" symbol above note).' },
@@ -248,8 +248,8 @@ export const TheoryAcademy: React.FC = () => {
     { term: 'Pianissimo (pp)', cat: 'Dynamics', meaning: 'Very soft, warm supported air column.' },
     { term: 'Rallentando (rall.)', cat: 'Tempo', meaning: 'Gradually slowing down.' },
     { term: 'Sforzando (sfz)', cat: 'Dynamics', meaning: 'Sudden strong and forceful accent.' },
-    { term: 'Staccato (â€¢)', cat: 'Articulation', meaning: 'Short and detached note (dot above/below notehead).' },
-    { term: 'Tenuto (â€”)', cat: 'Articulation', meaning: 'Hold the note for its full duration, with gentle weight.' },
+    { term: 'Staccato (•)', cat: 'Articulation', meaning: 'Short and detached note (dot above/below notehead).' },
+    { term: 'Tenuto (—)', cat: 'Articulation', meaning: 'Hold the note for its full duration, with gentle weight.' },
     { term: 'Tutti', cat: 'Brass Band', meaning: 'All players together (full band entrance after solo).' },
     { term: 'Vivace', cat: 'Tempo', meaning: 'Lively and fast, with spirited energy.' }
   ];
@@ -269,13 +269,13 @@ export const TheoryAcademy: React.FC = () => {
     },
     {
       q: 'Which notes form a C Major Triad?',
-      options: ['C â€“ Eâ™­ â€“ G', 'C â€“ E â€“ G', 'C â€“ E â€“ G#', 'C â€“ F â€“ G'],
+      options: ['C – E♭ – G', 'C – E – G', 'C – E – G#', 'C – F – G'],
       correct: 1,
       exp: 'A major triad consists of a Root (C), Major 3rd (E, 4 semitones), and Perfect 5th (G, 7 semitones).'
     },
     {
       q: 'What is the "Church" or "Amen" cadence called?',
-      options: ['Perfect Authentic Cadence', 'Plagal Cadence (IV â†’ I)', 'Half Cadence', 'Deceptive Cadence'],
+      options: ['Perfect Authentic Cadence', 'Plagal Cadence (IV → I)', 'Half Cadence', 'Deceptive Cadence'],
       correct: 1,
       exp: 'The Plagal Cadence (IV to I) is traditionally sung as "A-men" at the conclusion of hymns.'
     },
@@ -286,7 +286,7 @@ export const TheoryAcademy: React.FC = () => {
       exp: 'A half note is 2 beats. The dot adds half of its value (+1 beat), making a total of 3 beats.'
     },
     {
-      q: 'What does a Staccato dot (â€¢) indicate on a brass note?',
+      q: 'What does a Staccato dot (•) indicate on a brass note?',
       options: ['Play note as loud as possible', 'Short, separated and detached note', 'Hold note for double duration', 'Slide up to the next pitch'],
       correct: 1,
       exp: 'Staccato indicates that the note is played short and cleanly separated from the next note.'
@@ -302,7 +302,7 @@ export const TheoryAcademy: React.FC = () => {
         <div className="max-w-3xl">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
             <BookOpen className="h-4 w-4" />
-            <span>Complete Music Theory Academy Â· All 16 Master Modules</span>
+            <span>Complete Music Theory Academy · All 16 Master Modules</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-slate-100">
             Learn, Hear, Understand & Master Music Theory
@@ -352,8 +352,8 @@ export const TheoryAcademy: React.FC = () => {
                   The standard clef for all British brass band instruments (except Bass Trombone). The swirl wraps around the 2nd line, fixing it as the note <strong>G</strong>.
                 </p>
                 <div className="p-3 bg-slate-900 rounded-lg text-xs space-y-1">
-                  <div><strong>Lines (Bottom to Top):</strong> E â€“ G â€“ B â€“ D â€“ F <em>("Every Good Boy Deserves Football")</em></div>
-                  <div><strong>Spaces (Bottom to Top):</strong> F â€“ A â€“ C â€“ E <em>(Spells "FACE")</em></div>
+                  <div><strong>Lines (Bottom to Top):</strong> E – G – B – D – F <em>("Every Good Boy Deserves Football")</em></div>
+                  <div><strong>Spaces (Bottom to Top):</strong> F – A – C – E <em>(Spells "FACE")</em></div>
                 </div>
               </div>
 
@@ -363,8 +363,8 @@ export const TheoryAcademy: React.FC = () => {
                   Used by the Bass Trombone in brass band scores, and in piano left-hand or orchestral tubas. The two dots surround the 4th line, fixing it as <strong>F</strong>.
                 </p>
                 <div className="p-3 bg-slate-900 rounded-lg text-xs space-y-1">
-                  <div><strong>Lines (Bottom to Top):</strong> G â€“ B â€“ D â€“ F â€“ A <em>("Good Boys Do Fine Always")</em></div>
-                  <div><strong>Spaces (Bottom to Top):</strong> A â€“ C â€“ E â€“ G <em>("All Cows Eat Grass")</em></div>
+                  <div><strong>Lines (Bottom to Top):</strong> G – B – D – F – A <em>("Good Boys Do Fine Always")</em></div>
+                  <div><strong>Spaces (Bottom to Top):</strong> A – C – E – G <em>("All Cows Eat Grass")</em></div>
                 </div>
               </div>
             </div>
@@ -629,7 +629,7 @@ export const TheoryAcademy: React.FC = () => {
                   className="flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 font-semibold text-xs hover:text-white transition-all"
                 >
                   <Volume2 className="h-4 w-4" />
-                  <span>Arpeggiate (R â†’ 3 â†’ 5)</span>
+                  <span>Arpeggiate (R → 3 → 5)</span>
                 </button>
               </div>
             </div>
@@ -645,7 +645,7 @@ export const TheoryAcademy: React.FC = () => {
                   Formula: <strong>Root + Major 3rd + Perfect 5th</strong>. Triumphant, open, stable, and cheerful. The harmonic anchor of all brass band marches and hymn verses.
                 </p>
                 <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
-                  Example: C â€“ E â€“ G
+                  Example: C – E – G
                 </div>
               </div>
 
@@ -658,7 +658,7 @@ export const TheoryAcademy: React.FC = () => {
                   Formula: <strong>Root + Minor 3rd + Perfect 5th</strong>. Sombre, contemplative, dark, and expressive. Essential for funeral marches and slow contemplative airs.
                 </p>
                 <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
-                  Example: C â€“ Eâ™­ â€“ G
+                  Example: C – E♭ – G
                 </div>
               </div>
 
@@ -671,7 +671,7 @@ export const TheoryAcademy: React.FC = () => {
                   Formula: <strong>Root + Minor 3rd + Diminished 5th (Tritone)</strong>. High tension, unstable, suspenseful. Naturally built on the leading tone (viiÂ°).
                 </p>
                 <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
-                  Example: B â€“ D â€“ F (in C major)
+                  Example: B – D – F (in C major)
                 </div>
               </div>
 
@@ -684,7 +684,7 @@ export const TheoryAcademy: React.FC = () => {
                   Formula: <strong>Root + Major 3rd + Augmented 5th</strong>. Mysterious, dreamy, floating, and unresolved. Symmetrical chord spanning two major thirds.
                 </p>
                 <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
-                  Example: C â€“ E â€“ G#
+                  Example: C – E – G#
                 </div>
               </div>
             </div>
@@ -692,7 +692,7 @@ export const TheoryAcademy: React.FC = () => {
             {/* Brass Band Section Intonation Rules for Triads */}
             <div className="mt-6 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs text-slate-300 space-y-2">
               <span className="font-serif font-bold text-amber-300 text-sm block">
-                ðŸŽº Bandmaster's Just-Intonation Rule for Brass Triads
+                🎺 Bandmaster's Just-Intonation Rule for Brass Triads
               </span>
               <p className="leading-relaxed">
                 In a pure acoustic brass band triad (e.g. Basses on Root C, Euphoniums on 5th G, Horns/Flugel on 3rd E):
@@ -761,11 +761,11 @@ export const TheoryAcademy: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
               {[
-                { type: 'staccato', sym: 'â€¢', title: 'Staccato', desc: 'Short, light, 50% length with acoustic daylight.' },
-                { type: 'tenuto', sym: 'â€”', title: 'Tenuto', desc: '100% full duration, sustained warm core tone.' },
+                { type: 'staccato', sym: '•', title: 'Staccato', desc: 'Short, light, 50% length with acoustic daylight.' },
+                { type: 'tenuto', sym: '—', title: 'Tenuto', desc: '100% full duration, sustained warm core tone.' },
                 { type: 'accent', sym: '>', title: 'Accent', desc: 'Explosive initial burst, rapid settle to dynamic.' },
                 { type: 'marcato', sym: '^', title: 'Marcato', desc: 'Sharply accented AND detached rooftop attack.' },
-                { type: 'legato', sym: 'âŒ’', title: 'Legato / Slur', desc: 'Seamless pitch change with zero tongue stroke.' }
+                { type: 'legato', sym: '⌒', title: 'Legato / Slur', desc: 'Seamless pitch change with zero tongue stroke.' }
               ].map((art) => (
                 <div
                   key={art.type}
@@ -871,15 +871,15 @@ export const TheoryAcademy: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="font-serif text-4xl text-amber-400">ð„ž</span>
+                  <span className="font-serif text-4xl text-amber-400">𝄞</span>
                   <h3 className="font-serif text-xl font-bold text-slate-100">Treble Clef (G Clef)</h3>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   Wraps around the 2nd line, fixing it as G4. In brass bands, Bb Cornets, Eb Soprano, Eb Tenor Horns, Bb Baritones, Euphoniums, Tenor Trombones, EEb Basses, and giant BBb Basses all read Treble Clef!
                 </p>
                 <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs space-y-1 font-mono">
-                  <div><strong>Lines:</strong> E4 â€“ G4 â€“ B4 â€“ D5 â€“ F5</div>
-                  <div><strong>Spaces:</strong> F4 â€“ A4 â€“ C5 â€“ E5 ("FACE")</div>
+                  <div><strong>Lines:</strong> E4 – G4 – B4 – D5 – F5</div>
+                  <div><strong>Spaces:</strong> F4 – A4 – C5 – E5 ("FACE")</div>
                 </div>
                 <button
                   onClick={() => brassAudio.playBrassTone(392.00, 0.8, 'cornet')}
@@ -892,15 +892,15 @@ export const TheoryAcademy: React.FC = () => {
 
               <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="font-serif text-4xl text-amber-400">ð„¢</span>
+                  <span className="font-serif text-4xl text-amber-400">𝄢</span>
                   <h3 className="font-serif text-xl font-bold text-slate-100">Bass Clef (F Clef)</h3>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   Centers between the two dots on line 4, fixing it as F3. In brass bands, this is read exclusively by the <strong>Bass Trombone</strong> at concert pitch (non-transposing).
                 </p>
                 <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs space-y-1 font-mono">
-                  <div><strong>Lines:</strong> G2 â€“ B2 â€“ D3 â€“ F3 â€“ A3</div>
-                  <div><strong>Spaces:</strong> A2 â€“ C3 â€“ E3 â€“ G3</div>
+                  <div><strong>Lines:</strong> G2 – B2 – D3 – F3 – A3</div>
+                  <div><strong>Spaces:</strong> A2 – C3 – E3 – G3</div>
                 </div>
                 <button
                   onClick={() => brassAudio.playBrassTone(174.61, 0.8, 'trombone')}
@@ -1038,7 +1038,7 @@ export const TheoryAcademy: React.FC = () => {
                 }}
                 className="mt-3 px-4 py-2 rounded-lg bg-amber-400 text-slate-950 font-bold text-xs hover:bg-amber-300"
               >
-                Next Question â†’
+                Next Question →
               </button>
             </div>
           )}

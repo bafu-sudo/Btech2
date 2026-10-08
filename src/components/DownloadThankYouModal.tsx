@@ -28,7 +28,7 @@ return ( <div className="fixed inset-0 z-[60] flex items-center justify-center b
   <div className="w-full max-w-md rounded-2xl border border-amber-500/30 bg-slate-900 p-6 text-center shadow-2xl">
 
     <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-amber-500 text-2xl text-slate-950">
-      âœ“
+      ✓
     </div>
 
     <h2 className="text-2xl font-bold text-white">

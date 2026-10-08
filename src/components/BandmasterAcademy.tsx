@@ -424,7 +424,7 @@ export const BandmasterAcademy: React.FC = () => {
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-serif font-bold text-base text-amber-300">
-                        {pattern.meter} â€” {pattern.name}
+                        {pattern.meter} — {pattern.name}
                       </span>
                       <span className="text-xs font-mono text-slate-400">
                         {pattern.beats.length} Beats
@@ -471,7 +471,7 @@ export const BandmasterAcademy: React.FC = () => {
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8 space-y-6">
           <div className="max-w-3xl">
             <span className="text-xs font-semibold uppercase tracking-wider text-amber-400">
-              Level 1 â€” Introduction to Being a Bandmaster
+              Level 1 — Introduction to Being a Bandmaster
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-100 mt-1">
               Leadership, Discipline & Respect for Musicians
@@ -625,7 +625,7 @@ export const BandmasterAcademy: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4">
             <div className="rounded-xl border border-amber-500/30 bg-slate-950 p-4 space-y-2">
-              <span className="text-xs font-mono font-bold text-amber-400">00:00 â€“ 00:15 (15 Min)</span>
+              <span className="text-xs font-mono font-bold text-amber-400">00:00 – 00:15 (15 Min)</span>
               <h4 className="font-serif text-base font-bold text-slate-200">1. Warm-Up & Tuning</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Breathing exercises together. Concert Bb long tones. Remington lip slurs. Choral hymn tune playing for warm intonation.
@@ -633,7 +633,7 @@ export const BandmasterAcademy: React.FC = () => {
             </div>
 
             <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2">
-              <span className="text-xs font-mono font-bold text-amber-400">00:15 â€“ 00:50 (35 Min)</span>
+              <span className="text-xs font-mono font-bold text-amber-400">00:15 – 00:50 (35 Min)</span>
               <h4 className="font-serif text-base font-bold text-slate-200">2. Technical Work & Major Work</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Tackle the most demanding piece while brains and lips are fresh. Sectional problem solving on fast semiquaver runs and complex time meters.
@@ -641,7 +641,7 @@ export const BandmasterAcademy: React.FC = () => {
             </div>
 
             <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2">
-              <span className="text-xs font-mono font-bold text-amber-400">00:55 â€“ 01:30 (35 Min)</span>
+              <span className="text-xs font-mono font-bold text-amber-400">00:55 – 01:30 (35 Min)</span>
               <h4 className="font-serif text-base font-bold text-slate-200">3. Cantabile Solos & Marches</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Work on solo features (Cornet / Euphonium / Horn). Polish the street march and festival hymn arrangements. Balance accompaniment beneath solo line.
@@ -649,7 +649,7 @@ export const BandmasterAcademy: React.FC = () => {
             </div>
 
             <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2">
-              <span className="text-xs font-mono font-bold text-amber-400">01:30 â€“ 01:45 (15 Min)</span>
+              <span className="text-xs font-mono font-bold text-amber-400">01:30 – 01:45 (15 Min)</span>
               <h4 className="font-serif text-base font-bold text-slate-200">4. Run-Through & Positive Close</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Run through one piece without stopping from start to finish so musicians leave with a feeling of accomplishment and joy.
@@ -845,7 +845,7 @@ export const BandmasterAcademy: React.FC = () => {
               {
                 name: 'Eb & BBb Bass (Tubas)',
                 issue: 'Running out of breath within 2 bars, lagging behind the beat.',
-                cure: 'Breathe on the "and" before the beat. Take huge relaxed breaths like a deep yawn. Never hold back airâ€”let huge volume of relaxed air resonate the bell.'
+                cure: 'Breathe on the "and" before the beat. Take huge relaxed breaths like a deep yawn. Never hold back air—let huge volume of relaxed air resonate the bell.'
               },
               {
                 name: 'Side Drum & Timpani',

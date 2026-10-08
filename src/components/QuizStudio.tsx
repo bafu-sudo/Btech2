@@ -82,7 +82,7 @@ export const QuizStudio: React.FC = () => {
               <span className="font-semibold text-slate-300">
                 Question {currentQuestionIndex + 1} of {BRASS_QUIZ_QUESTIONS.length}
               </span>
-              <span aria-hidden="true" className="text-slate-600">Â·</span>
+              <span aria-hidden="true" className="text-slate-600">·</span>
               <span className="capitalize text-amber-300 font-medium">
                 {currentQ.category.replace('-', ' ')}
               </span>
@@ -152,7 +152,7 @@ export const QuizStudio: React.FC = () => {
                 : 'border-rose-500/30 bg-rose-500/10 text-rose-100'
             }`}>
               <div className="font-bold mb-1 flex items-center gap-1.5">
-                {selectedOption === currentQ.correctIndex ? 'âœ“ Correct!' : 'âœ• Not quite:'}
+                {selectedOption === currentQ.correctIndex ? '✓ Correct!' : '✕ Not quite:'}
               </div>
               <p className="text-slate-300">{currentQ.explanation}</p>
             </div>
@@ -196,11 +196,11 @@ export const QuizStudio: React.FC = () => {
 
           <div className="mx-auto my-6 max-w-sm rounded-xl border border-slate-800 bg-slate-950 p-4 text-xs text-slate-300">
             {score >= 7 ? (
-              <p>ðŸ† <strong>Gold Bandmaster Rank:</strong> Outstanding mastery of British brass transposition, Treble clef reading, and valve mechanics!</p>
+              <p>🏆 <strong>Gold Bandmaster Rank:</strong> Outstanding mastery of British brass transposition, Treble clef reading, and valve mechanics!</p>
             ) : score >= 5 ? (
-              <p>ðŸ¥ˆ <strong>Silver Soloist Rank:</strong> Solid grasp of transposition principles and brass tradition. Keep practicing those fingerings!</p>
+              <p>🥈 <strong>Silver Soloist Rank:</strong> Solid grasp of transposition principles and brass tradition. Keep practicing those fingerings!</p>
             ) : (
-              <p>ðŸ¥‰ <strong>Brass Apprentice:</strong> A respectable start! Review the C Scale transposition tables and re-try the challenge.</p>
+              <p>🥉 <strong>Brass Apprentice:</strong> A respectable start! Review the C Scale transposition tables and re-try the challenge.</p>
             )}
           </div>
 

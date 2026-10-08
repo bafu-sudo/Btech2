@@ -468,19 +468,19 @@ export default function Tuner() {
               className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none transition focus:border-amber-400"
             >
               <option value="Bb Cornet">
-                Bâ™­ Cornet
+                B♭ Cornet
               </option>
 
               <option value="Bb Trumpet">
-                Bâ™­ Trumpet
+                B♭ Trumpet
               </option>
 
               <option value="Bb Flugelhorn">
-                Bâ™­ Flugelhorn
+                B♭ Flugelhorn
               </option>
 
               <option value="Eb Horn">
-                Eâ™­ Horn
+                E♭ Horn
               </option>
 
               <option value="Euphonium">
@@ -492,11 +492,11 @@ export default function Tuner() {
               </option>
 
               <option value="Eb Bass">
-                Eâ™­ Bass
+                E♭ Bass
               </option>
 
               <option value="Bb Bass">
-                Bâ™­ Bass
+                B♭ Bass
               </option>
             </select>
           </div>
@@ -520,9 +520,9 @@ export default function Tuner() {
 
               <p className="mt-1 text-lg font-semibold">
                 {selectedOffset === -2
-                  ? 'Bâ™­'
+                  ? 'B♭'
                   : selectedOffset === -9
-                    ? 'Eâ™­'
+                    ? 'E♭'
                     : 'Concert pitch'}
               </p>
             </div>
@@ -679,22 +679,22 @@ export default function Tuner() {
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
             <h3 className="font-bold text-amber-400">
-              Bâ™­ Instruments
+              B♭ Instruments
             </h3>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Cornet, trumpet and flugelhorn are Bâ™­ instruments
+              Cornet, trumpet and flugelhorn are B♭ instruments
               and are shown separately in the tuner.
             </p>
           </div>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
             <h3 className="font-bold text-amber-400">
-              Eâ™­ Instruments
+              E♭ Instruments
             </h3>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Eâ™­ horn and Eâ™­ bass are included for brass-band
+              E♭ horn and E♭ bass are included for brass-band
               players.
             </p>
           </div>

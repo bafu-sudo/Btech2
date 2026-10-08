@@ -223,7 +223,7 @@ export const OfflineLearning: React.FC = () => {
         formattedSize: `${(pdfBlob.size / 1024).toFixed(1)} KB`,
         dateAdded: new Date().toLocaleDateString('en-GB'),
         license: mod.license,
-        attribution: 'Btech2 Brass Band Academy Â· Founded by Nokuvimba Bafu',
+        attribution: 'Btech2 Brass Band Academy · Founded by Nokuvimba Bafu',
         blobData: pdfBlob,
         meta: {
           pages: mod.pages,
@@ -301,7 +301,7 @@ export const OfflineLearning: React.FC = () => {
               Complete Brass Library & Offline Storage
             </h1>
             <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-              Every download button here delivers an <strong>actual PDF document</strong> or <strong>real WAV audio file</strong>â€”never placeholder or code text. Resources saved offline are stored inside your browser's IndexedDB for practice anywhere without internet connection.
+              Every download button here delivers an <strong>actual PDF document</strong> or <strong>real WAV audio file</strong>—never placeholder or code text. Resources saved offline are stored inside your browser's IndexedDB for practice anywhere without internet connection.
             </p>
           </div>
 
@@ -435,10 +435,10 @@ export const OfflineLearning: React.FC = () => {
                       {item.title}
                     </h4>
                     <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
-                      <span className="text-emerald-400 font-medium">âœ“ Available Offline</span>
-                      <span>Â·</span>
+                      <span className="text-emerald-400 font-medium">✓ Available Offline</span>
+                      <span>·</span>
                       <span>{item.fileType}</span>
-                      <span>Â·</span>
+                      <span>·</span>
                       <span className="font-mono text-slate-300">{item.formattedSize}</span>
                     </div>
                   </div>
@@ -496,7 +496,7 @@ export const OfflineLearning: React.FC = () => {
                   </span>
                   <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
                     <span>{mod.pages} pgs</span>
-                    <span>Â·</span>
+                    <span>·</span>
                     <span className="text-slate-300 font-bold">{mod.size}</span>
                   </div>
                 </div>

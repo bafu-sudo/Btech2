@@ -66,7 +66,7 @@ const NATURAL_SEMITONES: Record<string, number> = {
 };
 
 /* =========================================================
-   Bâ™­ CORNET / Bâ™­ TRUMPET FINGERINGS
+   B♭ CORNET / B♭ TRUMPET FINGERINGS
    =========================================================
 
    These are common standard 3-valve fingerings.
@@ -131,9 +131,9 @@ const instrumentClefs: Record<Instrument, string> = {
 };
 
 const instrumentDescriptions: Record<Instrument, string> = {
-  'Bb Cornet': 'Bâ™­ brass-band treble notation',
-  'Bb Trumpet': 'Bâ™­ trumpet treble notation',
-  'Eb Horn': 'Eâ™­ brass-band treble notation',
+  'Bb Cornet': 'B♭ brass-band treble notation',
+  'Bb Trumpet': 'B♭ trumpet treble notation',
+  'Eb Horn': 'E♭ brass-band treble notation',
   Euphonium: 'Brass-band treble notation',
   Trombone: 'Concert-pitch bass clef',
 };
@@ -146,14 +146,14 @@ const getAccidentalSymbol = (
   accidental: AccidentalType
 ): string => {
   if (accidental === 'sharp') {
-    return 'â™¯';
+    return '♯';
   }
 
   if (accidental === 'flat') {
-    return 'â™­';
+    return '♭';
   }
 
-  return 'â™®';
+  return '♮';
 };
 
 /* =========================================================
@@ -230,7 +230,7 @@ const getFingering = (
   }
 
   /* -----------------------------
-     Bâ™­ CORNET / TRUMPET
+     B♭ CORNET / TRUMPET
      ----------------------------- */
 
   if (
@@ -280,7 +280,7 @@ const getFrequency = (
     pitchClass;
 
   /*
-    Bâ™­ instruments sound a whole step lower
+    B♭ instruments sound a whole step lower
     than written.
   */
 
@@ -293,7 +293,7 @@ const getFrequency = (
   }
 
   /*
-    Eâ™­ horn sounds a major sixth lower
+    E♭ horn sounds a major sixth lower
     than written.
   */
 
@@ -728,15 +728,15 @@ export const MusicTutor: React.FC = () => {
           >
 
             <option value="Bb Cornet">
-              Bâ™­ Cornet
+              B♭ Cornet
             </option>
 
             <option value="Bb Trumpet">
-              Bâ™­ Trumpet
+              B♭ Trumpet
             </option>
 
             <option value="Eb Horn">
-              Eâ™­ Horn
+              E♭ Horn
             </option>
 
             <option value="Euphonium">
@@ -853,7 +853,7 @@ export const MusicTutor: React.FC = () => {
             >
 
               <div className="text-3xl font-serif">
-                â™­
+                ♭
               </div>
 
               <div className="mt-1 text-xs font-bold">
@@ -877,7 +877,7 @@ export const MusicTutor: React.FC = () => {
             >
 
               <div className="text-3xl font-serif">
-                â™®
+                ♮
               </div>
 
               <div className="mt-1 text-xs font-bold">
@@ -901,7 +901,7 @@ export const MusicTutor: React.FC = () => {
             >
 
               <div className="text-3xl font-serif">
-                â™¯
+                ♯
               </div>
 
               <div className="mt-1 text-xs font-bold">

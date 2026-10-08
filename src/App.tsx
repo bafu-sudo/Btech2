@@ -134,7 +134,7 @@ return ( <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col 
           aria-hidden="true"
           className="text-slate-600"
         >
-          Â·
+          ·
         </span>
 
         <span className="hidden sm:inline text-slate-400">
@@ -270,7 +270,7 @@ return ( <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col 
         </span>
 
         <span aria-hidden="true">
-          Â·
+          ·
         </span>
 
         <span>
@@ -278,7 +278,7 @@ return ( <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col 
         </span>
 
         <span aria-hidden="true">
-          Â·
+          ·
         </span>
 
         <span>
@@ -286,7 +286,7 @@ return ( <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col 
         </span>
 
         <span aria-hidden="true">
-          Â·
+          ·
         </span>
 
         <a
@@ -318,7 +318,7 @@ return ( <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col 
         </span>
 
         <span aria-hidden="true">
-          Â·
+          ·
         </span>
 
         <span>
@@ -326,7 +326,7 @@ return ( <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col 
         </span>
 
         <span aria-hidden="true">
-          Â·
+          ·
         </span>
 
         <span className="text-amber-300 font-medium">
@@ -355,7 +355,7 @@ return ( <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col 
           aria-hidden="true"
           className="text-slate-700"
         >
-          Â·
+          ·
         </span>
 
         <button
@@ -390,7 +390,7 @@ return ( <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col 
       <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
 
       <span className="font-bold">
-        ðŸ‘‘ Creator Mode
+        👑 Creator Mode
       </span>
 
       <span className="text-slate-600">

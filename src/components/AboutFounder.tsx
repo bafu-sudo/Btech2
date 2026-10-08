@@ -263,7 +263,7 @@ export const AboutFounder: React.FC = () => {
 
                 <div className="mt-3 flex items-center justify-between text-xs text-amber-300/80">
                   <span className="font-semibold">
-                    â€” Nokuvimba Bafu
+                    — Nokuvimba Bafu
                   </span>
 
                   <span>
@@ -375,13 +375,13 @@ export const AboutFounder: React.FC = () => {
               </h3>
 
               <p className="text-xs sm:text-sm font-medium text-amber-400 mt-0.5">
-                Founder of btech Â· Student & Cornet Player
+                Founder of btech · Student & Cornet Player
               </p>
 
               <div className="mt-2 flex items-center justify-center gap-2 text-xs text-slate-400">
                 <Globe className="h-3.5 w-3.5 text-slate-500" />
                 <span>Zimbabwe</span>
-                <span aria-hidden="true">Â·</span>
+                <span aria-hidden="true">·</span>
                 <span>Age 18</span>
               </div>
 
@@ -397,7 +397,7 @@ export const AboutFounder: React.FC = () => {
                 </span>
 
                 <span className="font-bold text-amber-300 font-serif">
-                  Bâ™­ Cornet
+                  B♭ Cornet
                 </span>
 
               </div>

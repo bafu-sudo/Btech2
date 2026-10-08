@@ -65,7 +65,7 @@ export const ARTICULATION_FLASHCARDS: ArticulationCardData[] = [
     id: 'staccato',
     name: 'Staccato',
     italianName: 'Staccato (Detached)',
-    symbol: 'â€¢',
+    symbol: '•',
     category: 'Standard',
     symbolPlacement: 'above-or-below-notehead',
     staffNotePosition: 4, // B4 line
@@ -83,7 +83,7 @@ export const ARTICULATION_FLASHCARDS: ArticulationCardData[] = [
     id: 'tenuto',
     name: 'Tenuto',
     italianName: 'Tenuto (Held / Sustained)',
-    symbol: 'â€”',
+    symbol: '—',
     category: 'Standard',
     symbolPlacement: 'above-or-below-notehead',
     staffNotePosition: 5, // C5 space
@@ -94,7 +94,7 @@ export const ARTICULATION_FLASHCARDS: ArticulationCardData[] = [
     tongueTechnique: 'Gentle, broad "Doo" or "Dah" syllable. The tongue acts as an effortless water gate opening rather than a sword stroke.',
     airflowInstruction: 'Full, sustained column of warm air like breathing fog onto cold glass. Zero drop in air speed until the very microsecond of the next beat.',
     commonMistake: 'Decaying or losing pitch center before the barline arrives. Brass players frequently let tenuto notes die off prematurely.',
-    bandmasterInstruction: '"Stretch this note completely across the barlineâ€”let the euphonium and flugelhorn warm the room with unbroken tone!"',
+    bandmasterInstruction: '"Stretch this note completely across the barline—let the euphonium and flugelhorn warm the room with unbroken tone!"',
     brassExamplePiece: 'The cantabile chorale melodies in "Aurelia" and "Crimond" hymn tunes.'
   },
   {
@@ -126,18 +126,18 @@ export const ARTICULATION_FLASHCARDS: ArticulationCardData[] = [
     stemDirection: 'down',
     audioFreq: 466.16, // Bb4
     durationType: 'quarter',
-    brassDefinition: 'Sharply accented AND detached. Combine the force of an accent (>) with the separation of a staccato (â€¢). Often nicknamed the "arrowhead" or "rooftop".',
+    brassDefinition: 'Sharply accented AND detached. Combine the force of an accent (>) with the separation of a staccato (•). Often nicknamed the "arrowhead" or "rooftop".',
     tongueTechnique: 'Punchy "TOH!" syllable with decisive abdominal snap. Shorter and much more vertical than a standard accent.',
     airflowInstruction: 'Heavy, high-velocity jet of air with a clean cut-off created by halting airflow from the core, not by clamping the throat.',
     commonMistake: 'Turning it into a harsh splat or forgetting the detachment, dragging it into a muddy heavy tenuto.',
-    bandmasterInstruction: '"Rooftops must ring! Cut them off crisply with space between themâ€”think heavy marching boots hitting cobblestone!"',
+    bandmasterInstruction: '"Rooftops must ring! Cut them off crisply with space between them—think heavy marching boots hitting cobblestone!"',
     brassExamplePiece: 'The thunderous bass section unison runs in "The Cossack" or "Knight Templar".'
   },
   {
     id: 'legato',
     name: 'Legato / Slur',
     italianName: 'Legato (Bound Together)',
-    symbol: 'âŒ’',
+    symbol: '⌒',
     category: 'Phrasing',
     symbolPlacement: 'across-notes',
     staffNotePosition: 4, // B4
@@ -155,7 +155,7 @@ export const ARTICULATION_FLASHCARDS: ArticulationCardData[] = [
     id: 'staccatissimo',
     name: 'Staccatissimo (Wedge)',
     italianName: 'Staccatissimo (Extremely Short)',
-    symbol: 'â–¾',
+    symbol: '▾',
     category: 'Standard',
     symbolPlacement: 'above-or-below-notehead',
     staffNotePosition: 4,
@@ -166,14 +166,14 @@ export const ARTICULATION_FLASHCARDS: ArticulationCardData[] = [
     tongueTechnique: 'Ultra-light, razor-sharp "Tip" or "Tic" stroke. Fast release like tapping a red-hot iron.',
     airflowInstruction: 'Miniature sonic spark. Minimum volume of air, maximum speed through the aperture.',
     commonMistake: 'Cracking or chipping the note due to over-eagerness.',
-    bandmasterInstruction: '"Like drops of rain hitting a brass bellâ€”pinpoint precision, no fat on the note!"',
+    bandmasterInstruction: '"Like drops of rain hitting a brass bell—pinpoint precision, no fat on the note!"',
     brassExamplePiece: 'Fast bravura cornet test pieces such as "Journey into Freedom" or "Blitz".'
   },
   {
     id: 'fermata',
     name: 'Fermata (Pause / Hold)',
     italianName: 'Fermata (Bird\'s Eye)',
-    symbol: 'ð„',
+    symbol: '𝄐',
     category: 'Phrasing',
     symbolPlacement: 'above-staff',
     staffNotePosition: 7, // High E5
@@ -191,7 +191,7 @@ export const ARTICULATION_FLASHCARDS: ArticulationCardData[] = [
     id: 'breath-mark',
     name: 'Breath Mark',
     italianName: 'Comma Musicale (Breath Mark)',
-    symbol: 'â€™',
+    symbol: '’',
     category: 'Phrasing',
     symbolPlacement: 'above-staff',
     staffNotePosition: 8, // Above staff
@@ -213,7 +213,7 @@ export const DYNAMICS_FLASHCARDS: DynamicCardData[] = [
     symbol: 'pp',
     italianName: 'Pianissimo',
     englishMeaning: 'Very Soft',
-    decibelRange: '40 â€“ 50 dB',
+    decibelRange: '40 – 50 dB',
     brassAirSpeed: 'Warm, slow, but focused air column. Lips must remain supple with a microscopic aperture.',
     embouchureAdjustment: 'Corners firm, center relaxed. Never clamp or pinch the lips, or tone will die.',
     sectionBalancingAdvice: 'In British brass bands, a true pp should sound like a distant pipe organ whispering.',
@@ -225,7 +225,7 @@ export const DYNAMICS_FLASHCARDS: DynamicCardData[] = [
     symbol: 'p',
     italianName: 'Piano',
     englishMeaning: 'Soft',
-    decibelRange: '50 â€“ 60 dB',
+    decibelRange: '50 – 60 dB',
     brassAirSpeed: 'Gentle, steady breeze. Full tone supported from the core.',
     embouchureAdjustment: 'Natural cushion, relaxed throat. Ample air reserve.',
     sectionBalancingAdvice: 'Accompaniment parts (2nd/3rd cornets, horns, baritones) play here under a soloist.',
@@ -237,7 +237,7 @@ export const DYNAMICS_FLASHCARDS: DynamicCardData[] = [
     symbol: 'mp',
     italianName: 'Mezzo Piano',
     englishMeaning: 'Moderately Soft',
-    decibelRange: '60 â€“ 70 dB',
+    decibelRange: '60 – 70 dB',
     brassAirSpeed: 'Warm conversational airflow. Rich acoustic resonance.',
     embouchureAdjustment: 'Balanced tension between corners and lip center.',
     sectionBalancingAdvice: 'Standard brass band inner-part background texture.',
@@ -249,7 +249,7 @@ export const DYNAMICS_FLASHCARDS: DynamicCardData[] = [
     symbol: 'mf',
     italianName: 'Mezzo Forte',
     englishMeaning: 'Moderately Loud',
-    decibelRange: '70 â€“ 80 dB',
+    decibelRange: '70 – 80 dB',
     brassAirSpeed: 'Confident, healthy air stream. The natural speaking voice of brass instruments.',
     embouchureAdjustment: 'Firm corners, open oral cavity ("Awh" vowel shape).',
     sectionBalancingAdvice: 'The baseline default dynamic of marches and lyrical ensemble sections.',
@@ -261,7 +261,7 @@ export const DYNAMICS_FLASHCARDS: DynamicCardData[] = [
     symbol: 'f',
     italianName: 'Forte',
     englishMeaning: 'Loud',
-    decibelRange: '80 â€“ 90 dB',
+    decibelRange: '80 – 90 dB',
     brassAirSpeed: 'Fast, high-volume pressurized air stream with ringing brass harmonics.',
     embouchureAdjustment: 'Maximum abdominal support; embouchure corners locked firmly in place.',
     sectionBalancingAdvice: 'Full band resonance without edge or distortion. Melodic line prominent.',
@@ -273,7 +273,7 @@ export const DYNAMICS_FLASHCARDS: DynamicCardData[] = [
     symbol: 'ff',
     italianName: 'Fortissimo',
     englishMeaning: 'Very Loud',
-    decibelRange: '90 â€“ 105 dB',
+    decibelRange: '90 – 105 dB',
     brassAirSpeed: 'Turbine-like, massive air velocity. Bell flare rings with full overtone spectrum.',
     embouchureAdjustment: 'Tightly anchored corners, wide teeth opening behind lips to avoid pinching.',
     sectionBalancingAdvice: 'Used for climactic march trios and hymn climaxes. Never force into harsh brass rasps.',
@@ -322,40 +322,40 @@ export const CLEF_FLASHCARDS: ClefCardData[] = [
   {
     id: 'treble',
     name: 'Treble Clef (G Clef)',
-    symbolGlyph: 'ð„ž',
+    symbolGlyph: '𝄞',
     referenceLineName: '2nd Line from Bottom is G4 (392 Hz)',
     referenceLineNumber: 2,
     pitchAtReference: 'G4',
     frequencyHz: 392.00,
     brassBandUsage: 'Used by ALMOST ALL British brass instruments: Bb Cornet, Eb Soprano, Eb Tenor Horn, Bb Baritone, Bb Euphonium, Bb Tenor Trombone, EEb Bass, and BBb Bass! Only Bass Trombone reads Bass Clef.',
-    mnemonicLines: 'E â€“ G â€“ B â€“ D â€“ F ("Every Good Boy Deserves Football")',
-    mnemonicSpaces: 'F â€“ A â€“ C â€“ E (Spells "FACE")',
+    mnemonicLines: 'E – G – B – D – F ("Every Good Boy Deserves Football")',
+    mnemonicSpaces: 'F – A – C – E (Spells "FACE")',
     howToArticulateInThisClef: 'Because British brass players learn Treble Clef regardless of instrument size, an Eb Tenor Horn player and a 20-pound BBb Bass player see identical fingerings and articulation markings! A staccato dot on 3rd-space C feels identical under the tongue whether on Cornet or giant BBb Bass.'
   },
   {
     id: 'bass',
     name: 'Bass Clef (F Clef)',
-    symbolGlyph: 'ð„¢',
+    symbolGlyph: '𝄢',
     referenceLineName: '4th Line from Bottom is F3 (174.6 Hz)',
     referenceLineNumber: 4,
     pitchAtReference: 'F3',
     frequencyHz: 174.61,
     brassBandUsage: 'In the British brass band contest and hymn book tradition, Bass Clef is strictly reserved for the BASS TROMBONE (concert pitch reader). Also used in orchestral brass scores for Tuba and Tenor Trombones.',
-    mnemonicLines: 'G â€“ B â€“ D â€“ F â€“ A ("Good Boys Do Fine Always")',
-    mnemonicSpaces: 'A â€“ C â€“ E â€“ G ("All Cows Eat Grass")',
+    mnemonicLines: 'G – B – D – F – A ("Good Boys Do Fine Always")',
+    mnemonicSpaces: 'A – C – E – G ("All Cows Eat Grass")',
     howToArticulateInThisClef: 'Bass Clef low register requires a much wider, looser lip buzz and a broader tongue stroke ("DOH" or "THOH"). Articulations must be slightly longer because large low-frequency sound waves take longer to develop acoustic ring in the hall.'
   },
   {
     id: 'alto-tenor',
     name: 'C-Clefs (Alto & Tenor Clef)',
-    symbolGlyph: 'ð„¡',
+    symbolGlyph: '𝄡',
     referenceLineName: 'Center indent points to Middle C (C4 = 261.6 Hz)',
     referenceLineNumber: 3,
     pitchAtReference: 'C4',
     frequencyHz: 261.63,
     brassBandUsage: 'Used in orchestral trombone solos, German brass chorales, and classical arrangements. Alto clef centers C on line 3; Tenor clef centers C on line 4.',
-    mnemonicLines: 'Alto Lines: F â€“ A â€“ C â€“ E â€“ G | Tenor Lines: D â€“ F â€“ A â€“ C â€“ E',
-    mnemonicSpaces: 'Alto Spaces: G â€“ B â€“ D â€“ F | Tenor Spaces: E â€“ G â€“ B â€“ D',
+    mnemonicLines: 'Alto Lines: F – A – C – E – G | Tenor Lines: D – F – A – C – E',
+    mnemonicSpaces: 'Alto Spaces: G – B – D – F | Tenor Spaces: E – G – B – D',
     howToArticulateInThisClef: 'Advanced brass bandmasters studying original orchestral scores or Bach chorales transpose C-clef music seamlessly. Tonguing articulation requires laser focus on pitch center across the tenor register.'
   }
 ];
@@ -435,7 +435,7 @@ export const NotationFlashcards: React.FC = () => {
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white'
               }`}
             >
-              <span>ðŸŽ¼ 1. Articulations on Staff</span>
+              <span>🎼 1. Articulations on Staff</span>
               <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-black/20">{ARTICULATION_FLASHCARDS.length} Cards</span>
             </button>
 
@@ -447,7 +447,7 @@ export const NotationFlashcards: React.FC = () => {
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white'
               }`}
             >
-              <span>ðŸ”Š 2. Brass Dynamics (pp to sfz)</span>
+              <span>🔊 2. Brass Dynamics (pp to sfz)</span>
               <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-black/20">{DYNAMICS_FLASHCARDS.length} Cards</span>
             </button>
 
@@ -459,7 +459,7 @@ export const NotationFlashcards: React.FC = () => {
                   : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-white'
               }`}
             >
-              <span>ð„ž 3. Clefs & Articulation Link</span>
+              <span>𝄞 3. Clefs & Articulation Link</span>
               <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-black/20">{CLEF_FLASHCARDS.length} Cards</span>
             </button>
           </div>
@@ -564,7 +564,7 @@ export const NotationFlashcards: React.FC = () => {
                             fontFamily="serif"
                             className="select-none font-bold"
                           >
-                            ð„ž
+                            𝄞
                           </text>
 
                           {/* Notehead (Quarter note on middle B line y=80 or custom) */}
@@ -648,7 +648,7 @@ export const NotationFlashcards: React.FC = () => {
 
                           {currentArtCard.id === 'breath-mark' && (
                             /* Breath mark comma above staff */
-                            <text x="180" y="32" fill="#f59e0b" fontSize="32" fontWeight="bold">â€™</text>
+                            <text x="180" y="32" fill="#f59e0b" fontSize="32" fontWeight="bold">'</text>
                           )}
                         </svg>
 
@@ -799,20 +799,20 @@ export const NotationFlashcards: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider mb-2">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    <span>Deep Technical Mastery & Bandmaster's Rehearsal Rules</span>
+                    <span>Deep Technical Mastery & Bandmaster’s Rehearsal Rules</span>
                   </div>
 
                   <h3 className="font-serif text-2xl font-bold text-slate-100 mb-4">
-                    {activeDeck === 'articulations' && `${currentArtCard.name} â€” How to Play with Mastery`}
-                    {activeDeck === 'dynamics' && `${currentDynCard.symbol} (${currentDynCard.italianName}) â€” Rehearsal Cue`}
-                    {activeDeck === 'clefs' && `${currentClefCard.name} â€” Transposition Genius`}
+                    {activeDeck === 'articulations' && `${currentArtCard.name} — How to Play with Mastery`}
+                    {activeDeck === 'dynamics' && `${currentDynCard.symbol} (${currentDynCard.italianName}) — Rehearsal Cue`}
+                    {activeDeck === 'clefs' && `${currentClefCard.name} — Transposition Genius`}
                   </h3>
 
                   {activeDeck === 'articulations' && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                       <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1.5">
                         <span className="font-bold text-amber-400 block text-xs">
-                          ðŸ‘… 1. Exact Tongue Syllable & Strike Location:
+                          👅 1. Exact Tongue Syllable & Strike Location:
                         </span>
                         <p className="text-slate-300 leading-relaxed">
                           {currentArtCard.tongueTechnique}
@@ -821,7 +821,7 @@ export const NotationFlashcards: React.FC = () => {
 
                       <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1.5">
                         <span className="font-bold text-amber-400 block text-xs">
-                          ðŸ’¨ 2. Diaphragm Airflow & Support:
+                          💨 2. Diaphragm Airflow & Support:
                         </span>
                         <p className="text-slate-300 leading-relaxed">
                           {currentArtCard.airflowInstruction}
@@ -830,7 +830,7 @@ export const NotationFlashcards: React.FC = () => {
 
                       <div className="p-4 rounded-2xl bg-rose-950/20 border border-rose-900/40 space-y-1.5">
                         <span className="font-bold text-rose-400 block text-xs">
-                          âš ï¸ 3. Fatal Brass Mistake to Eliminate:
+                          ⚠️ 3. Fatal Brass Mistake to Eliminate:
                         </span>
                         <p className="text-slate-300 leading-relaxed">
                           {currentArtCard.commonMistake}
@@ -839,7 +839,7 @@ export const NotationFlashcards: React.FC = () => {
 
                       <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-900/40 space-y-1.5">
                         <span className="font-bold text-amber-300 block text-xs">
-                          ðŸŽº 4. Bandmaster's Podium Instruction:
+                          🎺 4. Bandmaster’s Podium Instruction:
                         </span>
                         <p className="text-slate-200 italic leading-relaxed">
                           {currentArtCard.bandmasterInstruction}
@@ -889,7 +889,7 @@ export const NotationFlashcards: React.FC = () => {
                     onClick={() => setIsFlipped(false)}
                     className="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs hover:bg-amber-300 transition-all shadow"
                   >
-                    â† Back to Visual Notation
+                    ← Back to Visual Notation
                   </button>
                 </div>
               </div>

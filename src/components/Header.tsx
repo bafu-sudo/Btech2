@@ -1,5 +1,22 @@
-﻿import React from 'react';
-import { Volume2, VolumeX, Sparkles } from 'lucide-react';
+import React from 'react';
+import {
+  Volume2,
+  VolumeX,
+  Sparkles,
+  Music,
+  BookOpen,
+  Compass,
+  Download,
+  GraduationCap,
+  Sliders,
+  Layers,
+  Hash,
+  FileText,
+  MoveHorizontal,
+  Disc,
+  Award,
+  Heart
+} from 'lucide-react';
 import { brassAudio } from '../audio/brassAudio';
 
 type ActiveTab =
@@ -8,6 +25,7 @@ type ActiveTab =
   | 'bandmaster'
   | 'offline'
   | 'groups'
+  | 'chat'
   | 'musicTutor'
   | 'tuner'
   | 'scales'
@@ -23,13 +41,15 @@ interface HeaderProps {
   setActiveTab: (tab: ActiveTab) => void;
   isMuted: boolean;
   setIsMuted: (muted: boolean) => void;
+  onOpenCreator?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
   isMuted,
-  setIsMuted
+  setIsMuted,
+  onOpenCreator
 }) => {
   const toggleMute = () => {
     const next = !isMuted;
@@ -69,33 +89,35 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex items-center gap-1 sm:gap-3 lg:gap-5 overflow-x-auto py-1 text-xs font-medium text-slate-300 scrollbar-none">
+        {/* Navigation Tiles */}
+        <nav className="flex items-center gap-1 sm:gap-2 lg:gap-3 overflow-x-auto py-1 text-xs font-medium text-slate-300 scrollbar-none">
 
-          {/* Instruments */}
+          {/* Instruments / Academy */}
           <button
             type="button"
             onClick={() => setActiveTab('academy')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'academy'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            Instruments
+            <Music className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Instruments</span>
           </button>
 
           {/* Music Theory Academy */}
           <button
             type="button"
             onClick={() => setActiveTab('theory')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'theory'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            <span>ðŸŽ¼ Theory Academy</span>
+            <BookOpen className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Theory Academy</span>
             <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300 font-bold border border-amber-500/30">
               16 Modules
             </span>
@@ -105,13 +127,14 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('bandmaster')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'bandmaster'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            <span>ðŸ§­ Bandmaster</span>
+            <Compass className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Bandmaster</span>
             <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300 font-bold border border-amber-500/30">
               Academy
             </span>
@@ -121,26 +144,28 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('offline')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'offline'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            <span>ðŸ“¥ Offline Library</span>
+            <Download className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Offline Library</span>
           </button>
 
           {/* School & Band Mode (Groups) */}
           <button
             type="button"
             onClick={() => setActiveTab('groups')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'groups'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            <span>ðŸ« School & Band Mode</span>
+            <GraduationCap className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>School & Band Mode</span>
             <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300 font-bold border border-amber-500/30">
               New
             </span>
@@ -150,70 +175,72 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('musicTutor')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'musicTutor'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            ðŸŽ¼ Music Tutor
+            <Sparkles className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Music Tutor</span>
           </button>
 
           {/* Tuner */}
           <button
             type="button"
             onClick={() => setActiveTab('tuner')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'tuner'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            ðŸŽ›ï¸ Tuner
+            <Sliders className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Tuner</span>
           </button>
 
           {/* Scales */}
           <button
             type="button"
             onClick={() => setActiveTab('scales')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'scales'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            All Brass Scales
+            <Layers className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>All Brass Scales</span>
           </button>
 
           {/* Sharps & Flats */}
           <button
             type="button"
             onClick={() => setActiveTab('accidentals')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'accidentals'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            Sharps & Flats
+            <Hash className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Sharps & Flats</span>
           </button>
 
           {/* Scores */}
           <button
             type="button"
             onClick={() => setActiveTab('scores')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'scores'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            <span className="flex items-center gap-1">
-              <span>25+ Free Scores</span>
-
-              <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[10px] text-amber-300 font-bold border border-amber-500/30">
-                Hymns & Marches
-              </span>
+            <FileText className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>25+ Free Scores</span>
+            <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[10px] text-amber-300 font-bold border border-amber-500/30">
+              Hymns & Marches
             </span>
           </button>
 
@@ -221,52 +248,56 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('trombone')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'trombone'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            Trombone Slide
+            <MoveHorizontal className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Trombone Slide</span>
           </button>
 
           {/* Percussion */}
           <button
             type="button"
             onClick={() => setActiveTab('percussion')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'percussion'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            Percussion
+            <Disc className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Percussion</span>
           </button>
 
           {/* Theory Quiz */}
           <button
             type="button"
             onClick={() => setActiveTab('quiz')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'quiz'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            Theory Quiz
+            <Award className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>Theory Quiz</span>
           </button>
 
           {/* About */}
           <button
             type="button"
             onClick={() => setActiveTab('about')}
-            className={`whitespace-nowrap px-2 py-1 transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
               activeTab === 'about'
-                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
-                : 'hover:text-amber-200'
+                ? 'bg-amber-400/15 text-amber-400 border-b-2 border-amber-400 font-semibold'
+                : 'hover:text-amber-200 hover:bg-slate-900/60'
             }`}
           >
-            About Founder
+            <Heart className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+            <span>About Founder</span>
           </button>
         </nav>
 

@@ -1,4 +1,4 @@
-﻿export interface AnalyticsData {
+export interface AnalyticsData {
 totalViews: number;
 apkDownloads: number;
 instagramClicks: number;
@@ -111,6 +111,16 @@ recordInstagramClick() {
 analytics.instagramClicks += 1;
 saveAnalytics();
 },
+
+  sendHeartbeat(_room?: string, _username?: string) {
+    if (typeof fetch === 'function') {
+      fetch('/api/analytics/heartbeat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room: _room, username: _username })
+      }).catch(() => {});
+    }
+  },
 
 isCreatorAuthenticated(): boolean {
 return true;
