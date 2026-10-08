@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { 
   Play, 
   Square, 
@@ -212,37 +212,37 @@ export const PercussionLab: React.FC = () => {
     {
       name: 'Semibreve (Whole Note)',
       beats: '4 Beats',
-      symbol: '𝅝',
+      symbol: 'ð…',
       britishTradition: 'Held for 4 full beats. Used in solemn hymn tunes like "Crimond" or "Deep Harmony".'
     },
     {
       name: 'Minim (Half Note)',
       beats: '2 Beats',
-      symbol: '𝅗𝅥',
+      symbol: 'ð…ž',
       britishTradition: 'Half the length of a semibreve. Drives lyrical cantabile melodies across the cornet and horn sections.'
     },
     {
       name: 'Crotchet (Quarter Note)',
       beats: '1 Beat',
-      symbol: '𝅘𝅥',
+      symbol: 'ð…Ÿ',
       britishTradition: 'The heartbeat of brass band marching. In 2/4 march time, each measure contains two crotchet beats.'
     },
     {
       name: 'Quaver (Eighth Note)',
       beats: '1/2 Beat',
-      symbol: '𝅘𝅥𝅮',
+      symbol: 'ð… ',
       britishTradition: 'Often played as crisp off-beats by the Tenor Horns and 2nd/3rd cornets in British street marches.'
     },
     {
       name: 'Semiquaver (Sixteenth Note)',
       beats: '1/4 Beat',
-      symbol: '𝅘𝅥𝅯',
+      symbol: 'ð…¡',
       britishTradition: 'Fast technical passages, double and triple-tongued flourishes in Arban cornet variations.'
     },
     {
       name: 'Triplet',
       beats: '3 in the time of 2',
-      symbol: '3 𝅘𝅥',
+      symbol: '3 ð…Ÿ',
       britishTradition: 'Classic 6/8 march swing ("The Floral Dance") or fanfare fanfares ("Knight Templar").'
     }
   ];
@@ -561,7 +561,7 @@ export const PercussionLab: React.FC = () => {
                   isPlayingMarch && currentBeat === 1 ? 'bg-rose-500 shadow-lg shadow-rose-500/50 scale-110' : 'bg-slate-800'
                 }`} />
               </div>
-              <span className="text-slate-600 font-mono">—</span>
+              <span className="text-slate-600 font-mono">â€”</span>
               <div className="text-center">
                 <span className="text-[10px] text-slate-500 uppercase block font-semibold">Beat 2</span>
                 <span className={`inline-block h-6 w-6 rounded-full mt-1 transition-all ${
@@ -636,3 +636,4 @@ export const PercussionLab: React.FC = () => {
     </div>
   );
 };
+

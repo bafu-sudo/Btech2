@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Client-side audio WAV synthesis renderer.
  * Converts score notes into an authentic PCM WAV Audio Blob
  * for real legal audio sample downloads.
@@ -111,3 +111,4 @@ function writeString(view: DataView, offset: number, string: string) {
     view.setUint8(offset + i, string.charCodeAt(i));
   }
 }
+

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Web Audio API Brass Synthesizer
  * Models the warm, harmonic-rich timbre of British brass band instruments
  * (Cornet, Tenor Horn, Euphonium, Eb/Bb Bass) with formant filtering & lip-buzz envelope.
@@ -624,3 +624,4 @@ class BrassAudioEngine {
 }
 
 export const brassAudio = new BrassAudioEngine();
+

@@ -1,4 +1,4 @@
-export type BrassInstrumentKey = 'Bb' | 'Eb' | 'C' | 'F';
+﻿export type BrassInstrumentKey = 'Bb' | 'Eb' | 'C' | 'F';
 
 export interface BrassInstrumentInfo {
   id: string;
@@ -111,3 +111,4 @@ export interface AccidentalInfo {
   tromboneImpact: string;
   example: string;
 }
+

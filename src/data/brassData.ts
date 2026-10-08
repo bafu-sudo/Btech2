@@ -1,4 +1,4 @@
-import { BrassInstrumentInfo, ScaleDefinition, QuizQuestion } from '../types';
+﻿import { BrassInstrumentInfo, ScaleDefinition, QuizQuestion } from '../types';
 
 export const BRASS_INSTRUMENTS: BrassInstrumentInfo[] = [
   {
@@ -71,7 +71,7 @@ export const BRASS_INSTRUMENTS: BrassInstrumentInfo[] = [
     standardValves: 4,
     description: 'Often called the "King of the Brass Band" or the cello of the brass world. Wide conical bore produces a rich, noble, singing sound.',
     brassBandRole: 'Virtuosic solo vehicle for runs, lyrical operatic arias, and powerful doubling of bass melodies.',
-    exampleSolo: 'Grandfather’s Clock, Pantomime (Philip Sparke)'
+    exampleSolo: 'Grandfatherâ€™s Clock, Pantomime (Philip Sparke)'
   },
   {
     id: 'tenor-trombone-bb',
@@ -217,7 +217,7 @@ export const TROMBONE_SLIDE_POSITIONS = [
     fundamentalHarmonic: 'Bb1 / Bb2',
     notesAvailable: 'Bb2, F3, Bb3, D4, F4, Ab4, Bb4',
     semitonesDown: 0,
-    description: 'Home base. Slide is completely retracted. Natural tube length of the B♭ trombone.'
+    description: 'Home base. Slide is completely retracted. Natural tube length of the Bâ™­ trombone.'
   },
   {
     position: 2,
@@ -523,7 +523,7 @@ export const SCALE_LESSONS: ScaleDefinition[] = [
     instrumentName: 'Bb Cornet / Euphonium Warm-Up',
     writtenKey: 'Natural Harmonic Series (All Open Valves)',
     concertKey: 'Concert Bb Harmonics',
-    explanation: 'The famous brass band warm-up from J.B. Arban’s Grand Method. You do not touch any valves; instead you change pitch purely with lip tension, airspeed, and tongue arch ("ah-ee-ah").',
+    explanation: 'The famous brass band warm-up from J.B. Arbanâ€™s Grand Method. You do not touch any valves; instead you change pitch purely with lip tension, airspeed, and tongue arch ("ah-ee-ah").',
     notes: [
       { name: 'C4 (Low)', octave: 4, concertName: 'Bb3', valves: [], valveLabel: 'Open (2nd Partial)', frequencyHz: 233.08 },
       { name: 'G4 (Mid)', octave: 4, concertName: 'F4', valves: [], valveLabel: 'Open (3rd Partial)', frequencyHz: 349.23 },
@@ -611,7 +611,7 @@ export const BRASS_QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'Which partial harmonic allows a player on open valves to leap from low C4 to mid G4 without pressing a valve?',
     options: ['1st partial (pedal note)', '3rd partial', '7th partial', 'Sub-harmonic resonance'],
     correctIndex: 1,
-    explanation: 'The 3rd harmonic of a brass instrument’s natural open series is the 5th interval above the fundamental (G above C).'
+    explanation: 'The 3rd harmonic of a brass instrumentâ€™s natural open series is the 5th interval above the fundamental (G above C).'
   },
   {
     id: 9,
@@ -687,3 +687,4 @@ export const BRITISH_BAND_SECTIONS = [
     role: 'Rhythmic drive for marches, shimmering color in symphonic test pieces.'
   }
 ];
+

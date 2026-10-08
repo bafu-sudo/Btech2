@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { 
   Play, 
   Pause,
@@ -245,7 +245,7 @@ export const ScoreLibrary: React.FC = () => {
         formattedSize: `${(pdfBlob.size / 1024).toFixed(1)} KB`,
         dateAdded: new Date().toLocaleDateString('en-GB'),
         license: selectedPiece.license || 'Public Domain',
-        attribution: `${selectedPiece.composer} · ${selectedPiece.origin}`,
+        attribution: `${selectedPiece.composer} Â· ${selectedPiece.origin}`,
         blobData: pdfBlob,
         meta: {
           key: selectedPiece.keySignatureConcert,
@@ -259,7 +259,7 @@ export const ScoreLibrary: React.FC = () => {
       setOfflineCacheIds(items.map(i => i.id));
 
       setIsGeneratingDownload(false);
-      setActionNotice(`✓ "${selectedPiece.title}" saved to Offline Library. Available without internet!`);
+      setActionNotice(`âœ“ "${selectedPiece.title}" saved to Offline Library. Available without internet!`);
       setTimeout(() => setActionNotice(null), 4000);
     } catch (err) {
       console.error(err);
@@ -279,7 +279,7 @@ export const ScoreLibrary: React.FC = () => {
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
               <ShieldCheck className="h-4 w-4" />
-              <span>Btech2 Free Music Library · Verified Legal Repertoire</span>
+              <span>Btech2 Free Music Library Â· Verified Legal Repertoire</span>
             </div>
             <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-slate-100">
               Salvation Army & British Brass Band Free Scores
@@ -304,7 +304,7 @@ export const ScoreLibrary: React.FC = () => {
         {actionNotice && (
           <div className="mt-4 p-3 rounded-xl bg-amber-500/20 border border-amber-500/40 text-xs font-medium text-amber-200 flex items-center justify-between">
             <span>{actionNotice}</span>
-            <button onClick={() => setActionNotice(null)} className="text-amber-400 hover:text-white font-bold text-sm ml-2">×</button>
+            <button onClick={() => setActionNotice(null)} className="text-amber-400 hover:text-white font-bold text-sm ml-2">Ã—</button>
           </div>
         )}
       </div>
@@ -416,7 +416,7 @@ export const ScoreLibrary: React.FC = () => {
                       </span>
                       {isCached && (
                         <span className="text-emerald-400 font-bold text-[10px]" title="Saved Offline">
-                          ✓ Offline
+                          âœ“ Offline
                         </span>
                       )}
                     </div>
@@ -428,9 +428,9 @@ export const ScoreLibrary: React.FC = () => {
                         {score.category.split(' ')[0]}
                       </span>
                       <span>{score.timeSignature}</span>
-                      <span>·</span>
+                      <span>Â·</span>
                       <span>{score.tempoBpm} BPM</span>
-                      <span>·</span>
+                      <span>Â·</span>
                       <span className={score.difficulty === 'Beginner' ? 'text-emerald-400' : 'text-amber-400'}>
                         {score.difficulty}
                       </span>
@@ -462,7 +462,7 @@ export const ScoreLibrary: React.FC = () => {
                 </h2>
                 <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
                   <span>Composer: <strong className="text-slate-200">{selectedPiece.composer}</strong></span>
-                  <span>·</span>
+                  <span>Â·</span>
                   <span className="text-emerald-400 font-medium">Licence: {selectedPiece.license || 'Public Domain'}</span>
                 </div>
               </div>
@@ -490,7 +490,7 @@ export const ScoreLibrary: React.FC = () => {
                   }`}
                 >
                   <HardDrive className="h-4 w-4" />
-                  <span>{isPieceOffline ? '✓ Saved Offline' : 'Save Offline'}</span>
+                  <span>{isPieceOffline ? 'âœ“ Saved Offline' : 'Save Offline'}</span>
                 </button>
 
                 <button
@@ -588,8 +588,8 @@ export const ScoreLibrary: React.FC = () => {
                     }}
                     className="bg-slate-900 border border-slate-800 rounded-lg p-1 text-xs text-slate-200"
                   >
-                    <option value="Bb Cornet / Trumpet">B♭ Cornet / Trumpet (Treble)</option>
-                    <option value="Eb Tenor Horn">E♭ Tenor Horn (Treble)</option>
+                    <option value="Bb Cornet / Trumpet">Bâ™­ Cornet / Trumpet (Treble)</option>
+                    <option value="Eb Tenor Horn">Eâ™­ Tenor Horn (Treble)</option>
                     <option value="Trombone / Euphonium">Trombone / Euphonium</option>
                     <option value="Conductor Full Lead">Conductor Lead (Concert Pitch)</option>
                   </select>
@@ -752,7 +752,7 @@ export const ScoreLibrary: React.FC = () => {
             <div className="space-y-3 text-xs text-slate-300">
               <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
                 <div><strong className="text-slate-400">Piece Title:</strong> {selectedPiece.title}</div>
-                <div><strong className="text-slate-400">Composer / Origin:</strong> {selectedPiece.composer} · {selectedPiece.origin}</div>
+                <div><strong className="text-slate-400">Composer / Origin:</strong> {selectedPiece.composer} Â· {selectedPiece.origin}</div>
                 <div><strong className="text-slate-400">Licence Status:</strong> <span className="text-emerald-400 font-bold">{selectedPiece.license || 'Public Domain'}</span></div>
                 <div><strong className="text-slate-400">Redistribution:</strong> Permitted for free educational & church brass use</div>
                 <div><strong className="text-slate-400">Offline Caching:</strong> Permitted (IndexedDB client storage)</div>
@@ -778,3 +778,4 @@ export const ScoreLibrary: React.FC = () => {
     </div>
   );
 };
+

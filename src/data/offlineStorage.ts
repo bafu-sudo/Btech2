@@ -1,4 +1,4 @@
-/**
+﻿/**
  * IndexedDB storage engine for Btech2 Offline Music Library & Educational Modules.
  * Stores real PDF blobs, audio WAV blobs, interactive scores, and course modules.
  */
@@ -97,3 +97,4 @@ export async function clearAllOfflineStorage(): Promise<void> {
     req.onerror = () => reject(req.error);
   });
 }
+

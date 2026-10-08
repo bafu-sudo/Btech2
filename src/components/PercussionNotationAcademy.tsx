@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   Zap,
   Volume2,
@@ -257,9 +257,9 @@ export const PercussionNotationAcademy: React.FC = () => {
                   <span className="font-serif text-lg font-bold text-amber-300">Non-Pitched (Snare, Bass Drum, Cymbals)</span>
                 </div>
                 <ul className="text-xs text-slate-300 space-y-2">
-                  <li>• Uses the <strong>Neutral Clef (two vertical lines)</strong>.</li>
-                  <li>• Lines represent <strong>different instruments</strong>, not pitch frequencies.</li>
-                  <li>• Different noteheads (circle, X, diamond) distinguish hits, rimshots, choke crashes.</li>
+                  <li>â€¢ Uses the <strong>Neutral Clef (two vertical lines)</strong>.</li>
+                  <li>â€¢ Lines represent <strong>different instruments</strong>, not pitch frequencies.</li>
+                  <li>â€¢ Different noteheads (circle, X, diamond) distinguish hits, rimshots, choke crashes.</li>
                 </ul>
                 <button
                   onClick={() => brassAudio.playPercussion('snare')}
@@ -274,9 +274,9 @@ export const PercussionNotationAcademy: React.FC = () => {
                   <span className="font-serif text-lg font-bold text-emerald-300">Tuned / Pitched (Glockenspiel, Timpani, Xylophone)</span>
                 </div>
                 <ul className="text-xs text-slate-300 space-y-2">
-                  <li>• Uses standard <strong>Treble or Bass Clef</strong>.</li>
-                  <li>• Staff lines represent <strong>exact musical pitches (C, D, E, F...)</strong>.</li>
-                  <li>• Glockenspiel sounds 2 octaves higher than written; Timpani requires precise pedal pitch tuning.</li>
+                  <li>â€¢ Uses standard <strong>Treble or Bass Clef</strong>.</li>
+                  <li>â€¢ Staff lines represent <strong>exact musical pitches (C, D, E, F...)</strong>.</li>
+                  <li>â€¢ Glockenspiel sounds 2 octaves higher than written; Timpani requires precise pedal pitch tuning.</li>
                 </ul>
                 <button
                   onClick={() => brassAudio.playPercussion('glockenspiel')}
@@ -454,7 +454,7 @@ export const PercussionNotationAcademy: React.FC = () => {
               }`}>
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-xs">
-                    {earUserGuess === currentEarChallenge.target ? '✓ Correct Ear!' : '✗ Not quite.'}
+                    {earUserGuess === currentEarChallenge.target ? 'âœ“ Correct Ear!' : 'âœ— Not quite.'}
                   </span>
                   <button
                     onClick={() => {
@@ -464,7 +464,7 @@ export const PercussionNotationAcademy: React.FC = () => {
                     }}
                     className="text-xs font-bold underline"
                   >
-                    Next Challenge →
+                    Next Challenge â†’
                   </button>
                 </div>
                 <p className="text-xs text-slate-300 mt-1">
@@ -478,3 +478,4 @@ export const PercussionNotationAcademy: React.FC = () => {
     </div>
   );
 };
+

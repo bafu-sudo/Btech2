@@ -1,4 +1,4 @@
-export interface Student {
+﻿export interface Student {
   id: string;
   name: string;
   instrument: string;
@@ -82,3 +82,4 @@ export interface BrassBandGroup {
   sections: GroupSection[];
   notifications: NotificationItem[];
 }
+

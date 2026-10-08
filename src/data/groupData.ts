@@ -1,10 +1,10 @@
-import { BrassBandGroup, AchievementItem } from './groupTypes';
+﻿import { BrassBandGroup, AchievementItem } from './groupTypes';
 
 export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   {
     id: 'first-lesson',
     title: 'First Lesson Completed',
-    icon: '🏆',
+    icon: 'ðŸ†',
     description: 'Finished your first guided brass lesson on Btech2.',
     category: 'practice',
     unlockedAt: 'Completed'
@@ -12,7 +12,7 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   {
     id: 'first-instrument-exercise',
     title: 'First Instrument Exercise',
-    icon: '🎺',
+    icon: 'ðŸŽº',
     description: 'Practiced valve fingerings or slide positions on your instrument.',
     category: 'practice',
     unlockedAt: 'Completed'
@@ -20,7 +20,7 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   {
     id: 'note-reading-beginner',
     title: 'Note Reading Beginner',
-    icon: '🎼',
+    icon: 'ðŸŽ¼',
     description: 'Learned treble staff ledger lines, flats and sharps.',
     category: 'theory',
     unlockedAt: 'Completed'
@@ -28,7 +28,7 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   {
     id: '7-day-streak',
     title: '7 Day Practice Streak',
-    icon: '🔥',
+    icon: 'ðŸ”¥',
     description: 'Practiced consistently every day for a full week.',
     category: 'practice',
     unlockedAt: 'Unlocked'
@@ -36,7 +36,7 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   {
     id: 'theory-learner',
     title: 'Theory Learner',
-    icon: '📚',
+    icon: 'ðŸ“š',
     description: 'Mastered circle of fifths, transposition, and key signatures.',
     category: 'theory',
     unlockedAt: 'Unlocked'
@@ -44,7 +44,7 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   {
     id: 'rhythm-practice',
     title: 'Rhythm Practice Champion',
-    icon: '🎵',
+    icon: 'ðŸŽµ',
     description: 'Accurately clapped or played 4/4 and 6/8 march rhythms.',
     category: 'practice',
     unlockedAt: 'Completed'
@@ -52,7 +52,7 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   {
     id: 'quiz-achievement',
     title: 'Brass Quiz Distinction',
-    icon: '🏅',
+    icon: 'ðŸ…',
     description: 'Scored 85%+ on a comprehensive British Brass Band theory quiz.',
     category: 'quiz',
     unlockedAt: 'Completed'
@@ -60,7 +60,7 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   {
     id: 'tuning-master',
     title: 'Pitch & Tuning Ace',
-    icon: '🎛️',
+    icon: 'ðŸŽ›ï¸',
     description: 'Adjusted main tuning slide and held steady concert pitch.',
     category: 'practice',
     unlockedAt: 'Completed'
@@ -81,7 +81,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'student-a',
         name: 'Student A (Tariro Chikore)',
         instrument: 'Bb Cornet',
-        avatar: '🎺',
+        avatar: 'ðŸŽº',
         level: 'Intermediate',
         noteReadingScore: 85,
         rhythmScore: 78,
@@ -98,7 +98,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'student-b',
         name: 'Student B (Blessing Moyo)',
         instrument: 'Eb Tenor Horn',
-        avatar: '🎷',
+        avatar: 'ðŸŽ·',
         level: 'Beginner',
         noteReadingScore: 60,
         rhythmScore: 88,
@@ -115,7 +115,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'student-c',
         name: 'Student C (Kudzai Ndlovu)',
         instrument: 'Bb Euphonium',
-        avatar: '🎺',
+        avatar: 'ðŸŽº',
         level: 'Intermediate',
         noteReadingScore: 88,
         rhythmScore: 84,
@@ -132,7 +132,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'student-d',
         name: 'Student D (Farai Mutasa)',
         instrument: 'Tenor Trombone',
-        avatar: '🎵',
+        avatar: 'ðŸŽµ',
         level: 'Beginner',
         noteReadingScore: 72,
         rhythmScore: 70,
@@ -149,7 +149,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'student-e',
         name: 'Student E (Chipo Sithole)',
         instrument: 'Bb Flugelhorn',
-        avatar: '🎺',
+        avatar: 'ðŸŽº',
         level: 'Intermediate',
         noteReadingScore: 92,
         rhythmScore: 90,
@@ -166,7 +166,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'student-f',
         name: 'Student F (Tatenda Musoni)',
         instrument: 'Eb Bass (Tuba)',
-        avatar: '🎵',
+        avatar: 'ðŸŽµ',
         level: 'Beginner',
         noteReadingScore: 65,
         rhythmScore: 80,
@@ -190,7 +190,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
     assignments: [
       {
         id: 'asg-1',
-        title: 'Weekly Practice – Week 4: C Major Scale Mastery',
+        title: 'Weekly Practice â€“ Week 4: C Major Scale Mastery',
         description: 'Practice the full 8-note octave scale with smooth legato and crisp staccato tonguing.',
         category: 'scale-practice',
         instrument: 'All Brass',
@@ -258,7 +258,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
       {
         id: 'notif-1',
         title: 'New Band Practice Assigned',
-        message: 'Bandmaster Nokuvimba Bafu posted Weekly Practice – Week 4 activities.',
+        message: 'Bandmaster Nokuvimba Bafu posted Weekly Practice â€“ Week 4 activities.',
         timestamp: '2 hours ago',
         read: false,
         type: 'assignment'
@@ -294,7 +294,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'st-b-1',
         name: 'Liam Vance',
         instrument: 'Bb Trumpet',
-        avatar: '🎺',
+        avatar: 'ðŸŽº',
         level: 'Intermediate',
         noteReadingScore: 90,
         rhythmScore: 85,
@@ -311,7 +311,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'st-b-2',
         name: 'Amina El-Amin',
         instrument: 'Tenor Trombone',
-        avatar: '🎵',
+        avatar: 'ðŸŽµ',
         level: 'Beginner',
         noteReadingScore: 68,
         rhythmScore: 86,
@@ -328,7 +328,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'st-b-3',
         name: 'Ethan Zhang',
         instrument: 'Bb Euphonium',
-        avatar: '🎺',
+        avatar: 'ðŸŽº',
         level: 'Intermediate',
         noteReadingScore: 84,
         rhythmScore: 80,
@@ -345,7 +345,7 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
         id: 'st-b-4',
         name: 'Nia Moyo',
         instrument: 'Percussion & Glockenspiel',
-        avatar: '🥁',
+        avatar: 'ðŸ¥',
         level: 'Beginner',
         noteReadingScore: 82,
         rhythmScore: 94,
@@ -425,3 +425,4 @@ export const INITIAL_GROUPS: BrassBandGroup[] = [
     ]
   }
 ];
+

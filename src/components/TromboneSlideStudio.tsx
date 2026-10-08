@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { 
   Sparkles, 
   Volume2, 
@@ -230,7 +230,7 @@ export const TromboneSlideStudio: React.FC = () => {
               className="flex items-center gap-2 rounded-xl border border-amber-400/50 bg-amber-400/10 px-3.5 py-2.5 text-xs font-bold text-amber-300 hover:bg-amber-400/20 transition-colors disabled:opacity-40"
             >
               <Zap className="h-4 w-4" />
-              <span>Glissando {currentPosition === 1 ? '1 → 6' : `${currentPosition} → 1`}</span>
+              <span>Glissando {currentPosition === 1 ? '1 â†’ 6' : `${currentPosition} â†’ 1`}</span>
             </button>
           </div>
         </div>
@@ -332,7 +332,7 @@ export const TromboneSlideStudio: React.FC = () => {
                 <span>C Major Scale on Trombone (Click any note to glide slide & hear pitch):</span>
               </span>
               <span className="text-[11px] text-slate-400">
-                Notice positions jump: <strong>1st → 6th → 4th → 3rd → 1st → 4th → 2nd → 1st</strong>
+                Notice positions jump: <strong>1st â†’ 6th â†’ 4th â†’ 3rd â†’ 1st â†’ 4th â†’ 2nd â†’ 1st</strong>
               </span>
             </div>
 
@@ -384,7 +384,7 @@ export const TromboneSlideStudio: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs uppercase font-semibold text-slate-300">
-                  Select Trombone Slide Position (Keys 1–7):
+                  Select Trombone Slide Position (Keys 1â€“7):
                 </span>
                 <span className="text-xs text-amber-400 font-mono">
                   {currentPosInfo.distanceInches}" extension
@@ -490,9 +490,9 @@ export const TromboneSlideStudio: React.FC = () => {
             </div>
 
             <div className="pt-3 border-t border-slate-800 text-xs text-slate-400 space-y-1">
-              <div>• <strong>Current Position:</strong> {currentPosInfo.name} (-{currentPosInfo.semitonesDown} semitones)</div>
-              <div>• <strong>Visual Reference:</strong> {currentPosInfo.relativeToBell}</div>
-              <div>• <strong>Notes on this position:</strong> <span className="text-slate-200">{currentPosInfo.notesAvailable}</span></div>
+              <div>â€¢ <strong>Current Position:</strong> {currentPosInfo.name} (-{currentPosInfo.semitonesDown} semitones)</div>
+              <div>â€¢ <strong>Visual Reference:</strong> {currentPosInfo.relativeToBell}</div>
+              <div>â€¢ <strong>Notes on this position:</strong> <span className="text-slate-200">{currentPosInfo.notesAvailable}</span></div>
             </div>
           </div>
         </div>
@@ -574,3 +574,4 @@ export const TromboneSlideStudio: React.FC = () => {
     </div>
   );
 };
+

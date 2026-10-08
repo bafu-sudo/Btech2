@@ -1,4 +1,4 @@
-import { jsPDF } from 'jspdf';
+﻿import { jsPDF } from 'jspdf';
 import { ScorePiece } from '../types';
 
 /**
@@ -34,7 +34,7 @@ export function generateScorePdf(
   doc.setFont('times', 'bold');
   doc.setFontSize(10);
   doc.setTextColor(140, 100, 20);
-  doc.text('BTECH2 BRASS BAND ACADEMY · LEGAL FREE MUSIC LIBRARY', pageWidth / 2, margin + 4, { align: 'center' });
+  doc.text('BTECH2 BRASS BAND ACADEMY Â· LEGAL FREE MUSIC LIBRARY', pageWidth / 2, margin + 4, { align: 'center' });
 
   // Piece Title & Subtitle
   doc.setFont('times', 'bold');
@@ -201,7 +201,7 @@ export function generateScorePdf(
   doc.setTextColor(71, 85, 105);
   doc.text('This sheet music score is prepared and typeset for Btech2 Brass Band Academy from verified public-domain brass band sources.', margin + 3, legalY + 9);
   doc.text('Free for non-commercial educational performance, church services, band contests, rehearsal and study. "Learn. Practise. Conduct. Perform."', margin + 3, legalY + 13);
-  doc.text('Platform Founder: Nokuvimba Bafu · Zimbabwe · Dedicated to Salvation Army & Brass Band Musicians Worldwide.', margin + 3, legalY + 16.5);
+  doc.text('Platform Founder: Nokuvimba Bafu Â· Zimbabwe Â· Dedicated to Salvation Army & Brass Band Musicians Worldwide.', margin + 3, legalY + 16.5);
 
   return doc;
 }
@@ -236,7 +236,7 @@ export function generateCurriculumPdf(
   doc.setFont('times', 'bold');
   doc.setFontSize(11);
   doc.setTextColor(160, 110, 20);
-  doc.text('BTECH2 BRASS BAND ACADEMY · OFFICIAL STUDY CURRICULUM', pageWidth / 2, margin + 8, { align: 'center' });
+  doc.text('BTECH2 BRASS BAND ACADEMY Â· OFFICIAL STUDY CURRICULUM', pageWidth / 2, margin + 8, { align: 'center' });
 
   doc.setFont('times', 'bold');
   doc.setFontSize(22);
@@ -246,7 +246,7 @@ export function generateCurriculumPdf(
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
   doc.setTextColor(180, 83, 9);
-  doc.text(`INSTRUMENT FOCUS: ${instrument.toUpperCase()} · LEVEL: ${level.toUpperCase()}`, pageWidth / 2, margin + 36, { align: 'center' });
+  doc.text(`INSTRUMENT FOCUS: ${instrument.toUpperCase()} Â· LEVEL: ${level.toUpperCase()}`, pageWidth / 2, margin + 36, { align: 'center' });
 
   // Divider
   doc.setDrawColor(180, 83, 9);
@@ -301,7 +301,8 @@ export function generateCurriculumPdf(
   doc.setFont('times', 'italic');
   doc.setFontSize(8.5);
   doc.setTextColor(100, 116, 139);
-  doc.text('Btech2 Brass Band Academy · Founded by Nokuvimba Bafu (Zimbabwe) · Verified Open Educational Material', pageWidth / 2, pageHeight - margin, { align: 'center' });
+  doc.text('Btech2 Brass Band Academy Â· Founded by Nokuvimba Bafu (Zimbabwe) Â· Verified Open Educational Material', pageWidth / 2, pageHeight - margin, { align: 'center' });
 
   return doc;
 }
+

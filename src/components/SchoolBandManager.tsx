@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   Users,
   GraduationCap,
@@ -83,7 +83,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
       id: 'student-demo',
       name: 'Student Guest',
       instrument: 'Bb Cornet',
-      avatar: '🎺',
+      avatar: 'ðŸŽº',
       level: 'Beginner',
       noteReadingScore: 75,
       rhythmScore: 80,
@@ -160,7 +160,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
           id: `st-${Date.now()}-1`,
           name: 'Student 1 (Principal Cornet)',
           instrument: 'Bb Cornet',
-          avatar: '🎺',
+          avatar: 'ðŸŽº',
           level: 'Intermediate',
           noteReadingScore: 80,
           rhythmScore: 82,
@@ -177,7 +177,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
           id: `st-${Date.now()}-2`,
           name: 'Student 2 (Horn & Baritone)',
           instrument: 'Eb Tenor Horn',
-          avatar: '🎷',
+          avatar: 'ðŸŽ·',
           level: 'Beginner',
           noteReadingScore: 70,
           rhythmScore: 75,
@@ -305,23 +305,23 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
   const getCategoryIcon = (cat: AssignmentCategory) => {
     switch (cat) {
       case 'cornet-exercise':
-        return '🎺';
+        return 'ðŸŽº';
       case 'music-theory':
-        return '🎼';
+        return 'ðŸŽ¼';
       case 'song-practice':
-        return '🎵';
+        return 'ðŸŽµ';
       case 'scale-practice':
-        return '📚';
+        return 'ðŸ“š';
       case 'rhythm-exercise':
-        return '⏱️';
+        return 'â±ï¸';
       case 'quiz':
-        return '📝';
+        return 'ðŸ“';
       case 'listening':
-        return '🎧';
+        return 'ðŸŽ§';
       case 'tuning-practice':
-        return '🎛️';
+        return 'ðŸŽ›ï¸';
       default:
-        return '🎺';
+        return 'ðŸŽº';
     }
   };
 
@@ -339,7 +339,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
               School & Brass Band Mode
             </h1>
             <p className="max-w-2xl text-xs sm:text-sm text-slate-300">
-              A comprehensive teaching suite for <strong>Bandmasters</strong>, <strong>School Music Departments</strong>, and <strong>Church Youth Bands</strong>. Assign structured practice connected to Btech2’s Music Tutor, Tuner, Scales & Repertoire, and celebrate individual student progress.
+              A comprehensive teaching suite for <strong>Bandmasters</strong>, <strong>School Music Departments</strong>, and <strong>Church Youth Bands</strong>. Assign structured practice connected to Btech2â€™s Music Tutor, Tuner, Scales & Repertoire, and celebrate individual student progress.
             </p>
           </div>
 
@@ -437,7 +437,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                     : 'bg-slate-800/60 text-slate-400 hover:text-slate-200 border border-slate-700/60'
                 }`}
               >
-                {grp.groupType === 'church-band' ? '🎺' : '🏫'} {grp.name}
+                {grp.groupType === 'church-band' ? 'ðŸŽº' : 'ðŸ«'} {grp.name}
               </button>
             ))}
           </div>
@@ -472,7 +472,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                 : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
             }`}
           >
-            📊 {userRole === 'teacher' ? 'Bandmaster Dashboard' : 'My Practice Hub'}
+            ðŸ“Š {userRole === 'teacher' ? 'Bandmaster Dashboard' : 'My Practice Hub'}
           </button>
 
           <button
@@ -484,7 +484,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                 : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
             }`}
           >
-            📋 Practice Assignments ({activeGroup.assignments.length})
+            ðŸ“‹ Practice Assignments ({activeGroup.assignments.length})
           </button>
 
           <button
@@ -496,7 +496,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                 : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
             }`}
           >
-            👥 Student Progress & Skill Level
+            ðŸ‘¥ Student Progress & Skill Level
           </button>
 
           <button
@@ -508,7 +508,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                 : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
             }`}
           >
-            🎺 Instrument Sections ({activeGroup.sections.length})
+            ðŸŽº Instrument Sections ({activeGroup.sections.length})
           </button>
 
           <button
@@ -520,7 +520,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                 : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
             }`}
           >
-            🏆 Achievements & Badges
+            ðŸ† Achievements & Badges
           </button>
 
           <button
@@ -562,7 +562,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
               <div>
                 <div className="flex items-center gap-2 text-xs text-amber-400 font-medium">
                   <span>{activeGroup.organization}</span>
-                  <span>•</span>
+                  <span>â€¢</span>
                   <span>{activeGroup.leaderTitle}: {activeGroup.leaderName}</span>
                 </div>
                 <h2 className="font-serif text-xl sm:text-2xl font-bold text-white mt-1">
@@ -576,7 +576,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
               {/* Group Type Badge */}
               <div className="inline-flex items-center gap-2 rounded-xl bg-slate-800/80 px-3 py-2 border border-slate-700/80">
                 <span className="text-xl">
-                  {activeGroup.groupType === 'church-band' ? '⛪' : '🏫'}
+                  {activeGroup.groupType === 'church-band' ? 'â›ª' : 'ðŸ«'}
                 </span>
                 <div className="text-left">
                   <p className="text-[10px] text-slate-400 uppercase font-semibold">Group Type</p>
@@ -739,7 +739,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                   </div>
 
                   <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3 text-[11px] text-amber-200">
-                    💡 <strong>Bandmaster Note:</strong> Note reading averages are slightly below scale technique. Encourage students to spend 5 minutes with the interactive <strong>Music Tutor</strong> stave.
+                    ðŸ’¡ <strong>Bandmaster Note:</strong> Note reading averages are slightly below scale technique. Encourage students to spend 5 minutes with the interactive <strong>Music Tutor</strong> stave.
                   </div>
                 </div>
               </div>
@@ -761,7 +761,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                       </span>
                     </div>
                     <p className="text-xs text-slate-300 mt-0.5">
-                      Instrument: <strong className="text-amber-400">{currentStudent.instrument}</strong> • Streak: <span className="text-amber-400">🔥 {currentStudent.practiceStreakDays} Days</span>
+                      Instrument: <strong className="text-amber-400">{currentStudent.instrument}</strong> â€¢ Streak: <span className="text-amber-400">ðŸ”¥ {currentStudent.practiceStreakDays} Days</span>
                     </p>
                   </div>
                 </div>
@@ -834,7 +834,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                                   <Clock className="h-3 w-3 text-slate-400" />
                                   Due: {asg.dueDate}
                                 </span>
-                                <span>•</span>
+                                <span>â€¢</span>
                                 <span>Est. {asg.estimatedMinutes} mins</span>
                               </div>
                             </div>
@@ -880,7 +880,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
               {/* Encouragement & Feedback for this student */}
               <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">🌱</span>
+                  <span className="text-2xl">ðŸŒ±</span>
                   <div>
                     <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider">
                       Teacher Feedback & Encouragement
@@ -1002,7 +1002,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                           }`}
                         >
                           {asg.completedStudentIds.includes(currentStudent.id)
-                            ? '✓ Done'
+                            ? 'âœ“ Done'
                             : 'Mark Done'}
                         </button>
                       )}
@@ -1074,17 +1074,17 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                         </span>
                       </div>
                       <p className="text-xs text-slate-400 mt-0.5">
-                        {st.instrument} • Last active: {st.lastActive} • {st.totalPracticeMinutes} mins practice
+                        {st.instrument} â€¢ Last active: {st.lastActive} â€¢ {st.totalPracticeMinutes} mins practice
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <span className="rounded-lg bg-slate-800 px-2.5 py-1 text-xs text-amber-400 font-bold">
-                      🔥 {st.practiceStreakDays} Day Streak
+                      ðŸ”¥ {st.practiceStreakDays} Day Streak
                     </span>
                     <span className="rounded-lg bg-slate-800 px-2.5 py-1 text-xs text-slate-300">
-                      ✓ {st.completedActivitiesCount} Lessons Done
+                      âœ“ {st.completedActivitiesCount} Lessons Done
                     </span>
                   </div>
                 </div>
@@ -1150,7 +1150,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
 
                 {/* Constructive Positive Recommendation */}
                 <div className="flex items-start gap-2 text-xs text-slate-300 bg-amber-500/5 p-3 rounded-lg border border-amber-500/20">
-                  <span className="text-amber-400 text-sm">💡</span>
+                  <span className="text-amber-400 text-sm">ðŸ’¡</span>
                   <div>
                     <strong className="text-amber-300">Teacher Observation:</strong>{' '}
                     <span>{st.encouragingFeedback}</span>
@@ -1414,7 +1414,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                 onClick={() => setShowNewAssignmentModal(false)}
                 className="text-slate-400 hover:text-white text-sm"
               >
-                ✕
+                âœ•
               </button>
             </div>
 
@@ -1426,7 +1426,7 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Sunday Practice – Week 5: G Major Scale & Arpeggio"
+                  placeholder="e.g. Sunday Practice â€“ Week 5: G Major Scale & Arpeggio"
                   value={newAsgTitle}
                   onChange={(e) => setNewAsgTitle(e.target.value)}
                   className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400"
@@ -1456,13 +1456,13 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
                     onChange={(e) => setNewAsgCategory(e.target.value as any)}
                     className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400"
                   >
-                    <option value="scale-practice">📚 Scale Practice</option>
-                    <option value="cornet-exercise">🎺 Cornet / Instrument Exercise</option>
-                    <option value="song-practice">🎵 Song Practice</option>
-                    <option value="music-theory">🎼 Music Theory</option>
-                    <option value="rhythm-exercise">⏱️ Rhythm Exercise</option>
-                    <option value="quiz">📝 Quiz</option>
-                    <option value="tuning-practice">🎛️ Tuning Practice</option>
+                    <option value="scale-practice">ðŸ“š Scale Practice</option>
+                    <option value="cornet-exercise">ðŸŽº Cornet / Instrument Exercise</option>
+                    <option value="song-practice">ðŸŽµ Song Practice</option>
+                    <option value="music-theory">ðŸŽ¼ Music Theory</option>
+                    <option value="rhythm-exercise">â±ï¸ Rhythm Exercise</option>
+                    <option value="quiz">ðŸ“ Quiz</option>
+                    <option value="tuning-practice">ðŸŽ›ï¸ Tuning Practice</option>
                   </select>
                 </div>
 
@@ -1552,3 +1552,4 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
     </div>
   );
 };
+

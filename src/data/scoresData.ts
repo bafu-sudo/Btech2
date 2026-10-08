@@ -1,4 +1,4 @@
-import { ScorePiece } from '../types';
+﻿import { ScorePiece } from '../types';
 
 export const BRASS_SCORES: ScorePiece[] = [
   {
@@ -39,7 +39,7 @@ export const BRASS_SCORES: ScorePiece[] = [
   },
   {
     id: 'o-boundless-salvation',
-    title: 'O Boundless Salvation! (The Founder’s Song)',
+    title: 'O Boundless Salvation! (The Founderâ€™s Song)',
     subtitle: 'Salvation Army Anthem #24',
     composer: 'William Booth / John Larsson',
     origin: 'Written by Salvation Army Founder William Booth (1893)',
@@ -50,7 +50,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     tempoBpm: 92,
     difficulty: 'Intermediate',
     category: 'Salvation Army Hymn',
-    historicalNote: 'Known as the "Founder’s Hymn", this stirring 7-verse anthem is sung and played by Salvation Army brass bands at every major congress.',
+    historicalNote: 'Known as the "Founderâ€™s Hymn", this stirring 7-verse anthem is sung and played by Salvation Army brass bands at every major congress.',
     lyricsOrVerse: 'O boundless salvation! deep ocean of love, O fullness of mercy, got free from above, The whole world redeeming, so rich and so free, Now flowing for all men, come, roll over me!',
     melodyNotes: [
       { writtenBb: 'C4', writtenEb: 'G4', concert: 'Bb3', durationBeats: 1, durationName: 'Quarter', valvesBb: [], valvesEb: [], slidePosTrombone: 1, freqConcert: 233.08, freqBb: 233.08, freqEb: 349.23, lyricSnippet: 'O' },
@@ -138,7 +138,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     difficulty: 'Beginner',
     category: 'Salvation Army Hymn',
     historicalNote: 'Legendarily played as the final hymn on the Titanic; remains a brass band masterclass in gentle breathing and cantabile phrasing.',
-    lyricsOrVerse: 'Nearer, my God, to Thee, nearer to Thee! E’en though it be a cross that raiseth me, Still all my song shall be, nearer, my God, to Thee.',
+    lyricsOrVerse: 'Nearer, my God, to Thee, nearer to Thee! Eâ€™en though it be a cross that raiseth me, Still all my song shall be, nearer, my God, to Thee.',
     melodyNotes: [
       { writtenBb: 'B4', writtenEb: 'F#5', concert: 'A4', durationBeats: 1.5, durationName: 'Dotted Quarter', valvesBb: [2], valvesEb: [2], slidePosTrombone: 2, freqConcert: 440.00, freqBb: 440.00, freqEb: 659.25, lyricSnippet: 'Near-' },
       { writtenBb: 'A4', writtenEb: 'E5', concert: 'G4', durationBeats: 0.5, durationName: 'Eighth', valvesBb: [1, 2], valvesEb: [1, 2], slidePosTrombone: 4, freqConcert: 392.00, freqBb: 392.00, freqEb: 587.33, lyricSnippet: 'er,' },
@@ -155,7 +155,7 @@ export const BRASS_SCORES: ScorePiece[] = [
   {
     id: 'deep-harmony',
     title: 'Deep Harmony',
-    subtitle: 'Parker’s Colliery Band Hymn Tune',
+    subtitle: 'Parkerâ€™s Colliery Band Hymn Tune',
     composer: 'Handel Parker (1867)',
     origin: 'Yorkshire Brass Band Tradition',
     timeSignature: '3/4',
@@ -191,7 +191,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     tempoBpm: 84,
     difficulty: 'Intermediate',
     category: 'Salvation Army Hymn',
-    historicalNote: 'Written during the 1904–1905 Welsh Revival, Blaenwern became a signature melody for royal occasions and brass band massed concerts.',
+    historicalNote: 'Written during the 1904â€“1905 Welsh Revival, Blaenwern became a signature melody for royal occasions and brass band massed concerts.',
     lyricsOrVerse: 'Love divine, all loves excelling, Joy of heaven to earth come down; Fix in us Thy humble dwelling, All Thy faithful mercies crown.',
     melodyNotes: [
       { writtenBb: 'D4', writtenEb: 'A4', concert: 'C4', durationBeats: 1, durationName: 'Quarter', valvesBb: [1, 3], valvesEb: [1, 2], slidePosTrombone: 6, freqConcert: 261.63, freqBb: 261.63, freqEb: 392.00 },
@@ -206,7 +206,7 @@ export const BRASS_SCORES: ScorePiece[] = [
   },
   {
     id: 'crimond',
-    title: 'Crimond (The Lord’s My Shepherd)',
+    title: 'Crimond (The Lordâ€™s My Shepherd)',
     subtitle: 'Scottish Psalm Tune',
     composer: 'Jessie Seymour Irvine (1872)',
     origin: 'Scottish Psalter & Salvation Army Hymn Tune Book',
@@ -218,7 +218,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     difficulty: 'Beginner',
     category: 'Salvation Army Hymn',
     historicalNote: 'Often sung with full descant cornet, Crimond is an emotional highlight of brass band Sunday services and massed rallies.',
-    lyricsOrVerse: 'The Lord’s my Shepherd, I’ll not want; He makes me down to lie In pastures green: He leadeth me The quiet waters by.',
+    lyricsOrVerse: 'The Lordâ€™s my Shepherd, Iâ€™ll not want; He makes me down to lie In pastures green: He leadeth me The quiet waters by.',
     melodyNotes: [
       { writtenBb: 'C4', writtenEb: 'G4', concert: 'Bb3', durationBeats: 1, durationName: 'Quarter', valvesBb: [], valvesEb: [], slidePosTrombone: 1, freqConcert: 233.08, freqBb: 233.08, freqEb: 349.23 },
       { writtenBb: 'F4', writtenEb: 'C5', concert: 'Eb4', durationBeats: 2, durationName: 'Half', valvesBb: [1], valvesEb: [], slidePosTrombone: 3, freqConcert: 311.13, freqBb: 311.13, freqEb: 466.16 },
@@ -243,7 +243,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     tempoBpm: 84,
     difficulty: 'Intermediate',
     category: 'Salvation Army Hymn',
-    historicalNote: 'Purday’s tune is a signature of Salvation Army brass band festival programs, renowned for its stately balance of major chords.',
+    historicalNote: 'Purdayâ€™s tune is a signature of Salvation Army brass band festival programs, renowned for its stately balance of major chords.',
     lyricsOrVerse: 'Lead, kindly Light, amid the encircling gloom, Lead Thou me on! The night is dark, and I am far from home, Lead Thou me on!',
     melodyNotes: [
       { writtenBb: 'F4', writtenEb: 'C5', concert: 'Eb4', durationBeats: 1, durationName: 'Quarter', valvesBb: [1], valvesEb: [], slidePosTrombone: 3, freqConcert: 311.13, freqBb: 311.13, freqEb: 466.16 },
@@ -257,7 +257,7 @@ export const BRASS_SCORES: ScorePiece[] = [
   },
   {
     id: 'aurelia',
-    title: 'Aurelia (The Church’s One Foundation)',
+    title: 'Aurelia (The Churchâ€™s One Foundation)',
     subtitle: 'Classic Brass Processional',
     composer: 'Samuel Sebastian Wesley (1864)',
     origin: 'British Church & Brass Band Marching Hymn',
@@ -268,8 +268,8 @@ export const BRASS_SCORES: ScorePiece[] = [
     tempoBpm: 96,
     difficulty: 'Intermediate',
     category: 'Salvation Army Hymn',
-    historicalNote: 'Wesley’s tune is celebrated for its forward-driving brass momentum and robust harmonies across the euphoniums and basses.',
-    lyricsOrVerse: 'The Church’s one foundation Is Jesus Christ her Lord; She is His new creation By water and the Word.',
+    historicalNote: 'Wesleyâ€™s tune is celebrated for its forward-driving brass momentum and robust harmonies across the euphoniums and basses.',
+    lyricsOrVerse: 'The Churchâ€™s one foundation Is Jesus Christ her Lord; She is His new creation By water and the Word.',
     melodyNotes: [
       { writtenBb: 'C4', writtenEb: 'G4', concert: 'Bb3', durationBeats: 1, durationName: 'Quarter', valvesBb: [], valvesEb: [], slidePosTrombone: 1, freqConcert: 233.08, freqBb: 233.08, freqEb: 349.23 },
       { writtenBb: 'F4', writtenEb: 'C5', concert: 'Eb4', durationBeats: 1.5, durationName: 'Dotted Quarter', valvesBb: [1], valvesEb: [], slidePosTrombone: 3, freqConcert: 311.13, freqBb: 311.13, freqEb: 466.16 },
@@ -294,7 +294,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     difficulty: 'Advanced',
     category: 'Folk & Traditional',
     historicalNote: 'The unofficial national anthem of England, performed at the Last Night of the Proms and national brass band championship finals.',
-    lyricsOrVerse: 'And did those feet in ancient time Walk upon England’s mountains green? And was the holy Lamb of God On England’s pleasant pastures seen?',
+    lyricsOrVerse: 'And did those feet in ancient time Walk upon Englandâ€™s mountains green? And was the holy Lamb of God On Englandâ€™s pleasant pastures seen?',
     melodyNotes: [
       { writtenBb: 'B4', writtenEb: 'F#5', concert: 'A4', durationBeats: 1, durationName: 'Quarter', valvesBb: [2], valvesEb: [2], slidePosTrombone: 2, freqConcert: 440.00, freqBb: 440.00, freqEb: 659.25 },
       { writtenBb: 'E4', writtenEb: 'B4', concert: 'D4', durationBeats: 1.5, durationName: 'Dotted Quarter', valvesBb: [1, 2], valvesEb: [2], slidePosTrombone: 4, freqConcert: 293.66, freqBb: 293.66, freqEb: 440.00 },
@@ -421,7 +421,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     tempoBpm: 92,
     difficulty: 'Intermediate',
     category: 'Folk & Traditional',
-    historicalNote: 'Celebrated for its lilting triple meter, The Ash Grove is often performed as an air-varié with rapid cornet variations.',
+    historicalNote: 'Celebrated for its lilting triple meter, The Ash Grove is often performed as an air-variÃ© with rapid cornet variations.',
     melodyNotes: [
       { writtenBb: 'G4', writtenEb: 'D5', concert: 'F4', durationBeats: 1, durationName: 'Quarter', valvesBb: [], valvesEb: [1, 3], slidePosTrombone: 1, freqConcert: 349.23, freqBb: 349.23, freqEb: 523.25 },
       { writtenBb: 'B4', writtenEb: 'F#5', concert: 'A4', durationBeats: 1, durationName: 'Quarter', valvesBb: [2], valvesEb: [2], slidePosTrombone: 2, freqConcert: 440.00, freqBb: 440.00, freqEb: 659.25 },
@@ -433,7 +433,7 @@ export const BRASS_SCORES: ScorePiece[] = [
   },
   {
     id: 'men-of-harlech',
-    title: 'Men of Harlech (Rhyfelgyrch Gwŷr Harlech)',
+    title: 'Men of Harlech (Rhyfelgyrch GwÅ·r Harlech)',
     subtitle: 'Traditional Welsh Martial Air',
     composer: 'Traditional Welsh (c. 1468)',
     origin: 'Historic British Brass Band March',
@@ -552,7 +552,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     id: 'all-creatures-of-our-god-and-king',
     title: 'All Creatures of Our God and King',
     subtitle: 'Lasst Uns Erfreuen',
-    composer: 'Geistliche Kirchengesänge (1623) / arr. R. Vaughan Williams',
+    composer: 'Geistliche KirchengesÃ¤nge (1623) / arr. R. Vaughan Williams',
     origin: 'Festive Hymn Tune',
     timeSignature: '3/2',
     keySignatureConcert: 'Eb Major (3 Flats)',
@@ -610,7 +610,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     difficulty: 'Beginner',
     category: 'Salvation Army Hymn',
     historicalNote: 'A buoyant nineteenth-century gospel tune that Salvation Army bands popularized across open-air street corners.',
-    lyricsOrVerse: 'There’s a land that is fairer than day, And by faith we can see it afar; For the Father waits over the way To prepare us a dwelling place there.',
+    lyricsOrVerse: 'Thereâ€™s a land that is fairer than day, And by faith we can see it afar; For the Father waits over the way To prepare us a dwelling place there.',
     melodyNotes: [
       { writtenBb: 'D4', writtenEb: 'A4', concert: 'C4', durationBeats: 1, durationName: 'Quarter', valvesBb: [1, 3], valvesEb: [1, 2], slidePosTrombone: 6, freqConcert: 261.63, freqBb: 261.63, freqEb: 392.00 },
       { writtenBb: 'G4', writtenEb: 'D5', concert: 'F4', durationBeats: 1.5, durationName: 'Dotted Quarter', valvesBb: [], valvesEb: [1, 3], slidePosTrombone: 1, freqConcert: 349.23, freqBb: 349.23, freqEb: 523.25 },
@@ -707,7 +707,7 @@ export const BRASS_SCORES: ScorePiece[] = [
     tempoBpm: 82,
     difficulty: 'Intermediate',
     category: 'Zimbabwe Brass Medley',
-    historicalNote: 'The sublime and majestic prayer hymn played by brass bands and choirs across Zimbabwe, sung with deep reverence in Shona ("Ishe Komborera Africa") and Ndebele ("Nkosi Sikelel’ iAfrika"). Celebrated for noble cornet melodies and warm euphonium answers.',
+    historicalNote: 'The sublime and majestic prayer hymn played by brass bands and choirs across Zimbabwe, sung with deep reverence in Shona ("Ishe Komborera Africa") and Ndebele ("Nkosi Sikelelâ€™ iAfrika"). Celebrated for noble cornet melodies and warm euphonium answers.',
     lyricsOrVerse: 'Ishe komborera Africa, Ngaisimudzirwe zita rayo; Inzwai miteuro yedu, Ishe komborera, Iwe Mwari, Ishe komborera!',
     melodyNotes: [
       { writtenBb: 'C4', writtenEb: 'G4', concert: 'Bb3', durationBeats: 1, durationName: 'Quarter', valvesBb: [], valvesEb: [], slidePosTrombone: 1, freqConcert: 233.08, freqBb: 233.08, freqEb: 349.23, lyricSnippet: 'I-' },
@@ -836,3 +836,4 @@ export const BRASS_SCORES: ScorePiece[] = [
     ]
   }
 ];
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { 
   Music, 
   HelpCircle, 
@@ -62,19 +62,19 @@ export const BrassAcademy: React.FC = () => {
             <div className="mt-6 flex flex-wrap gap-2 text-xs text-slate-400">
               <span className="font-semibold text-amber-300">Curriculum:</span>
               <span>Bb Cornets</span>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">Â·</span>
               <span>Eb Soprano Cornet</span>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">Â·</span>
               <span>Eb Tenor Horns</span>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">Â·</span>
               <span>Euphoniums & Baritones</span>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">Â·</span>
               <span>Trombones</span>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">Â·</span>
               <span>EEb & BBb Basses</span>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">Â·</span>
               <span>Timpani & Percussion</span>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">Â·</span>
               <span>28-Piece Ensemble Layout</span>
             </div>
           </div>
@@ -155,10 +155,10 @@ export const BrassAcademy: React.FC = () => {
                   {TRANSPOSITION_PRINCIPLES.whyTrebleClef}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-4 text-xs font-medium text-amber-300">
-                  <span>✓ Written C is ALWAYS Open</span>
-                  <span>✓ Written D is ALWAYS 1st + 3rd</span>
-                  <span>✓ Written E is ALWAYS 1st + 2nd</span>
-                  <span>✓ Written F is ALWAYS 1st</span>
+                  <span>âœ“ Written C is ALWAYS Open</span>
+                  <span>âœ“ Written D is ALWAYS 1st + 3rd</span>
+                  <span>âœ“ Written E is ALWAYS 1st + 2nd</span>
+                  <span>âœ“ Written F is ALWAYS 1st</span>
                 </div>
               </div>
             </div>
@@ -299,7 +299,7 @@ export const BrassAcademy: React.FC = () => {
                     transposerInst === 'Trombone' ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-300'
                   }`}
                 >
-                  Bb Trombone (Slide Positions 1–7)
+                  Bb Trombone (Slide Positions 1â€“7)
                 </button>
               </div>
             </div>
@@ -585,3 +585,4 @@ export const BrassAcademy: React.FC = () => {
     </div>
   );
 };
+

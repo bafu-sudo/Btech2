@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { 
   Play, 
   Square, 
@@ -220,7 +220,7 @@ export const ScaleStudio: React.FC = () => {
             </h2>
             <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
               <span>Instrument: <strong className="text-slate-200">{selectedLesson.instrumentName}</strong></span>
-              <span aria-hidden="true">·</span>
+              <span aria-hidden="true">Â·</span>
               <span className="text-emerald-400 font-medium">Acoustic Sound: {selectedLesson.concertKey}</span>
             </div>
           </div>
@@ -715,3 +715,4 @@ export const ScaleStudio: React.FC = () => {
     </div>
   );
 };
+

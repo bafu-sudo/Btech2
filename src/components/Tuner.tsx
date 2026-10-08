@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+﻿import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Mic, MicOff, RotateCcw, Volume2 } from 'lucide-react';
 
 type Instrument =
@@ -468,19 +468,19 @@ export default function Tuner() {
               className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none transition focus:border-amber-400"
             >
               <option value="Bb Cornet">
-                B♭ Cornet
+                Bâ™­ Cornet
               </option>
 
               <option value="Bb Trumpet">
-                B♭ Trumpet
+                Bâ™­ Trumpet
               </option>
 
               <option value="Bb Flugelhorn">
-                B♭ Flugelhorn
+                Bâ™­ Flugelhorn
               </option>
 
               <option value="Eb Horn">
-                E♭ Horn
+                Eâ™­ Horn
               </option>
 
               <option value="Euphonium">
@@ -492,11 +492,11 @@ export default function Tuner() {
               </option>
 
               <option value="Eb Bass">
-                E♭ Bass
+                Eâ™­ Bass
               </option>
 
               <option value="Bb Bass">
-                B♭ Bass
+                Bâ™­ Bass
               </option>
             </select>
           </div>
@@ -520,9 +520,9 @@ export default function Tuner() {
 
               <p className="mt-1 text-lg font-semibold">
                 {selectedOffset === -2
-                  ? 'B♭'
+                  ? 'Bâ™­'
                   : selectedOffset === -9
-                    ? 'E♭'
+                    ? 'Eâ™­'
                     : 'Concert pitch'}
               </p>
             </div>
@@ -679,22 +679,22 @@ export default function Tuner() {
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
             <h3 className="font-bold text-amber-400">
-              B♭ Instruments
+              Bâ™­ Instruments
             </h3>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Cornet, trumpet and flugelhorn are B♭ instruments
+              Cornet, trumpet and flugelhorn are Bâ™­ instruments
               and are shown separately in the tuner.
             </p>
           </div>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900 p-5">
             <h3 className="font-bold text-amber-400">
-              E♭ Instruments
+              Eâ™­ Instruments
             </h3>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              E♭ horn and E♭ bass are included for brass-band
+              Eâ™­ horn and Eâ™­ bass are included for brass-band
               players.
             </p>
           </div>
@@ -718,3 +718,4 @@ export default function Tuner() {
     </div>
   );
 }
+
