@@ -46,6 +46,17 @@ export default function App() {
         setIsMuted={setIsMuted}
       />
 
+      {/* Download Btech2 APK */}
+      <div className="flex justify-center px-4 py-4">
+        <a
+          href="/app-release.apk"
+          download="Btech2.apk"
+          className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-5 py-3 font-bold text-slate-950 shadow-lg transition hover:bg-amber-400 hover:scale-105"
+        >
+          📱 Download Btech2 APK
+        </a>
+      </div>
+
       {/* Main Content */}
       <main className="flex-1">
         {activeTab === 'academy' && <BrassAcademy />}
@@ -54,7 +65,9 @@ export default function App() {
         {activeTab === 'offline' && <OfflineLearning />}
 
         {activeTab === 'groups' && (
-          <SchoolBandManager onNavigateToTab={(targetTab) => setActiveTab(targetTab)} />
+          <SchoolBandManager
+            onNavigateToTab={(targetTab) => setActiveTab(targetTab)}
+          />
         )}
 
         {activeTab === 'musicTutor' && <MusicTutor />}
@@ -71,11 +84,13 @@ export default function App() {
       {/* Founder Tribute Banner */}
       <section className="border-t border-slate-900 bg-slate-950/90 py-8 px-4 text-center">
         <div className="mx-auto max-w-3xl">
+
           <p className="font-serif text-base sm:text-lg font-semibold text-amber-300 italic">
             "I struggled to teach myself brass music, so I want to make it easier for the next person."
           </p>
 
           <div className="mt-2 flex items-center justify-center gap-2 text-xs text-slate-400">
+
             <span>
               Founded by <strong>Nokuvimba Bafu</strong>
             </span>
@@ -89,41 +104,58 @@ export default function App() {
             <span>
               Dedicated to Salvation Army & British Brass Band Learners Worldwide
             </span>
+
           </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="border-t border-slate-900/80 bg-slate-950 py-6 px-4 text-xs text-slate-500">
+
         <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4">
 
           <div className="flex items-center gap-2">
+
             <span className="font-serif font-bold text-amber-400">
               Btech2
             </span>
 
             <span aria-hidden="true">·</span>
 
-            <span>The Complete Brass Band & Conducting Academy</span>
+            <span>
+              The Complete Brass Band & Conducting Academy
+            </span>
 
             <span aria-hidden="true">·</span>
 
-            <span className="text-amber-300 font-medium">"Learn. Practise. Conduct. Perform."</span>
+            <span className="text-amber-300 font-medium">
+              "Learn. Practise. Conduct. Perform."
+            </span>
+
           </div>
 
           <div className="flex items-center gap-4 text-slate-400">
-            <span>Cornet to BBb Bass & Percussion</span>
+
+            <span>
+              Cornet to BBb Bass & Percussion
+            </span>
 
             <span aria-hidden="true">·</span>
 
-            <span>Treble Clef Transposition</span>
+            <span>
+              Treble Clef Transposition
+            </span>
 
             <span aria-hidden="true">·</span>
 
-            <span>Interactive Web Audio Synthesizer</span>
+            <span>
+              Interactive Web Audio Synthesizer
+            </span>
+
           </div>
 
         </div>
+
       </footer>
 
     </div>
