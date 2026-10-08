@@ -8,7 +8,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 
-import exactFounderPhoto from '../assets/images/nokuvimba_bafu_authentic.jpg';
+import exactFounderPhoto from '../assets/images/nokuvimba_bafu_authentic.jpg.jpg';
 import { analyticsService } from '../services/analyticsService';
 
 export const AboutFounder: React.FC = () => {
