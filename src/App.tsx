@@ -113,7 +113,7 @@ export default function App() {
 
             {/* Download Btech2 APK */}
             <a
-              href={`${import.meta.env.BASE_URL}app-release.apk`}
+              href={import.meta.env.BASE_URL + 'app-release.apk'}
               download="Btech2.apk"
               onClick={handleApkDownloadClick}
               className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 shadow-md transition hover:bg-amber-400 hover:scale-105"
@@ -131,9 +131,7 @@ export default function App() {
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 px-4 py-2 text-xs font-bold text-white shadow-md transition hover:brightness-110 hover:scale-105"
             >
               <Instagram className="h-4 w-4" />
-
               <span>Connect with us on Instagram</span>
-
               <span className="rounded bg-black/25 px-1.5 py-0.5 font-mono text-[10px] text-pink-100">
                 @_btech_2
               </span>
@@ -364,26 +362,3 @@ export default function App() {
   );
 }
 ```
-
-The only functional change is:
-
-```tsx
-href={`${import.meta.env.BASE_URL}app-release.apk`}
-```
-
-instead of:
-
-```tsx
-href="/app-release.apk"
-```
-
-Save it, then run:
-
-```bat
-npm run build
-git add .
-git commit -m "Fix APK download path"
-git push
-```
-
-After GitHub Actions finishes, the download button should point to the correct `/Btech2/app-release.apk`.
