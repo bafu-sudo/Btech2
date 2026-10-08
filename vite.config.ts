@@ -12,9 +12,10 @@ const devAnalyticsPlugin = (): Plugin => ({
   },
 })
 
+const isGitHubPages = process.env.GITHUB_ACTIONS === 'true'
+
 export default defineConfig({
-  // GitHub Pages project site path
-  base: '/Btech2/',
+  base: isGitHubPages ? '/Btech2/' : '/',
 
   plugins: [
     react(),
@@ -31,6 +32,7 @@ export default defineConfig({
       manifest: {
         name: 'Btech2 - Complete Brass Band & Conducting Academy',
         short_name: 'Btech2',
+
         description:
           'btech — British brass band education platform founded by Nokuvimba Bafu.',
 
@@ -39,17 +41,21 @@ export default defineConfig({
 
         display: 'standalone',
 
-        start_url: '/Btech2/',
-        scope: '/Btech2/',
+        start_url: isGitHubPages ? '/Btech2/' : '/',
+        scope: isGitHubPages ? '/Btech2/' : '/',
 
         icons: [
           {
-            src: '/Btech2/pwa-192x192.png',
+            src: isGitHubPages
+              ? '/Btech2/pwa-192x192.png'
+              : '/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/Btech2/pwa-512x512.png',
+            src: isGitHubPages
+              ? '/Btech2/pwa-512x512.png'
+              : '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
