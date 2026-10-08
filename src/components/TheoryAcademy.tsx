@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,
   Volume2,
@@ -668,7 +668,7 @@ export const TheoryAcademy: React.FC = () => {
                   <span className="font-mono text-[10px] bg-slate-900 px-2 py-0.5 rounded text-slate-400">3 + 3 semitones</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Formula: <strong>Root + Minor 3rd + Diminished 5th (Tritone)</strong>. High tension, unstable, suspenseful. Naturally built on the leading tone (viiÂ°).
+                  Formula: <strong>Root + Minor 3rd + Diminished 5th (Tritone)</strong>. High tension, unstable, suspenseful. Naturally built on the leading tone (vii°).
                 </p>
                 <div className="text-[11px] font-mono text-amber-400/90 pt-1 border-t border-slate-900">
                   Example: B – D – F (in C major)
