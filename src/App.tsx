@@ -1,3 +1,4 @@
+```tsx
 import React, { useState, useEffect } from 'react';
 import Tuner from './components/Tuner';
 import { Header } from './components/Header';
@@ -42,7 +43,9 @@ export default function App() {
   const [isCreatorOpen, setIsCreatorOpen] = useState<boolean>(false);
   const [isCreatorMode, setIsCreatorMode] = useState<boolean>(false);
   const [isThankYouOpen, setIsThankYouOpen] = useState<boolean>(false);
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>(analyticsService.getAnalytics());
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>(
+    analyticsService.getAnalytics()
+  );
 
   // Track page views on tab changes
   useEffect(() => {
@@ -58,7 +61,8 @@ export default function App() {
 
     if (
       typeof window !== 'undefined' &&
-      (window.location.search.includes('creator') || window.location.hash === '#creator')
+      (window.location.search.includes('creator') ||
+        window.location.hash === '#creator')
     ) {
       setIsCreatorOpen(true);
     }
@@ -90,16 +94,26 @@ export default function App() {
       {/* App & Community Connect Banner */}
       <div className="border-b border-slate-900 bg-slate-900/50 py-3 px-4">
         <div className="mx-auto max-w-7xl flex flex-wrap items-center justify-center sm:justify-between gap-3">
+
           <div className="flex items-center gap-2 text-xs text-slate-300">
-            <span className="font-serif font-bold text-amber-400">Btech2 Mobile & Web</span>
-            <span aria-hidden="true" className="text-slate-600">·</span>
-            <span className="hidden sm:inline text-slate-400">Brass education for cornet, horn, trombone, euphonium & tuba</span>
+            <span className="font-serif font-bold text-amber-400">
+              Btech2 Mobile & Web
+            </span>
+
+            <span aria-hidden="true" className="text-slate-600">
+              ·
+            </span>
+
+            <span className="hidden sm:inline text-slate-400">
+              Brass education for cornet, horn, trombone, euphonium & tuba
+            </span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2.5">
+
             {/* Download Btech2 APK */}
             <a
-              href="/app-release.apk"
+              href={`${import.meta.env.BASE_URL}app-release.apk`}
               download="Btech2.apk"
               onClick={handleApkDownloadClick}
               className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 shadow-md transition hover:bg-amber-400 hover:scale-105"
@@ -117,18 +131,27 @@ export default function App() {
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 px-4 py-2 text-xs font-bold text-white shadow-md transition hover:brightness-110 hover:scale-105"
             >
               <Instagram className="h-4 w-4" />
+
               <span>Connect with us on Instagram</span>
-              <span className="rounded bg-black/25 px-1.5 py-0.5 font-mono text-[10px] text-pink-100">@_btech_2</span>
+
+              <span className="rounded bg-black/25 px-1.5 py-0.5 font-mono text-[10px] text-pink-100">
+                @_btech_2
+              </span>
             </a>
+
           </div>
         </div>
       </div>
 
       {/* Main Content */}
       <main className="flex-1">
+
         {activeTab === 'academy' && <BrassAcademy />}
+
         {activeTab === 'theory' && <TheoryAcademy />}
+
         {activeTab === 'bandmaster' && <BandmasterAcademy />}
+
         {activeTab === 'offline' && <OfflineLearning />}
 
         {activeTab === 'groups' && (
@@ -145,18 +168,28 @@ export default function App() {
         )}
 
         {activeTab === 'musicTutor' && <MusicTutor />}
+
         {activeTab === 'tuner' && <Tuner />}
+
         {activeTab === 'scales' && <ScaleStudio />}
+
         {activeTab === 'accidentals' && <SharpsFlatsMasterclass />}
+
         {activeTab === 'scores' && <ScoreLibrary />}
+
         {activeTab === 'trombone' && <TromboneSlideStudio />}
+
         {activeTab === 'percussion' && <PercussionLab />}
+
         {activeTab === 'quiz' && <QuizStudio />}
+
         {activeTab === 'about' && <AboutFounder />}
+
       </main>
 
       {/* Founder Tribute Banner */}
       <section className="border-t border-slate-900 bg-slate-950/90 py-8 px-4 text-center">
+
         <div className="mx-auto max-w-3xl">
 
           <p className="font-serif text-base sm:text-lg font-semibold text-amber-300 italic">
@@ -169,17 +202,25 @@ export default function App() {
               Founded by <strong>Nokuvimba Bafu</strong>
             </span>
 
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">
+              ·
+            </span>
 
-            <span>Zimbabwe</span>
+            <span>
+              Zimbabwe
+            </span>
 
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">
+              ·
+            </span>
 
             <span>
               Dedicated to Salvation Army & British Brass Band Learners Worldwide
             </span>
 
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">
+              ·
+            </span>
 
             <a
               href="https://www.instagram.com/_btech_2/"
@@ -189,7 +230,9 @@ export default function App() {
               className="inline-flex items-center gap-1 font-semibold text-pink-400 hover:text-pink-300 transition-colors"
             >
               <Instagram className="h-3 w-3" />
-              <span>Connect on Instagram: @_btech_2</span>
+              <span>
+                Connect on Instagram: @_btech_2
+              </span>
             </a>
 
           </div>
@@ -207,13 +250,17 @@ export default function App() {
               Btech2
             </span>
 
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">
+              ·
+            </span>
 
             <span>
               The Complete Brass Band & Conducting Academy
             </span>
 
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">
+              ·
+            </span>
 
             <span className="text-amber-300 font-medium">
               "Learn. Practise. Conduct. Perform."
@@ -232,10 +279,14 @@ export default function App() {
               className="flex items-center gap-1 text-pink-400 hover:text-pink-300 font-medium transition-colors"
             >
               <Instagram className="h-3.5 w-3.5" />
-              <span>Connect with us on Instagram (@_btech_2)</span>
+              <span>
+                Connect with us on Instagram (@_btech_2)
+              </span>
             </a>
 
-            <span aria-hidden="true" className="text-slate-700">·</span>
+            <span aria-hidden="true" className="text-slate-700">
+              ·
+            </span>
 
             {/* Creator Private Access Entry */}
             <button
@@ -245,7 +296,9 @@ export default function App() {
               title="Creator Only: View Website Views & Download Counts"
             >
               <ShieldCheck className="h-3.5 w-3.5 text-amber-500/70" />
-              <span>Creator Portal (Nokuvimba Only)</span>
+              <span>
+                Creator Portal (Nokuvimba Only)
+              </span>
             </button>
 
           </div>
@@ -254,7 +307,7 @@ export default function App() {
 
       </footer>
 
-      {/* Persistent Floating Creator Badge (Visible ONLY when Creator Mode is active on creator's device) */}
+      {/* Persistent Floating Creator Badge */}
       {isCreatorMode && (
         <aside
           aria-label="Creator Analytics Quick View"
@@ -263,17 +316,33 @@ export default function App() {
           title="Click to open Creator Analytics Studio"
         >
           <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-bold">👑 Creator Mode</span>
-          <span className="text-slate-600">|</span>
+
+          <span className="font-bold">
+            👑 Creator Mode
+          </span>
+
+          <span className="text-slate-600">
+            |
+          </span>
+
           <span className="flex items-center gap-1 text-blue-300">
             <Eye className="h-3.5 w-3.5" />
-            <span>{analyticsData.totalViews.toLocaleString()}</span>
+            <span>
+              {analyticsData.totalViews.toLocaleString()}
+            </span>
           </span>
-          <span className="text-slate-600">|</span>
+
+          <span className="text-slate-600">
+            |
+          </span>
+
           <span className="flex items-center gap-1 text-amber-300">
             <Download className="h-3.5 w-3.5" />
-            <span>{analyticsData.apkDownloads.toLocaleString()} APK</span>
+            <span>
+              {analyticsData.apkDownloads.toLocaleString()} APK
+            </span>
           </span>
+
         </aside>
       )}
 
@@ -294,3 +363,27 @@ export default function App() {
     </div>
   );
 }
+```
+
+The only functional change is:
+
+```tsx
+href={`${import.meta.env.BASE_URL}app-release.apk`}
+```
+
+instead of:
+
+```tsx
+href="/app-release.apk"
+```
+
+Save it, then run:
+
+```bat
+npm run build
+git add .
+git commit -m "Fix APK download path"
+git push
+```
+
+After GitHub Actions finishes, the download button should point to the correct `/Btech2/app-release.apk`.
