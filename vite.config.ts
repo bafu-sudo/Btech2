@@ -7,14 +7,18 @@ const devAnalyticsPlugin = (): Plugin => ({
   name: 'dev-analytics-api',
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
-      handleRealtimeMiddleware(req, res, next);
-    });
-  }
-});
+      handleRealtimeMiddleware(req, res, next)
+    })
+  },
+})
 
 export default defineConfig({
+  // GitHub Pages project site path
+  base: '/Btech2/',
+
   plugins: [
     react(),
+
     devAnalyticsPlugin(),
 
     VitePWA({
@@ -27,20 +31,25 @@ export default defineConfig({
       manifest: {
         name: 'Btech2 - Complete Brass Band & Conducting Academy',
         short_name: 'Btech2',
-        description: 'btech — British brass band education platform founded by Nokuvimba Bafu.',
+        description:
+          'btech — British brass band education platform founded by Nokuvimba Bafu.',
+
         theme_color: '#020617',
         background_color: '#020617',
+
         display: 'standalone',
-        start_url: '/',
-        scope: '/',
+
+        start_url: '/Btech2/',
+        scope: '/Btech2/',
+
         icons: [
           {
-            src: '/pwa-192x192.png',
+            src: '/Btech2/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/pwa-512x512.png',
+            src: '/Btech2/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
