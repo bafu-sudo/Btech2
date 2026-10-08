@@ -1,10 +1,21 @@
-import { defineConfig } from 'vite'
+import { defineConfig, Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { handleRealtimeMiddleware } from './src/server/realtimeHandler.js'
+
+const devAnalyticsPlugin = (): Plugin => ({
+  name: 'dev-analytics-api',
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      handleRealtimeMiddleware(req, res, next);
+    });
+  }
+});
 
 export default defineConfig({
   plugins: [
     react(),
+    devAnalyticsPlugin(),
 
     VitePWA({
       registerType: 'autoUpdate',
@@ -14,11 +25,11 @@ export default defineConfig({
       },
 
       manifest: {
-        name: 'My App',
-        short_name: 'My App',
-        description: 'My application',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        name: 'Btech2 - Complete Brass Band & Conducting Academy',
+        short_name: 'Btech2',
+        description: 'btech — British brass band education platform founded by Nokuvimba Bafu.',
+        theme_color: '#020617',
+        background_color: '#020617',
         display: 'standalone',
         start_url: '/',
         scope: '/',

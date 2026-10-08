@@ -1,6 +1,7 @@
 import React from 'react';
-import { Volume2, VolumeX, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Sparkles, Instagram, ShieldCheck } from 'lucide-react';
 import { brassAudio } from '../audio/brassAudio';
+import { analyticsService } from '../services/analyticsService';
 
 type ActiveTab =
   | 'academy'
@@ -8,6 +9,7 @@ type ActiveTab =
   | 'bandmaster'
   | 'offline'
   | 'groups'
+  | 'chat'
   | 'musicTutor'
   | 'tuner'
   | 'scales'
@@ -23,13 +25,15 @@ interface HeaderProps {
   setActiveTab: (tab: ActiveTab) => void;
   isMuted: boolean;
   setIsMuted: (muted: boolean) => void;
+  onOpenCreator?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
   isMuted,
-  setIsMuted
+  setIsMuted,
+  onOpenCreator
 }) => {
   const toggleMute = () => {
     const next = !isMuted;
@@ -143,6 +147,22 @@ export const Header: React.FC<HeaderProps> = ({
             <span>🏫 School & Band Mode</span>
             <span className="rounded-full bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300 font-bold border border-amber-500/30">
               New
+            </span>
+          </button>
+
+          {/* Live Band Chat */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('chat')}
+            className={`whitespace-nowrap px-2 py-1 transition-colors flex items-center gap-1.5 ${
+              activeTab === 'chat'
+                ? 'border-b-2 border-amber-400 font-semibold text-amber-400'
+                : 'hover:text-amber-200'
+            }`}
+          >
+            <span>💬 Live Band Chat</span>
+            <span className="rounded-full bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-400 font-bold border border-emerald-500/30">
+              Real-Time
             </span>
           </button>
 
@@ -273,6 +293,20 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Actions */}
         <div className="flex items-center gap-2">
 
+          {/* Connect with us on Instagram */}
+          <a
+            href="https://www.instagram.com/_btech_2/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => analyticsService.recordInstagramClick()}
+            title="Connect with us on Instagram @_btech_2"
+            className="flex items-center gap-1.5 rounded-lg border border-pink-500/30 bg-gradient-to-r from-purple-500/10 via-pink-500/15 to-amber-500/10 px-2.5 py-1.5 text-xs font-semibold text-pink-300 transition-all hover:bg-pink-500/25 hover:border-pink-500/50 hover:text-pink-200 whitespace-nowrap shadow-sm"
+          >
+            <Instagram className="h-3.5 w-3.5 text-pink-400 shrink-0" />
+            <span className="hidden sm:inline">Connect with us on Instagram</span>
+            <span className="sm:hidden font-mono text-[11px]">@_btech_2</span>
+          </a>
+
           {/* Mute */}
           <button
             type="button"
@@ -305,6 +339,18 @@ export const Header: React.FC<HeaderProps> = ({
             <Sparkles className="h-3.5 w-3.5 text-amber-400" />
             <span>Nokuvimba Bafu</span>
           </button>
+
+          {/* Creator Private Access */}
+          {onOpenCreator && (
+            <button
+              type="button"
+              onClick={onOpenCreator}
+              title="Creator Studio (Nokuvimba Bafu Only)"
+              className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-amber-400 hover:border-amber-500/30 transition-colors shrink-0"
+            >
+              <ShieldCheck className="h-4 w-4" />
+            </button>
+          )}
 
         </div>
       </div>

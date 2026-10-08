@@ -8,9 +8,12 @@ import {
   BookOpen,
   Camera,
   Upload,
+  Instagram,
+  ExternalLink,
 } from 'lucide-react';
 
 import exactFounderPhoto from '../assets/images/nokuvimba_bafu_exact_1791291814595.jpg';
+import { analyticsService } from '../services/analyticsService';
 
 export const AboutFounder: React.FC = () => {
   const [photoSrc, setPhotoSrc] = useState<string>(exactFounderPhoto);
@@ -420,6 +423,35 @@ export const AboutFounder: React.FC = () => {
               should ever have to give up on brass music because notation
               feels out of reach."
 
+            </div>
+
+            {/* OFFICIAL INSTAGRAM SOCIAL MEDIA CARD */}
+            <div className="mt-4 rounded-xl border border-pink-500/30 bg-gradient-to-br from-purple-950/40 via-pink-950/30 to-amber-950/20 p-4 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 text-white shadow-sm">
+                  <Instagram className="h-4 w-4" />
+                </div>
+                <span className="text-xs font-bold uppercase tracking-wider text-pink-300">
+                  Official Social Media
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-300 mb-3">
+                Follow updates, student progress videos, new brass scores, and tutorials on the official btech Instagram:
+              </p>
+
+              <a
+                href="https://www.instagram.com/_btech_2/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => analyticsService.recordInstagramClick()}
+                className="inline-flex items-center justify-center gap-2 w-full rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 px-4 py-2.5 text-xs font-bold text-white shadow-md transition hover:brightness-110 hover:scale-[1.02]"
+              >
+                <Instagram className="h-4 w-4" />
+                <span>Connect with us on Instagram</span>
+                <span className="font-mono bg-black/25 px-1.5 py-0.5 rounded text-[11px] text-pink-100">@_btech_2</span>
+                <ExternalLink className="h-3.5 w-3.5 ml-0.5" />
+              </a>
             </div>
 
           </div>

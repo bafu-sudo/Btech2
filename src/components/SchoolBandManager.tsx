@@ -26,12 +26,14 @@ import {
 } from 'lucide-react';
 import { BrassBandGroup, Student, Assignment, AssignmentCategory } from '../data/groupTypes';
 import { INITIAL_GROUPS, ALL_ACHIEVEMENTS } from '../data/groupData';
+import { GroupChatRoom } from './GroupChatRoom';
 
 interface SchoolBandManagerProps {
   onNavigateToTab: (tab: 'musicTutor' | 'scales' | 'accidentals' | 'scores' | 'trombone' | 'percussion' | 'quiz' | 'tuner') => void;
+  initialSubTab?: 'dashboard' | 'assignments' | 'students' | 'sections' | 'achievements' | 'create-group' | 'chat';
 }
 
-export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigateToTab }) => {
+export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigateToTab, initialSubTab = 'dashboard' }) => {
   // Groups State
   const [groups, setGroups] = useState<BrassBandGroup[]>(INITIAL_GROUPS);
   const [selectedGroupId, setSelectedGroupId] = useState<string>(INITIAL_GROUPS[0].id);
@@ -42,8 +44,8 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
 
   // Active Sub-tab in Manager
   const [activeSubTab, setActiveSubTab] = useState<
-    'dashboard' | 'assignments' | 'students' | 'sections' | 'achievements' | 'create-group'
-  >('dashboard');
+    'dashboard' | 'assignments' | 'students' | 'sections' | 'achievements' | 'create-group' | 'chat'
+  >(initialSubTab);
 
   // Filter for students or assignments
   const [instrumentFilter, setInstrumentFilter] = useState<string>('all');
@@ -519,6 +521,21 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
             }`}
           >
             🏆 Achievements & Badges
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveSubTab('chat')}
+            className={`whitespace-nowrap px-3 py-1.5 rounded-lg font-medium transition-all flex items-center gap-1.5 ${
+              activeSubTab === 'chat'
+                ? 'bg-amber-500 text-slate-950 font-bold shadow'
+                : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'
+            }`}
+          >
+            <span>💬 Live Band Room Chat</span>
+            <span className="rounded-full bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-400 font-bold border border-emerald-500/30">
+              Real-Time
+            </span>
           </button>
         </nav>
 
@@ -1375,6 +1392,13 @@ export const SchoolBandManager: React.FC<SchoolBandManagerProps> = ({ onNavigate
             </div>
           </form>
         </div>
+      )}
+
+      {/* =====================================================================
+          VIEW 7: LIVE BAND ROOM GROUP CHAT (REAL-TIME USERS)
+          ===================================================================== */}
+      {activeSubTab === 'chat' && (
+        <GroupChatRoom />
       )}
 
       {/* =====================================================================

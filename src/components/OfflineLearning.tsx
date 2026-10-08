@@ -23,6 +23,7 @@ import {
   clearAllOfflineStorage,
   OfflineStoredItem
 } from '../data/offlineStorage';
+import { analyticsService } from '../services/analyticsService';
 
 interface OfflinePdfModule {
   id: string;
@@ -236,6 +237,7 @@ export const OfflineLearning: React.FC = () => {
 
       // 3. Trigger authentic browser file download of the real PDF
       pdfDoc.save(`Btech2_${mod.id.replace(/-/g, '_')}_Method.pdf`);
+      analyticsService.recordDownload(mod.title, 'score');
 
       setDownloadProgress(100);
       setStatusMessage(`Successfully downloaded real PDF: "${mod.title}" and saved to Offline Library.`);

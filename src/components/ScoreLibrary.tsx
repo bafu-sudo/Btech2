@@ -37,6 +37,7 @@ import {
   removeOfflineItem,
   OfflineStoredItem
 } from '../data/offlineStorage';
+import { analyticsService } from '../services/analyticsService';
 
 export const ScoreLibrary: React.FC = () => {
   const [selectedPiece, setSelectedPiece] = useState<ScorePiece>(BRASS_SCORES[0]);
@@ -179,6 +180,7 @@ export const ScoreLibrary: React.FC = () => {
       const doc = generateScorePdf(selectedPiece, selectedInstrumentPart);
       const filename = `${selectedPiece.title.replace(/[^a-zA-Z0-9]/g, '_')}_${selectedInstrumentPart.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
       doc.save(filename);
+      analyticsService.recordDownload(selectedPiece.title, 'score');
 
       setIsGeneratingDownload(false);
       setActionNotice(`Downloaded authentic PDF score: "${filename}".`);
